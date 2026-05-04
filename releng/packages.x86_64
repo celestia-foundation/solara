@@ -73,6 +73,7 @@ tmux
 screen
 zsh
 grml-zsh-config
+yay
 
 # Boot ISO specific
 mkinitcpio

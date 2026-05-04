@@ -291,9 +291,9 @@ function HomePage() {
           <FlavorCard 
             name="Pantheon"
             icon="✨"
-            description="Elementary OS's beautiful DE. Needs elementary repos - coming soon!"
-            status="WIP"
-            cmd=""
+            description="Elementary OS's beautiful DE. Install via AUR after install: yay -S pantheon-desktop"
+            status="AUR"
+            cmd="yay -S pantheon-desktop"
           />
         </div>
       </Section>
@@ -555,6 +555,7 @@ function FeatureCard({ icon, title, description }) {
 function FlavorCard({ name, icon, description, status, cmd }) {
   const isReady = status === 'Ready'
   const isWIP = status === 'WIP'
+  const isAUR = status === 'AUR'
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -574,8 +575,8 @@ function FlavorCard({ name, icon, description, status, cmd }) {
           padding: '0.25rem 0.75rem', 
           borderRadius: 20, 
           fontSize: '0.75rem',
-          background: isReady ? 'rgba(102,187,106,0.15)' : isWIP ? 'rgba(255,167,38,0.15)' : 'rgba(255,167,38,0.15)',
-          color: isReady ? colors.green : isWIP ? colors.yellow : colors.yellow
+          background: isReady ? 'rgba(102,187,106,0.15)' : isWIP ? 'rgba(255,167,38,0.15)' : isAUR ? 'rgba(255,183,0,0.15)' : 'rgba(255,167,38,0.15)',
+          color: isReady ? colors.green : isWIP ? colors.yellow : isAUR ? colors.gold : colors.yellow
         }}>
           {status}
         </div>
