@@ -270,26 +270,30 @@ function HomePage() {
           <FlavorCard 
             name="KDE"
             icon="🖥️"
-            description="The main one. Full Plasma experience with all the bells and whistles. This is what Solara is built around."
-            status="Main"
+            description="Full Plasma experience. The main Solara flavor - beautiful, powerful, customizable."
+            status="Ready"
+            cmd="mkarchiso releng/"
           />
           <FlavorCard 
             name="Cinnamon"
             icon="🍰"
-            description="Familiar and warm. For when you want something that just works and feels like home."
-            status="Coming Soon"
+            description="Familiar and warm. Linux Mint's desktop on Arch - works out of the box."
+            status="Ready"
+            cmd="mkarchiso -p packages.cinnamon releng/"
           />
           <FlavorCard 
             name="LXQt"
             icon="⚡"
-            description="Light as hell. For when you need speed and efficiency. Minimal resource, maximum function."
-            status="Coming Soon"
+            description="Lightweight Qt desktop. Fast, minimal, efficient - for when you need speed."
+            status="Ready"
+            cmd="mkarchiso -p packages.lxqt releng/"
           />
           <FlavorCard 
             name="Pantheon"
             icon="✨"
-            description="Pretty but different. Elementary OS's beautiful DE on Arch. For the aesthetics-forward user."
-            status="Coming Soon"
+            description="Elementary OS's beautiful DE. Needs elementary repos - coming soon!"
+            status="WIP"
+            cmd=""
           />
         </div>
       </Section>
@@ -548,13 +552,14 @@ function FeatureCard({ icon, title, description }) {
   )
 }
 
-function FlavorCard({ name, icon, description, status }) {
-  const isComing = status.includes('Coming')
+function FlavorCard({ name, icon, description, status, cmd }) {
+  const isReady = status === 'Ready'
+  const isWIP = status === 'WIP'
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4, borderColor: colors.yellow }}
+      whileHover={{ y: -4, borderColor: isReady ? colors.green : colors.yellow }}
       style={{
         background: colors.cardBg,
         border: `1px solid ${colors.border}`,
@@ -569,14 +574,30 @@ function FlavorCard({ name, icon, description, status }) {
           padding: '0.25rem 0.75rem', 
           borderRadius: 20, 
           fontSize: '0.75rem',
-          background: isComing ? 'rgba(255,167,38,0.15)' : 'rgba(102,187,106,0.15)',
-          color: isComing ? colors.yellow : colors.green
+          background: isReady ? 'rgba(102,187,106,0.15)' : isWIP ? 'rgba(255,167,38,0.15)' : 'rgba(255,167,38,0.15)',
+          color: isReady ? colors.green : isWIP ? colors.yellow : colors.yellow
         }}>
           {status}
         </div>
       </div>
       <h3 style={{ fontSize: '1.15rem', fontWeight: 600, marginBottom: '0.5rem', color: colors.text }}>{name}</h3>
-      <p style={{ color: colors.textMuted, lineHeight: 1.6, fontSize: '0.9rem' }}>{description}</p>
+      <p style={{ color: colors.textMuted, lineHeight: 1.6, fontSize: '0.9rem', marginBottom: cmd ? '1rem' : '0' }}>{description}</p>
+      {cmd && (
+        <div style={{ 
+          background: colors.darker, 
+          border: `1px solid ${colors.border}`,
+          borderRadius: 8,
+          padding: '0.75rem',
+          fontSize: '0.75rem',
+          fontFamily: "'Fira Code', monospace",
+          color: colors.yellow,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }}>
+          {cmd}
+        </div>
+      )}
     </motion.div>
   )
 }
