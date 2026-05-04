@@ -1,0 +1,33 @@
+name: Build Solara ISO
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: archlinux/archiso:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build ISO
+        run |
+          mkarchiso -v -w /tmp/archiso-work -o /tmp/iso-out releng/
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: solara-iso
+          path: /tmp/iso-out/*.iso
+          retention-days: 30
+
+      - name: Upload build logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: /tmp/archiso-work/
+          retention-days: 7
