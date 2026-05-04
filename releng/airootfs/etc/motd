@@ -1,0 +1,16 @@
+🌅 Welcome to Solara Linux 🌅
+═══════════════════════════════════════
+
+Solara is a rolling Arch-based distro.
+Elegant by default, not by accident.
+
+To install: Run 'solara-install' or follow the guide at:
+https://github.com/ravecorelabs/solara/wiki
+
+Quick start:
+  • Wi-Fi: nmtui or nmcli
+  • Install: sudo solara-install
+  • Desktop: SDDM auto-login as 'solara'
+
+════════════════════════════════════════
+RaveCore Labs | solara linux

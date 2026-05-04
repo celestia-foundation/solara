@@ -1,0 +1,106 @@
+# Solara KDE - Core system
+base
+base-devel
+linux
+linux-firmware
+linux-firmware-marvell
+sof-firmware
+
+# Boot and filesystem
+grub
+efibootmgr
+syslinux
+dosfstools
+exfatprogs
+f2fs-tools
+btrfs-progs
+xfsprogs
+ntfs-3g
+cryptsetup
+lvm2
+mdadm
+dmraid
+
+# Arch install tools
+arch-install-scripts
+archinstall
+
+# KDE Plasma - main desktop
+plasma-meta
+kde-applications-meta
+sddm
+sddm-kcm
+
+# Display server
+xorg-server
+xorg-xinit
+wayland
+xwayland
+
+# Hardware support
+intel-ucode
+amd-ucode
+nvme-cli
+smartmontools
+hdparm
+usbutils
+
+# Network
+networkmanager
+network-manager-applet
+iwd
+wpa_supplicant
+dhcpcd
+openssh
+wireless_tools
+iw
+
+# Audio
+pipewire
+pipewire-pulse
+pipewire-alsa
+alsa-utils
+pavucontrol
+
+# Essentials
+sudo
+vim
+nano
+man-db
+man-pages
+rsync
+tmux
+screen
+zsh
+grml-zsh-config
+
+# Boot ISO specific
+mkinitcpio
+mkinitcpio-archiso
+mkinitcpio-nfs-utils
+squashfs-tools
+darkhttpd
+
+# Live CD extras
+clonezilla
+testdisk
+gparted
+fsarchiver
+partclone
+ddrescue
+
+# Virtualization support
+qemu-guest-agent
+virtualbox-guest-utils-nox
+open-vm-tools
+hyperv
+
+# Misc
+reflector
+nmap
+tcpdump
+pv
+lynx
+wget
+curl
+git
