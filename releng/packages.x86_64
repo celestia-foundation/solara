@@ -25,6 +25,10 @@ dmraid
 arch-install-scripts
 archinstall
 
+# AUR support - needed to build yay and use AUR
+git
+base-devel
+
 # KDE Plasma - main desktop
 plasma-meta
 kde-applications-meta
