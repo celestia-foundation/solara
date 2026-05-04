@@ -1,0 +1,88 @@
+# Solara Pantheon - Core system
+base
+base-devel
+linux
+linux-firmware
+sof-firmware
+
+# Boot and filesystem
+grub
+efibootmgr
+syslinux
+dosfstools
+btrfs-progs
+xfsprogs
+ntfs-3g
+cryptsetup
+lvm2
+
+# Pantheon Desktop
+# NOTE: Requires elementary repo - https://github.com/elementary/artwork/blob/master/repo/README.md
+# For now, installing gala (window manager) and wingpanel (panel)
+# Full pantheon desktop requires: wingpanel, gala, plank, elementary-icons, etc.
+# This is a placeholder until we add the elementary repo
+
+gala
+wingpanel
+plank
+elementary-wallpapers
+pantheon-session
+pantheon-shortcuts
+switchboard
+switchboard-plug-pantheon-shell
+switchboard-plug-applications
+switchboard-plug-user
+switchboard-plug-display
+switchboard-plug-power
+switchboard-plug-bluetooth
+switchboard-plug-notifications
+switchboard-plug-online-accounts
+
+# Pantheon apps
+epiphany
+pantheon-calculator
+pantheon-calendar
+pantheon-camera
+pantheon-characters
+pantheon-documents
+pantheon-email
+pantheon-files
+pantheon-music
+pantheon-photos
+pantheon-terminal
+pantheon-videos
+plank
+elementary-icon-theme
+
+# Display server
+xorg-server
+xorg-xinit
+wayland
+xwayland
+
+# Network & Audio
+networkmanager
+network-manager-applet
+alsa-utils
+pavucontrol
+
+# Essentials
+sudo
+vim
+nano
+man-db
+rsync
+tmux
+zsh
+git
+wget
+curl
+
+# Boot ISO
+mkinitcpio
+mkinitcpio-archiso
+squashfs-tools
+
+# Hardware
+intel-ucode
+amd-ucode

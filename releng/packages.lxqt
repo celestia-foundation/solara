@@ -1,0 +1,70 @@
+# Solara LXQt - Core system
+base
+base-devel
+linux
+linux-firmware
+sof-firmware
+
+# Boot and filesystem
+grub
+efibootmgr
+syslinux
+dosfstools
+btrfs-progs
+xfsprogs
+ntfs-3g
+cryptsetup
+lvm2
+
+# LXQt Desktop
+lxqt
+lxqt-session
+lxqt-config
+lxqt-admin
+lxqt-globalkeys
+lxqt-notificationd
+lxqt-openssh-askpass
+lxqt-powermanagement
+lxqt-runner
+lxqt-sudo
+pcmanfm-qt
+qterminal
+qps
+featherpad
+filelight
+libfm-qt
+lximage-qt
+obconf-qt
+pavucontrol-qt
+arc-icon-theme
+
+# Display server
+xorg-server
+xorg-xinit
+
+# Network & Audio
+networkmanager
+network-manager-applet
+alsa-utils
+pavucontrol
+
+# Essentials
+sudo
+vim
+nano
+man-db
+rsync
+tmux
+zsh
+git
+wget
+curl
+
+# Boot ISO
+mkinitcpio
+mkinitcpio-archiso
+squashfs-tools
+
+# Hardware
+intel-ucode
+amd-ucode
