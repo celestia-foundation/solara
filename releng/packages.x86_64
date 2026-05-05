@@ -25,7 +25,6 @@ dmraid
 arch-install-scripts
 archinstall
 
-# AUR support - needed to build yay and use AUR
 git
 base-devel
 
