@@ -37,8 +37,86 @@ function App() {
 function HomePage() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activePost, setActivePost] = useState(null)
   const { scrollY } = useScroll()
   const heroOpacity = useTransform(scrollY, [0, 500], [1, 0])
+
+  const posts = [
+    {
+      id: 'solara-born',
+      title: "SOLARA IS BORN (from the ashes of S3RLinux-Atomic) 💀🌅",
+      date: "2026-05-04",
+      author: "Ash",
+      avatar: "🌅",
+      readTime: "3 min read",
+      excerpt: "After S3RLinux-Atomic died to NVIDIA black screens and existential dread, we picked ourselves up and built something better. No atomic nonsense. Just Arch.",
+      tags: ["New", "Announcement", "History"],
+      content: `OK THIS IS THE ONE 💀🌅
+
+After S3RLinux-Atomic got killed by NVIDIA driver issues and we spent weeks crying in the dark (literally - black screen will do that), we decided: NEVER AGAIN.
+
+WHAT KILLED S3RLinux-Atomic:
+- bootc/OSTree complications
+- NVIDIA drivers (the eternal Linux curse)
+- Immutable system breaking in weird ways
+- Us screaming at 3AM
+
+THE SOLUTION: Just use Arch. Plain Arch. No fancy container tech. No "innovative" architecture. Just the OS that works.
+
+WHY SOLARA:
+- Rolling release (just like Arch)
+- Standard installation (no special tools)
+- No atomic/immutable nonsense
+- KDE because we're not animals
+- systemd because we're not that special
+
+THE NAME:
+"Solara" means solar - the sun. After the dark days of S3RLinux-Atomic, this represents a fresh start. Brighter. Warmer. No more black screens hopefully.
+
+SAME ENERGY, DIFFERENT APPROACH:
+- RaveCore Labs still runs things
+- Same chaotic energy
+- Still not accepting your money
+- Still built in Poland with questionable decisions
+
+Let's gooo 🌅`
+    },
+    {
+      id: 'github-to-gitlab',
+      title: "GITHUB → GITLAB (The ISO Can't Be 3GB on GitHub) 💀",
+      date: "2026-05-05",
+      author: "Ash",
+      avatar: "🌅",
+      readTime: "2 min read",
+      excerpt: "GitHub releases max out at 2GB. Our ISO is 3.2GB. GitLab said 'we don't have that limit, pay us no money.' Love that for us.",
+      tags: ["Infrastructure", "GitLab", "ISO"],
+      content: `POV: You built an ISO and GitHub says "nah" 💀
+
+FACTS:
+- GitHub Releases: Max 2GB
+- Our ISO: 3.2GB (and that's compressed!)
+- GitLab: "We don't have that limit, we're just vibing"
+
+THE SOLUTION:
+GitLab hosting for the win. Free, no file size limits, automatic releases via API. The workflow:
+1. GitHub Actions builds the ISO
+2. Upload to GitLab
+3. GitLab creates a release with the download link
+4. Website links to GitLab releases
+
+NO MORE:
+- Downloading from artifacts
+- 90-day expiry
+- Slow artifact downloads
+
+NOW WE HAVE:
+- Permanent downloads
+- No size limits
+- Releases page with changelog
+
+Welcome to the future (it's GitLab apparently)`
+    }
+  ]
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -51,7 +129,7 @@ function HomePage() {
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const navLinks = ['Features', 'Download', 'Install', 'Flavors', 'FAQ', 'GitHub']
+  const navLinks = ['Features', 'Download', 'Install', 'Flavors', 'Blog', 'FAQ', 'GitHub']
 
   return (
     <div style={{
@@ -371,6 +449,49 @@ sudo mkarchiso -v -w /tmp/work -o /tmp/out releng/
         />
       </Section>
 
+      {/* BLOG SECTION */}
+      <Section id="blog" title="Blog">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '1.5rem' }}>
+          {posts.map(post => (
+            <motion.div
+              key={post.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -4, borderColor: colors.orange }}
+              onClick={() => setActivePost(post)}
+              style={{
+                background: colors.cardBg,
+                border: `1px solid ${colors.border}`,
+                borderRadius: 14,
+                padding: '1.5rem',
+                cursor: 'pointer',
+                transition: 'border-color 0.2s'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                <span style={{ fontSize: '1.5rem' }}>{post.avatar}</span>
+                <div>
+                  <div style={{ fontWeight: 600, color: colors.text }}>{post.title}</div>
+                  <div style={{ fontSize: '0.8rem', color: colors.textMuted }}>{post.date} · {post.readTime}</div>
+                </div>
+              </div>
+              <p style={{ color: colors.textMuted, lineHeight: 1.6, marginBottom: '1rem' }}>{post.excerpt}</p>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                {post.tags.map(tag => (
+                  <span key={tag} style={{ 
+                    padding: '0.25rem 0.5rem', 
+                    background: 'rgba(255, 167, 38, 0.1)', 
+                    borderRadius: 4, 
+                    fontSize: '0.75rem',
+                    color: colors.yellow
+                  }}>{tag}</span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
+
       {/* FAQ SECTION */}
       <Section id="faq" title="Frequently Asked Questions">
         <div style={{ maxWidth: 800, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -408,6 +529,82 @@ sudo mkarchiso -v -w /tmp/work -o /tmp/out releng/
           />
         </div>
       </Section>
+
+      {/* BLOG POST MODAL */}
+      {activePost && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setActivePost(null)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.85)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 200,
+            padding: '2rem'
+          }}
+        >
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: colors.cardBg,
+              border: `1px solid ${colors.border}`,
+              borderRadius: 16,
+              padding: '2rem',
+              maxWidth: 700,
+              maxHeight: '80vh',
+              overflow: 'auto',
+              position: 'relative'
+            }}
+          >
+            <button
+              onClick={() => setActivePost(null)}
+              style={{
+                position: 'absolute',
+                top: '1rem',
+                right: '1rem',
+                background: 'transparent',
+                border: 'none',
+                color: colors.textMuted,
+                fontSize: '1.5rem',
+                cursor: 'pointer'
+              }}
+            >
+              ×
+            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+              <span style={{ fontSize: '2rem' }}>{activePost.avatar}</span>
+              <div>
+                <div style={{ fontWeight: 700, color: colors.text, fontSize: '1.25rem' }}>{activePost.title}</div>
+                <div style={{ fontSize: '0.85rem', color: colors.textMuted }}>{activePost.date} · {activePost.author} · {activePost.readTime}</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
+              {activePost.tags.map(tag => (
+                <span key={tag} style={{ 
+                  padding: '0.25rem 0.5rem', 
+                  background: 'rgba(255, 167, 38, 0.1)', 
+                  borderRadius: 4, 
+                  fontSize: '0.75rem',
+                  color: colors.yellow
+                }}>{tag}</span>
+              ))}
+            </div>
+            <div style={{ color: colors.textMuted, lineHeight: 1.8, whiteSpace: 'pre-wrap', fontSize: '1rem' }}>
+              {activePost.content}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* FOOTER */}
       <footer style={{ 
