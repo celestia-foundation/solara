@@ -39,7 +39,7 @@ sddm-kcm
 xorg-server
 xorg-xinit
 wayland
-xwayland
+xorg-xwayland
 
 # Hardware support
 intel-ucode
