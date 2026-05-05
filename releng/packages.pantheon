@@ -16,43 +16,40 @@ ntfs-3g
 cryptsetup
 lvm2
 
-# Pantheon Desktop
-# NOTE: Requires elementary repo - https://github.com/elementary/artwork/blob/master/repo/README.md
-# For now, installing gala (window manager) and wingpanel (panel)
-# Full pantheon desktop requires: wingpanel, gala, plank, elementary-icons, etc.
-# This is a placeholder until we add the elementary repo
-
+# Pantheon Desktop (all from official extra repo)
+pantheon
+pantheon-session
 gala
 wingpanel
-plank
-elementary-wallpapers
-pantheon-session
-pantheon-shortcuts
+pantheon-applications-menu
+wingpanel-indicator-datetime
+wingpanel-indicator-session
 switchboard
-switchboard-plug-pantheon-shell
-switchboard-plug-applications
-switchboard-plug-user
 switchboard-plug-display
 switchboard-plug-power
 switchboard-plug-bluetooth
 switchboard-plug-notifications
 switchboard-plug-online-accounts
+switchboard-plug-user
+pantheon-default-settings
+elementary-icon-theme
+elementary-wallpapers
+lightdm
+lightdm-pantheon-greeter
 
-# Pantheon apps
-epiphany
+# Pantheon apps (official repo)
 pantheon-calculator
 pantheon-calendar
 pantheon-camera
-pantheon-characters
-pantheon-documents
-pantheon-email
+pantheon-code
 pantheon-files
 pantheon-music
 pantheon-photos
+pantheon-screenshot
 pantheon-terminal
 pantheon-videos
-plank
-elementary-icon-theme
+epiphany
+capnet-assist
 
 # Display server
 xorg-server
