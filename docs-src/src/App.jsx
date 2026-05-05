@@ -78,7 +78,7 @@ function HomePage() {
           transition: 'all 0.3s ease'
         }}
       >
-        <div style={{
+        <div className="nav-inner" style={{
           maxWidth: 1200,
           margin: '0 auto',
           padding: '1rem 2rem',
@@ -95,7 +95,7 @@ function HomePage() {
             </span>
           </div>
           
-          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }} className="desktop-nav">
             {navLinks.map(link => (
               <motion.div
                 key={link}
@@ -292,9 +292,9 @@ function HomePage() {
           <FlavorCard 
             name="Pantheon"
             icon="✨"
-            description="Elementary OS's beautiful DE. Install via AUR after install: yay -S pantheon-desktop"
-            status="AUR"
-            cmd="yay -S pantheon-desktop"
+            description="Elementary OS's beautiful DE. Available in the official Arch extra repo — no AUR needed."
+            status="Ready"
+            cmd="pacman -S pantheon"
           />
         </div>
       </Section>

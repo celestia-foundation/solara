@@ -1,0 +1,52 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.desktop-nav {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 10vw, 4rem) !important;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(0.9rem, 4vw, 1.2rem) !important;
+  }
+
+  .section-inner {
+    padding: 4rem 1rem !important;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .flavors-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .nav-inner {
+    padding: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-buttons {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+}
