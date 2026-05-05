@@ -311,24 +311,24 @@ function HomePage() {
           textAlign: 'center'
         }}>
           <div style={{
-            background: 'rgba(255, 167, 38, 0.08)',
-            border: '1px solid rgba(255, 167, 38, 0.3)',
+            background: 'rgba(102, 187, 106, 0.08)',
+            border: '1px solid rgba(102, 187, 106, 0.3)',
             borderRadius: 10,
             padding: '12px 20px',
             marginBottom: '1.5rem',
-            color: colors.yellow,
+            color: colors.green,
             fontSize: '0.9rem',
             fontWeight: 600
           }}>
-            🌅 BUILDING... — Automated GitHub Actions builds in progress
+            ✓ BUILDS PASSING — Latest ISO available on GitLab
           </div>
 
           <p style={{ color: colors.textMuted, marginBottom: '1rem', fontSize: '0.95rem' }}>
-            Solara is built automatically from GitHub Actions. Download the latest ISO when ready.
+            Solara is built automatically via GitHub Actions and hosted on GitLab releases.
           </p>
 
           <motion.a
-            href="https://github.com/ravecorelabs/solara/actions/workflows/build.yml"
+            href="https://gitlab.com/ravecore-labs/solara-iso/-/releases"
             target="_blank"
             whileHover={{ scale: 1.02 }}
             style={{
@@ -344,7 +344,7 @@ function HomePage() {
               marginBottom: '1.5rem'
             }}
           >
-            View Build Status
+            Download Latest ISO
           </motion.a>
           
           <p style={{ color: colors.textMuted, fontSize: '0.85rem', marginBottom: '0.5rem' }}>
@@ -361,7 +361,7 @@ sudo mkarchiso -v -w /tmp/work -o /tmp/out releng/
         <InstallCard 
           title="From ISO"
           steps={[
-            "Download the ISO from GitHub Actions",
+            "Download the ISO from GitLab releases",
             "Write to USB: sudo dd if=solara.iso of=/dev/sdX bs=4M status=progress",
             "Boot from USB",
             "Run: sudo solara-install",
@@ -396,7 +396,7 @@ sudo mkarchiso -v -w /tmp/work -o /tmp/out releng/
           />
           <FAQCard 
             question="Is this free?"
-            answer="Yes! GPL-3.0. Solara is free and open source. Build it, modify it, share it. We just ask that you don't remove the credits."
+            answer="Yes! SLL (Solara Linux License). Do whatever you want, just don't blame us. Keep your wallets."
           />
           <FAQCard 
             question="Why the sun theme?"
