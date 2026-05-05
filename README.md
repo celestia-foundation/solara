@@ -47,7 +47,7 @@ Solara is the current project. It probably won't be the last. Also the creator d
 
 ## Building
 
-> coming soon, we're not there yet
+> ⚠️ Build passing but untested — ISO builds automatically via GitHub Actions but hasn't been booted yet. Yolo.
 
 ## License
 
