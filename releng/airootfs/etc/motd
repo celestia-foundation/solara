@@ -3,14 +3,17 @@
 
 Solara is a rolling Arch-based distro.
 Elegant by default, not by accident.
+systemd. glibc. no atomic nonsense.
 
-To install: Run 'solara-install' or follow the guide at:
-https://github.com/ravecorelabs/solara/wiki
+Born from the ashes of:
+  ✝  moonlightOS v4-v7 (rip)
+  ✝  S3RLinux (archived, let it die)
+  ✝  S3RLinux-Atomic (killed by NVIDIA)
 
-Quick start:
-  • Wi-Fi: nmtui or nmcli
-  • Install: sudo solara-install
-  • Desktop: SDDM auto-login as 'solara'
+We don't talk about S3RLinux-Atomic.
+
+To install: sudo solara-install
+Wi-Fi: nmtui | Desktop: SDDM
 
 ════════════════════════════════════════
-RaveCore Labs | solara linux
+RaveCore Labs | GPL-3.0 | keep ya wallets
