@@ -1,0 +1,19 @@
+NAME="Solara Linux"
+PRETTY_NAME="Solara Linux"
+ID=solara
+ID_LIKE=arch
+BUILD_ID=rolling
+VERSION="rolling"
+VERSION_ID="rolling"
+HOME_URL="https://github.com/ravecorelabs/solara"
+DOCUMENTATION_URL="https://github.com/ravecorelabs/solara/wiki"
+SUPPORT_URL="https://github.com/ravecorelabs/solara/issues"
+BUG_REPORT_URL="https://github.com/ravecorelabs/solara/issues"
+LOGO=solara
+ANSI_COLOR="38;2;97;0;179"
+ICON_NAME=solara
+ICON_VARIANT=
+
+ID_VARIANT=Solara
+VARIANT="Solara Linux"
+VARIANT_ID=solara
