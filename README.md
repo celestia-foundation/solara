@@ -3,7 +3,7 @@
 **Arch-based. Rolling. No bullshit.**
 
 [![Build Status](https://github.com/ravecorelabs/solara/actions/workflows/build.yml/badge.svg)](https://github.com/ravecorelabs/solara/actions)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: SLL](https://img.shields.io/badge/License-SLL-brightgreen.svg)](LICENSE)
 [![Based on Arch](https://img.shields.io/badge/based%20on-Arch%20Linux-1793D1?logo=arch-linux&logoColor=white)](https://archlinux.org)
 [![Rolling Release](https://img.shields.io/badge/release-rolling-green.svg)]()
 [![Built with archiso](https://img.shields.io/badge/built%20with-archiso-informational)]()
@@ -51,4 +51,4 @@ Solara is the current project. It probably won't be the last. Also the creator d
 
 ## License
 
-GPL-3.0 — see [LICENSE](LICENSE).
+[SLL - Solara Linux License](LICENSE) — tl;dr: do whatever you want, don't blame us, keep your wallets
