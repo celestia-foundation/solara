@@ -8,18 +8,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ghcr.io/archlinux/archlinux:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install archiso
-        run: pacman -Sy --noconfirm archiso
-
-      - name: Build ISO
+      - name: Install Arch Linux keyring and archiso via Docker
         run: |
-          mkdir -p /tmp/archiso-work /tmp/iso-out
-          mkarchiso -v -w /tmp/archiso-work -o /tmp/iso-out releng/
+          docker run --privileged --rm \
+            -v ${{ github.workspace }}:/solara \
+            -v /tmp/iso-out:/iso-out \
+            ghcr.io/archlinux/archlinux:latest \
+            bash -c "
+              pacman -Sy --noconfirm archiso &&
+              mkdir -p /tmp/archiso-work /iso-out &&
+              mkarchiso -v -w /tmp/archiso-work -o /iso-out /solara/releng/
+            "
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
