@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Route, Link, Router, useHashLocation } from 'wouter'
+import { Route, Link, Router } from 'wouter'
+import { useHashLocation } from 'wouter/use-hash-location'
 
 // SOLARA THEME - Sun/Solar palette 🌅
 const colors = {
