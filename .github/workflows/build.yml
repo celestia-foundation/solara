@@ -42,6 +42,15 @@ jobs:
           ISO_FILE=$(ls /tmp/iso-out/*.iso | head -1)
           ISO_NAME=$(basename "$ISO_FILE")
           
+          # Create tag first (needed for release)
+          echo "Creating git tag..."
+          curl -s --request POST \
+            --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
+            --header "Content-Type: application/json" \
+            --data '{"tag_name": "latest", "ref": "main"}' \
+            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/repository/tags"
+          
+          # Upload and save response
           echo "Uploading ISO..."
           RESPONSE=$(curl --request POST \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
