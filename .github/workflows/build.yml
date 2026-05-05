@@ -8,13 +8,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: archlinux/archiso:latest
+    container: ghcr.io/archlinux/archlinux:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install archiso
+        run: pacman -Sy --noconfirm archiso
+
       - name: Build ISO
         run: |
+          mkdir -p /tmp/archiso-work /tmp/iso-out
           mkarchiso -v -w /tmp/archiso-work -o /tmp/iso-out releng/
 
       - name: Upload ISO
