@@ -12,6 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: CPU Info
+        run: lscpu | grep -E "Model name|CPU\(s\)|Thread|Core"
+
       - name: Cache pacman packages
         uses: actions/cache@v4
         with:
