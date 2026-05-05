@@ -12,15 +12,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Arch Linux keyring and archiso via Docker
+      - name: Cache pacman packages
+        uses: actions/cache@v4
+        with:
+          path: /tmp/pkg-cache
+          key: pacman-${{ hashFiles('releng/packages.x86_64') }}
+          restore-keys: |
+            pacman-
+
+      - name: Build ISO
         run: |
+          mkdir -p /tmp/pkg-cache /tmp/iso-out
           docker run --privileged --rm \
             -v ${{ github.workspace }}:/solara \
             -v /tmp/iso-out:/iso-out \
+            -v /tmp/pkg-cache:/var/cache/pacman/pkg \
             ghcr.io/archlinux/archlinux:latest \
             bash -c "
               pacman -Sy --noconfirm archiso &&
-              mkdir -p /tmp/archiso-work /iso-out &&
+              mkdir -p /tmp/archiso-work &&
               mkarchiso -v -w /tmp/archiso-work -o /iso-out /solara/releng/
             "
 
