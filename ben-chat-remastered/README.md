@@ -1,41 +1,41 @@
 # BEN Chat Remastered (DEMO)
 
-A cursed chat program remastered with TOUHOU-STYLE BOSS FIGHT!
+A cursed chat creepypasta game with TOUHOU-STYLE BOSS FIGHT!
 
 This is a DEMO - Full story coming soon!
 
-## DEMO Whats Included
-
-- Animated intro (Made by RaveCoreLabs)
-- Sleek red/black menu
-- TOUHOU BULLET HELL BOSS FIGHT
-- Multiple bullet patterns: spiral, curtain, spread
-- 3 boss phases
-- Player can shoot back
-- New credits screen
-
-## DEMO Controls
-
-- WASD or Arrow Keys = Move
-- Z = Shoot
-
-## Full Game
-
-The full story mode is coming in the full release!
-
 ## Requirements
 
-pip install PyQt6 pygame
+Install ONE of these:
 
-## Run DEMO
+### Option 1: pip user install
+pip install --user PyQt6 pygame
+
+### Option 2: pacman (if you have it)
+sudo pacman -S python-pyqt6 python-pygame
+
+### Option 3: AUR
+yay -S python-pyqt6 python-pygame
+
+### Option 4: Just want it running NOW?
+python3 -m pip install --user PyQt6 pygame
+
+## Running
 
 python3 main.py
 
-## Credits
+## Controls
+- WASD or Arrow Keys = Move
+- Z = Shoot
 
-- Original: ashov
-- Remastered: RaveCoreLabs
-- Thanks: Touhou Project
+## If pip not on PATH
+
+Try:
+python3 -m pip install --user PyQt6 pygame
+
+Or use uv (faster):
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv pip install --user PyQt6 pygame
 
 ---
-DEMO - Full release coming soon!
+Original: ashov | Remastered: RaveCoreLabs
