@@ -308,6 +308,26 @@ class BENGame(QMainWindow):
         s.game_state = "chatting"
         w = QWidget(); w.setStyleSheet("background: black;")
         v = QVBoxLayout()
+        # User avatar
+        avatar_map = {
+            "slavkid_2008": "slavkid_avatar.png",
+            "goth_chick": "goth_chick_avatar.png",
+            "ashov": "ashov_avatar.png",
+            "normie_gamer": "normie_gamer_avatar.png",
+        }
+        avatar_file = avatar_map.get(user, "slavkid_avatar.png")
+
+        avatar_label = QLabel()
+        try:
+            from PyQt6.QtGui import QPixmap
+            pix = QPixmap(f"assets/{avatar_file}")
+            if not pix.isNull():
+                avatar_label.setPixmap(pix.scaled(80, 80, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+        except:
+            pass
+        avatar_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        v.addWidget(avatar_label)
+
         
         title = QLabel(f"Chatting with {user}")
         title.setFont(QFont("Monospace", 18))
