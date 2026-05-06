@@ -83,3 +83,10 @@ squashfs-tools
 # Hardware
 intel-ucode
 amd-ucode
+switchboard-plug-keyboard
+switchboard-plug-mouse-touchpad
+switchboard-plug-datetime
+switchboard-plug-network
+switchboard-plug-locale
+switchboard-plug-applications
+switchboard-plug-desktop
