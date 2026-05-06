@@ -483,8 +483,10 @@ class BENGame(QMainWindow):
 
     def next_convo_line(s):
         s.conversation_stage += 1
-        # Rebuild conversation screen with next line
-        s.show_conversation(s.current_chat_user)
+        if s.conversation_stage >= len(s.convo_lines):
+            s.show_ben_appears()
+        else:
+            s.show_conversation(s.current_chat_user)
         
     def show_ben_appears(s):
         s.game_state = "ben_appears"
