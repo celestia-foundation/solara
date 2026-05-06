@@ -57,7 +57,6 @@ class BENGame(QMainWindow):
         
         s.game_state = "intro"
         s.current_chat_user = ""
-        s.conversation_stage = 0
         s.player_name = ""
         
         s.player_bullets = []
@@ -81,7 +80,6 @@ class BENGame(QMainWindow):
     def show_intro(s):
         s.game_state = "intro"
         s.current_chat_user = ""
-        s.conversation_stage = 0
         
         # Play S3RL intro music
         try:
@@ -418,7 +416,8 @@ class BENGame(QMainWindow):
         }
         
         s.convo_lines = convos.get(current_user, ["hey", "ben is waiting", "click ben", "goood luck :p"])
-        s.conversation_stage = 0
+        if s.game_state != "conversation":
+            s.conversation_stage = 0
         
         # Show dialogue
         w = QWidget()
