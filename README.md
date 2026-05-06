@@ -52,3 +52,30 @@ Solara is the current project. It probably won't be the last. Also the creator d
 ## License
 
 [SLL - Solara Linux License](LICENSE) — tl;dr: do whatever you want, don't blame us, keep your wallets
+
+## Side Projects
+
+### BEN Chat Remastered
+
+A cursed chat creepypasta game with TOUHOU-STYLE BOSS FIGHT!
+
+> This started as a "haha what if we made a game" idea. Watched ONE Python tutorial, immediately wanted to unalive myself with Gentoo, said "fuck this" and had my AI agent do it instead. Pure lazyman engineering.
+>
+> We don't actually know Python. We just asked nicely and it happened. Sometimes the best way to learn is to delegate.
+>
+> Currently a DEMO because full story takes effort. Maybe someday.
+
+**Tech:** PyQt6 + pygame (because we picked the most cursed combo possible)
+
+```bash
+git clone https://github.com/ravecorelabs/solara
+cd solara/ben-chat-remastered
+pip install -r requirements.txt
+python3 main.py
+```
+
+Controls: WASD move, Z shoot. Kill BEN. Feel things.
+
+---
+
+*Made in our free time between existential crises and Solara development.*
