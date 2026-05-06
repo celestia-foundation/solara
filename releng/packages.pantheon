@@ -30,7 +30,7 @@ switchboard-plug-power
 switchboard-plug-bluetooth
 switchboard-plug-notifications
 switchboard-plug-online-accounts
-switchboard-plug-user
+switchboard-plug-accounts
 pantheon-default-settings
 elementary-icon-theme
 elementary-wallpapers
@@ -55,7 +55,7 @@ capnet-assist
 xorg-server
 xorg-xinit
 wayland
-xwayland
+xorg-xwayland
 
 # Network & Audio
 networkmanager
