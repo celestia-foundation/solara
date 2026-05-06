@@ -36,7 +36,7 @@ libfm-qt
 lximage-qt
 obconf-qt
 pavucontrol-qt
-arc-icon-theme
+papirus-icon-theme
 
 # Display server
 xorg-server
