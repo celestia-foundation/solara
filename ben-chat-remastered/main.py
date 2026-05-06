@@ -437,9 +437,33 @@ class BENGame(QMainWindow):
         msg_lbl.setWordWrap(True)
         v.addWidget(msg_lbl)
 
-        # Response options (skip this for now - just advance on continue)
+        # YOUR response choices at the top
+        choices = {
+            "slavkid_2008": ["lmao", "damn", "srsly??", "go off"],
+            "goth_chick": ["...?", "oh no", "what is", "stop"],
+            "ashov": ["yooooo", "fr fr", "wait what", "LOL"],
+            "normie_gamer": ["LOL", "pog", "based", "bet"],
+        }
+        user_choices = choices.get(current_user, ["ok", "nice", "wait", "huh"])
+        
+        choice_lbl = QLabel("YOUR RESPONSE:")
+        choice_lbl.setFont(QFont("Monospace", 12))
+        choice_lbl.setStyleSheet("color: #444; background: black;")
+        v.addWidget(choice_lbl)
+        
+        choice_box = QHBoxLayout()
+        for ch in user_choices[:4]:
+            btn = QPushButton(f"[ {ch} ]")
+            btn.setStyleSheet("background: #222; color: #F00; padding: 8px;")
+            btn.clicked.connect(lambda: s.next_convo_line())
+            choice_box.addWidget(btn)
+        v.addLayout(choice_box)
+
+        v.addStretch()
+
+        # Their next line (if continuing)
         if s.conversation_stage < len(s.convo_lines) - 1:
-            opt1 = QPushButton("[ Continue ]")
+            opt1 = QPushButton("[ CONTINUE ]")
             opt1.setStyleSheet("background: #222; color: #F00; padding: 10px;")
             opt1.clicked.connect(lambda: s.next_convo_line())
             v.addWidget(opt1)
