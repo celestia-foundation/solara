@@ -390,28 +390,28 @@ class BENGame(QMainWindow):
         # Custom convos per user
         convos = {
             "slavkid_2008": [
-                "bro wdym u dont know ben??",
-                "lmao imagine not knowing the legend",
-                "fine ill add u to the chat. dont spam",
-                "welcome to the ben server brother :)",
+                "lmao u dont know ben?? ur so 2008",
+                "ben was like THE first viral ever bro",
+                "welcome to the ben server brother :))",
+                "good luck fighting him lol",
             ],
             "goth_chick": [
-                "ben is... more than you know.",
-                "some things should stay buried.",
-                "you've been warned.",
+                "ben is... not what you think.",
+                "he was created... then abandoned.",
                 "don't say i didn't warn you...",
+                "his anger is real. run.",
             ],
             "ashov": [
-                "fun fact: im still the creator. i own ravecorelabs :3",
-                "YES. IM ASHOV. YOU THOT IT WAS AN RANDOM PERSON?!?",
-                "this app... it has a secret. click BEN.",
-                "now you understand. run while you can.",
+                "yo. im the one who made this place.",
+                "yeah ben?? i made him. my bad.",
+                "now you know my secret :3",
+                "go end this. prove me wrong.",
             ],
             "normie_gamer": [
-                "bro ben is like the goat of internet",
-                "nobody knows where he came from",
-                "there's like 5 people that know the truth",
-                "dude u gotta see the BEN ending lol",
+                "bro ben is literally the GOAT",
+                "literally nobody knows where he came from",
+                "there's only a few who know the truth",
+                "go fight him! the ending is crazy",
             ],
         }
         
