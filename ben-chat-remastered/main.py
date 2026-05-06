@@ -438,17 +438,17 @@ class BENGame(QMainWindow):
         msg_lbl.setWordWrap(True)
         v.addWidget(msg_lbl)
 
-        response_box = QHBoxLayout()
-        for i, resp in enumerate(["...", "...", "..."][:2]):
-            btn = QPushButton(resp)
-            btn.setStyleSheet("background: #222; color: #F00; padding: 10px; margin: 5px;")
-            response_box.addWidget(btn)
-
-        opt1 = QPushButton("[ Continue ]")
-        opt1.setStyleSheet("background: #222; color: #F00; padding: 10px;")
-        opt1.clicked.connect(s.next_convo_line)
-        v.addLayout(response_box)
-        v.addWidget(opt1)
+        # Response options (skip this for now - just advance on continue)
+        if s.conversation_stage < len(s.convo_lines) - 1:
+            opt1 = QPushButton("[ Continue ]")
+            opt1.setStyleSheet("background: #222; color: #F00; padding: 10px;")
+            opt1.clicked.connect(lambda: s.next_convo_line())
+            v.addWidget(opt1)
+        else:
+            opt1 = QPushButton("[ FACE BEN ]")
+            opt1.setStyleSheet("background: #F00; color: black; padding: 10px; font-weight: bold;")
+            opt1.clicked.connect(s.show_ben_appears)
+            v.addWidget(opt1)
 
         back = QPushButton("[ BACK ]")
         back.setStyleSheet("background: transparent; color: #444; border: none;")
@@ -460,10 +460,8 @@ class BENGame(QMainWindow):
 
     def next_convo_line(s):
         s.conversation_stage += 1
-        if s.conversation_stage >= len(s.convo_lines):
-            s.show_ben_appears()
-        else:
-            s.show_conversation(s.current_chat_user)
+        # Rebuild conversation screen with next line
+        s.show_conversation(s.current_chat_user)
         
     def show_ben_appears(s):
         s.game_state = "ben_appears"
