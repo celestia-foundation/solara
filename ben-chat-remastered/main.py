@@ -124,7 +124,7 @@ class BENGame(QMainWindow):
         s.intro_frame = 0
         s.intro_timer = QTimer()
         s.intro_timer.timeout.connect(s.update_intro)
-        s.intro_timer.start(120)
+        s.intro_timer.start(200)
         
     def update_intro(s):
         frames = [
