@@ -473,7 +473,6 @@ class BENGame(QMainWindow):
         elif s.boss_hp <= 0:
             s.show_victory()
             
-        s.update()
         
     def keyPressEvent(s, e):
         s.keys.add(e.key())
