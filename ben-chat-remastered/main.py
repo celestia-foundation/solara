@@ -118,9 +118,12 @@ class BENGame(QMainWindow):
         s.intro_timer.start(120)
         
     def update_intro(s):
-        frames = [(0,"Made by","#440"),(1,"Made by","#550"),(2,"Made by","#660"),(3,"Made by","#770"),(4,"Made by","#880"),
-                 (5,"RaveCoreLabs","#AA0"),(6,"RaveCoreLabs","#BB0"),(7,"RaveCoreLabs","#CC0"),(8,"RaveCoreLabs","#DD0"),
-                 (9,"RaveCoreLabs","#EE0"),(10,"RaveCoreLabs","#FF0"),(15,"")]
+        frames = [
+            ("Made by", "#440"), ("Made by", "#550"), ("Made by", "#660"),
+            ("Made by", "#770"), ("Made by", "#880"), ("RaveCoreLabs", "#AA0"),
+            ("RaveCoreLabs", "#BB0"), ("RaveCoreLabs", "#CC0"), ("RaveCoreLabs", "#DD0"),
+            ("RaveCoreLabs", "#EE0"), ("RaveCoreLabs", "#FF0"), ("", "#FF0"),
+        ]
         if s.intro_frame >= len(frames):
             s.intro_timer.stop()
             s.show_menu()
