@@ -1,0 +1,36 @@
+# Build outputs
+*.iso
+*.img
+*.tar.gz
+*.xz
+
+# Package caches
+node_modules/
+.pnpm-store/
+.yarn/
+.cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build dirs
+releng/work/
+releng/out/
+releng/*.squashfs
+
+# Log files
+*.log
+npm-debug.log*
+yarn-error.log
+
+# Environment
+.env
+.env.local
+.env.*.local
