@@ -308,6 +308,7 @@ class BENGame(QMainWindow):
         
     def chat_with(s, user):
         s.game_state = "chatting"
+        s.current_chat_user = user  # Store who we're chatting with
         w = QWidget(); w.setStyleSheet("background: black;")
         v = QVBoxLayout()
         # User avatar
