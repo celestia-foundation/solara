@@ -611,8 +611,7 @@ class BENGame(QMainWindow):
         elif s.boss_hp <= 0:
             s.show_victory()
             
-        else:
-            s.repaint()  # Redraw
+        s.repaint()  # Always redraw
         
     def keyPressEvent(s, e):
         s.keys.add(e.key())
