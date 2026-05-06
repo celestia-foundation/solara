@@ -337,7 +337,17 @@ class BENGame(QMainWindow):
         v.addWidget(title)
         v.addStretch()
         
-        msg = QLabel("Hey! You seen that BEN thing?")
+        # Custom messages per user
+        custom_msgs = {
+            "slavkid_2008": "bro u tryna chat on this cursed app??",
+            "goth_chick": "i found something... disturbing. look at BEN.",
+            "ashov": "i was the creator... now not apparently :/
+wait is that my org-",
+            "normie_gamer": "bro this app is weird af LMAO",
+        }
+        msg_text = custom_msgs.get(user, "Hey! You seen that BEN thing?")
+
+        msg = QLabel(msg_text)
         msg.setFont(QFont("Monospace", 14))
         msg.setStyleSheet("color: #888; background: black; padding: 10px;")
         msg.setAlignment(Qt.AlignmentFlag.AlignCenter)
