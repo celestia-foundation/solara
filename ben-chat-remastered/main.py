@@ -145,6 +145,13 @@ class BENGame(QMainWindow):
 
     def show_menu(s):
         s.intro_timer.stop()
+        
+        # Fade out intro music
+        try:
+            pygame.mixer.music.fadeout(500)
+        except:
+            pass
+        
         s.game_state = "menu"
         w = QWidget(); w.setStyleSheet("background: black;")
         v = QVBoxLayout()
@@ -374,11 +381,12 @@ class BENGame(QMainWindow):
     def start_boss(s):
         s.game_state = "boss"
         
-        # Play boss music
+        # Play boss music (don't reload if already playing)
         try:
-            pygame.mixer.music.load("assets/Scary Movie - S3RL.mp3")
-            pygame.mixer.music.set_volume(0.8)
-            pygame.mixer.music.play(-1)
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.load("assets/Scary Movie - S3RL.mp3")
+                pygame.mixer.music.set_volume(0.8)
+                pygame.mixer.music.play(-1)
         except:
             pass
         
