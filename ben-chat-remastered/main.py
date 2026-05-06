@@ -377,7 +377,89 @@ class BENGame(QMainWindow):
         s.setCentralWidget(w)
         
     def chat_response(s):
-        s.show_ben_appears()
+        # Start conversation with current user
+        s.conversation_stage = 0
+        s.show_conversation(s.current_chat_user)
+
+    def show_conversation(s, current_user):
+        s.game_state = "conversation"
+        s.current_chat_user = current_user
+        
+        # Custom convos per user
+        convos = {
+            "slavkid_2008": [
+                "bro wdym u dont know ben??",
+                "lmao imagine not knowing the legend",
+                "fine ill add u to the chat. dont spam",
+                "welcome to the ben server brother :)",
+            ],
+            "goth_chick": [
+                "ben is... more than you know.",
+                "some things should stay buried.",
+                "you've been warned.",
+                "don't say i didn't warn you...",
+            ],
+            "ashov": [
+                "fun fact: im still the creator. i own ravecorelabs :3",
+                "YES. IM ASHOV. YOU THOT IT WAS AN RANDOM PERSON?!?",
+                "this app... it has a secret. click BEN.",
+                "now you understand. run while you can.",
+            ],
+            "normie_gamer": [
+                "bro ben is like the goat of internet",
+                "nobody knows where he came from",
+                "there's like 5 people that know the truth",
+                "dude u gotta see the BEN ending lol",
+            ],
+        }
+        
+        s.convo_lines = convos.get(current_user, ["hey", "ben is waiting", "click ben", "goood luck :p"])
+        s.conversation_stage = 0
+        
+        # Show dialogue
+        w = QWidget()
+        w.setStyleSheet("background: black;")
+        v = QVBoxLayout()
+
+        user_lbl = QLabel(f"[ {current_user} ]")
+        user_lbl.setFont(QFont("Monospace", 16, weight=700))
+        user_lbl.setStyleSheet("color: #F00; background: black;")
+        user_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        v.addWidget(user_lbl)
+
+        msg_lbl = QLabel(s.convo_lines[s.conversation_stage])
+        msg_lbl.setFont(QFont("Monospace", 14))
+        msg_lbl.setStyleSheet("color: #AAA; background: black; padding: 20px;")
+        msg_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        msg_lbl.setWordWrap(True)
+        v.addWidget(msg_lbl)
+
+        response_box = QHBoxLayout()
+        for i, resp in enumerate(["...", "...", "..."][:2]):
+            btn = QPushButton(resp)
+            btn.setStyleSheet("background: #222; color: #F00; padding: 10px; margin: 5px;")
+            response_box.addWidget(btn)
+
+        opt1 = QPushButton("[ Continue ]")
+        opt1.setStyleSheet("background: #222; color: #F00; padding: 10px;")
+        opt1.clicked.connect(s.next_convo_line)
+        v.addLayout(response_box)
+        v.addWidget(opt1)
+
+        back = QPushButton("[ BACK ]")
+        back.setStyleSheet("background: transparent; color: #444; border: none;")
+        back.clicked.connect(s.show_chat_select)
+        v.addWidget(back)
+
+        w.setLayout(v)
+        s.setCentralWidget(w)
+
+    def next_convo_line(s):
+        s.conversation_stage += 1
+        if s.conversation_stage >= len(s.convo_lines):
+            s.show_ben_appears()
+        else:
+            s.show_conversation(s.current_chat_user)
         
     def show_ben_appears(s):
         s.game_state = "ben_appears"
