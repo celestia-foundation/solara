@@ -41,40 +41,38 @@ jobs:
         run: |
           ISO_FILE=$(ls /tmp/iso-out/*.iso | head -1)
           ISO_NAME=$(basename "$ISO_FILE")
-          
-          # Create tag first (needed for release)
-          echo "Creating git tag..."
+          VERSION=$(date +%Y.%m.%d)
+
+          echo "Uploading ISO via generic packages API..."
+          curl --fail --request PUT \
+            --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
+            --upload-file "$ISO_FILE" \
+            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/packages/generic/solara-iso/${VERSION}/${ISO_NAME}"
+
+          DOWNLOAD_URL="https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/packages/generic/solara-iso/${VERSION}/${ISO_NAME}"
+
+          echo "Deleting old tag and release..."
+          curl -s --request DELETE \
+            --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
+            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/releases/latest" || true
+          curl -s --request DELETE \
+            --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
+            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/repository/tags/latest" || true
+
+          echo "Creating tag and release..."
           curl -s --request POST \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
             --header "Content-Type: application/json" \
-            --data '{"tag_name": "latest", "ref": "main"}' \
+            --data "{\"tag_name\": \"latest\", \"ref\": \"main\"}" \
             "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/repository/tags"
-          
-          # Upload and save response
-          echo "Uploading ISO..."
-          RESPONSE=$(curl --request POST \
-            --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
-            --form "file=@${ISO_FILE}" \
-            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/uploads")
-          
-          echo "Upload response: $RESPONSE"
-          
-          # Check if response contains error
-          if echo "$RESPONSE" | jq -e '.error' > /dev/null 2>&1; then
-            echo "Error in upload response"
-            exit 1
-          fi
-          
-          MARKDOWN=$(echo "$RESPONSE" | jq -r '.markdown // empty')
-          
-          echo "Creating release with markdown: $MARKDOWN"
-          
-          # Create release with download link
+
           curl -s --request POST \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
             --header "Content-Type: application/json" \
-            --data "{\"name\": \"Solara Linux $(date +%Y-%m-%d)\", \"tag_name\": \"latest\", \"description\": \"**Download:** $MARKDOWN\\n\\n---\\n\\nBuilt via GitHub Actions\", \"released_at\": \"$(date -Iseconds)\"}" \
+            --data "{\"name\": \"Solara Linux ${VERSION}\", \"tag_name\": \"latest\", \"description\": \"## Solara Linux\\n\\nArch-based. Rolling. No atomic nonsense.\\n\\n**[Download ISO](${DOWNLOAD_URL})**\\n\\nBuilt via GitHub Actions.\"}" \
             "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/releases"
+
+          echo "Done! ISO at: $DOWNLOAD_URL"
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
