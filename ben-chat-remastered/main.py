@@ -56,6 +56,8 @@ class BENGame(QMainWindow):
         s.resize(SCREEN_W, SCREEN_H)
         
         s.game_state = "intro"
+        s.current_chat_user = ""
+        s.conversation_stage = 0
         s.player_name = ""
         
         s.player_bullets = []
@@ -78,6 +80,8 @@ class BENGame(QMainWindow):
         
     def show_intro(s):
         s.game_state = "intro"
+        s.current_chat_user = ""
+        s.conversation_stage = 0
         
         # Play S3RL intro music
         try:
