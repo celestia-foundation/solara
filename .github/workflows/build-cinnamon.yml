@@ -49,7 +49,7 @@ jobs:
             bash -c "
               pacman -Sy --noconfirm archiso &&
               mkdir -p /tmp/archiso-work &&
-              cp /solara/releng/packages.cinnamon /solara/releng/packages.x86_64 &&
+              cp /solara/releng/packages.cinnamon /tmp/packages.x86_64.tmp && cp /tmp/packages.x86_64.tmp /solara/releng/packages.x86_64 &&
               mkarchiso -v -w /tmp/archiso-work -o /iso-out /solara/releng/
             "
           ISO_FILE=$(ls /tmp/iso-out/*.iso | head -1)
