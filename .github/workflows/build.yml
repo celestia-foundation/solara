@@ -8,6 +8,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: kde
+            packages: packages.x86_64
+            description: "KDE Plasma — the primary Solara flavor. Full Plasma desktop."
+            tag: latest-kde
+          - variant: cinnamon
+            packages: packages.cinnamon
+            description: "Cinnamon — familiar and warm. Linux Mint's desktop on Arch."
+            tag: latest-cinnamon
+          - variant: lxqt
+            packages: packages.lxqt
+            description: "LXQt — lightweight Qt desktop. Fast, minimal, efficient."
+            tag: latest-lxqt
+          - variant: pantheon
+            packages: packages.pantheon
+            description: "Pantheon — Elementary OS's DE. Beautiful and clean."
+            tag: latest-pantheon
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,12 +36,21 @@ jobs:
       - name: CPU Info
         run: lscpu | grep -E "Model name|CPU\(s\)|Thread|Core"
 
+      - name: Runner Info
+        run: |
+          echo "=== Solara Build: ${{ matrix.variant }} ==="
+          echo "Runner OS: $(uname -r)"
+          echo "Disk space: $(df -h / | tail -1)"
+          echo "RAM: $(free -h | grep Mem)"
+          echo "Build date: $(date -u)"
+
       - name: Cache pacman packages
         uses: actions/cache@v4
         with:
           path: /tmp/pkg-cache
-          key: pacman-${{ hashFiles('releng/packages.x86_64') }}
+          key: pacman-${{ matrix.variant }}-${{ hashFiles(format('releng/{0}', matrix.packages)) }}
           restore-keys: |
+            pacman-${{ matrix.variant }}-
             pacman-
 
       - name: Build ISO
@@ -36,48 +66,60 @@ jobs:
               mkdir -p /tmp/archiso-work &&
               mkarchiso -v -w /tmp/archiso-work -o /iso-out /solara/releng/
             "
-
-      - name: Upload ISO to GitLab and create release
-        run: |
           ISO_FILE=$(ls /tmp/iso-out/*.iso | head -1)
+          ISO_BASE=$(basename "$ISO_FILE" .iso)
+          mv "$ISO_FILE" "/tmp/iso-out/${ISO_BASE}-${{ matrix.variant }}.iso"
+          echo "Built: $(ls /tmp/iso-out/*.iso)"
+
+      - name: Upload ISO to GitLab
+        run: |
+          ISO_FILE=$(ls /tmp/iso-out/*-${{ matrix.variant }}.iso | head -1)
           ISO_NAME=$(basename "$ISO_FILE")
           VERSION=$(date +%Y.%m.%d)
+          VARIANT="${{ matrix.variant }}"
+          TAG="${{ matrix.tag }}"
+          ISO_SIZE=$(du -sh "$ISO_FILE" | cut -f1)
+          BUILD_DATE=$(date "+%Y-%m-%d %H:%M UTC")
 
-          echo "Uploading ISO via generic packages API..."
+          echo "Uploading ${ISO_NAME} (${ISO_SIZE})..."
           curl --fail --request PUT \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
             --upload-file "$ISO_FILE" \
-            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/packages/generic/solara-iso/${VERSION}/${ISO_NAME}"
+            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/packages/generic/solara-${VARIANT}/${VERSION}/${ISO_NAME}"
 
-          DOWNLOAD_URL="https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/packages/generic/solara-iso/${VERSION}/${ISO_NAME}"
+          DOWNLOAD_URL="https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/packages/generic/solara-${VARIANT}/${VERSION}/${ISO_NAME}"
 
-          echo "Deleting old tag and release..."
+          echo "Cleaning up old release..."
           curl -s --request DELETE \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
-            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/releases/latest" || true
+            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/releases/${TAG}" || true
           curl -s --request DELETE \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
-            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/repository/tags/latest" || true
+            "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/repository/tags/${TAG}" || true
+          sleep 3
 
-          echo "Creating tag and release..."
+          echo "Creating tag ${TAG}..."
           curl -s --request POST \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
             --header "Content-Type: application/json" \
-            --data "{\"tag_name\": \"latest\", \"ref\": \"main\"}" \
+            --data "{\"tag_name\": \"${TAG}\", \"ref\": \"main\"}" \
             "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/repository/tags"
 
+          DESCRIPTION="## Solara Linux — ${VARIANT^^} Edition\n\n${{ matrix.description }}\n\n---\n\n### Build Info\n\n| Field | Value |\n|-------|-------|\n| Build Date | ${BUILD_DATE} |\n| Variant | ${VARIANT} |\n| ISO Size | ${ISO_SIZE} |\n| Base | Arch Linux (rolling) |\n| Init | systemd |\n| Architecture | x86_64 |\n| Runner | GitHub Actions (AMD EPYC 9V74, 4 cores) |\n\n### Download\n\n**[⬇ Download ISO](${DOWNLOAD_URL})**\n\n### Write to USB\n\n\`\`\`bash\ndd if=${ISO_NAME} of=/dev/sdX bs=4M status=progress\n\`\`\`\n\n---\n\nBuilt automatically via GitHub Actions | [Source](https://github.com/ravecorelabs/solara)"
+
+          echo "Creating release..."
           curl -s --request POST \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
             --header "Content-Type: application/json" \
-            --data "{\"name\": \"Solara Linux ${VERSION}\", \"tag_name\": \"latest\", \"description\": \"## Solara Linux\\n\\nArch-based. Rolling. No atomic nonsense.\\n\\n**[Download ISO](${DOWNLOAD_URL})**\\n\\nBuilt via GitHub Actions.\"}" \
+            --data "{\"name\": \"Solara Linux ${VERSION} — ${VARIANT^^}\", \"tag_name\": \"${TAG}\", \"description\": \"${DESCRIPTION}\"}" \
             "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/releases"
 
           echo "Done! ISO at: $DOWNLOAD_URL"
 
-      - name: Upload ISO
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: solara-iso
+          name: solara-${{ matrix.variant }}-iso
           path: /tmp/iso-out/*.iso
           retention-days: 90
 
@@ -85,6 +127,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: build-logs
+          name: build-logs-${{ matrix.variant }}
           path: /tmp/archiso-work/
-          retention-days: 90
+          retention-days: 7
