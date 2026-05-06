@@ -312,7 +312,7 @@ class BENGame(QMainWindow):
         avatar_map = {
             "slavkid_2008": "slavkid_avatar.png",
             "goth_chick": "goth_chick_avatar.png",
-            "ashov": "ashov_avatar.png",
+            "ashov": "i was the creator... now not apparently :p wait is that my org-",
             "normie_gamer": "normie_gamer_avatar.png",
         }
         avatar_file = avatar_map.get(user, "slavkid_avatar.png")
@@ -341,8 +341,7 @@ class BENGame(QMainWindow):
         custom_msgs = {
             "slavkid_2008": "bro u tryna chat on this cursed app??",
             "goth_chick": "i found something... disturbing. look at BEN.",
-            "ashov": "i was the creator... now not apparently :/
-wait is that my org-",
+            "ashov": "i was the creator... now not apparently :p wait is that my org-",
             "normie_gamer": "bro this app is weird af LMAO",
         }
         msg_text = custom_msgs.get(user, "Hey! You seen that BEN thing?")
