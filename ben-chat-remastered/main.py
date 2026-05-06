@@ -145,13 +145,6 @@ class BENGame(QMainWindow):
 
     def show_menu(s):
         s.intro_timer.stop()
-        
-        # Fade out intro music
-        try:
-            pygame.mixer.music.fadeout(500)
-        except:
-            pass
-        
         s.game_state = "menu"
         w = QWidget(); w.setStyleSheet("background: black;")
         v = QVBoxLayout()
@@ -234,6 +227,12 @@ class BENGame(QMainWindow):
         s.setCentralWidget(w)
         
     def show_login(s):
+        # Fade out intro music when starting game
+        try:
+            pygame.mixer.music.fadeout(500)
+        except:
+            pass
+        
         s.game_state = "login"
         w = QWidget(); w.setStyleSheet("background: black;")
         v = QVBoxLayout()
