@@ -12,7 +12,8 @@ pygame.mixer.init()
 
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout, QHBoxLayout
 from PyQt6.QtCore import QTimer, Qt
-from PyQt6.QtGui import QFont, QColor, QLinearGradient, QPainter, QPolygonF, QPointF
+from PyQt6.QtCore import QPointF
+from PyQt6.QtGui import QFont, QColor, QLinearGradient, QPainter, QPolygonF
 
 SCREEN_W, SCREEN_H = 800, 600
 FPS = 60
