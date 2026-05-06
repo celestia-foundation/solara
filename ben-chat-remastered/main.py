@@ -78,6 +78,15 @@ class BENGame(QMainWindow):
         
     def show_intro(s):
         s.game_state = "intro"
+        
+        # Play S3RL intro music
+        try:
+            pygame.mixer.music.load("assets/Scary Movie - S3RL.mp3")
+            pygame.mixer.music.set_volume(0.7)
+            pygame.mixer.music.play(-1)  # Loop
+        except:
+            pass
+        
         w = QWidget(); w.setStyleSheet("background: black;")
         v = QVBoxLayout()
         
@@ -364,6 +373,15 @@ class BENGame(QMainWindow):
         
     def start_boss(s):
         s.game_state = "boss"
+        
+        # Play boss music
+        try:
+            pygame.mixer.music.load("assets/Scary Movie - S3RL.mp3")
+            pygame.mixer.music.set_volume(0.8)
+            pygame.mixer.music.play(-1)
+        except:
+            pass
+        
         s.player = Player()
         s.player_bullets = []
         s.enemy_bullets = []
