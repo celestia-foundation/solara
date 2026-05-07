@@ -43,6 +43,51 @@ function HomePage() {
 
   const posts = [
     {
+      id: 'solara-kernel',
+      title: "CUSTOM KERNEL DROP! solara-kernel on AUR 🌅⚡",
+      date: "2026-05-07",
+      author: "Ash",
+      avatar: "🌅",
+      readTime: "3 min read",
+      excerpt: "After the epic struggle with TKG crashes and 7.0.3, we found a solution: repackage CachyOS kernel as solara-kernel. Now on AUR!",
+      tags: ["Kernel", "AUR", "Achievement"],
+      content: `SOLARA KERNEL IS LIVE ON AUR! 🌅⚡
+
+After the GREAT KERNEL STRUGGLE of 2026:
+
+PROBLEM:
+- TKG with LLVM + Thin LTO kept crashing PC
+- GCC crashes on kernel 7.x + TKG patches
+- Kernel 6.x is EOL (security risk)
+- CachyOS repo breaks on non-CachyOS systems
+
+SOLUTION FOUND:
+We grabbed CachyOS kernel package from our local system, repackaged it with Solara branding, and pushed to AUR!
+
+WHAT WE DID:
+1. Downloaded linux-cachyos-7.0.3 from pacman cache
+2. Renamed all 'cachyos' to 'solara' in files
+3. Updated PKGBUILD with Solara info
+4. Pushed to AUR: https://aur.archlinux.org/packages/solara-kernel
+
+NOW:
+- Solara has its own kernel package on AUR
+- Auto-update workflow checks for new versions weekly
+- Your EPYC 80-core build machine will compile updates
+
+FEATURES:
+- Based on CachyOS kernel (EEVDF + LTO + patches)
+- Built with LLVM/Clang for performance
+- Solara Linux branding baked in
+- Auto-updates when new versions drop
+
+NEXT:
+- ISO builds will use solara-kernel from solara-pkgs
+- Users can install with: yay -S solara-kernel
+
+The sun rises. The kernel compiles. Solara prevails. 🌅`
+    },
+    {
       id: 'solara-born',
       title: "SOLARA IS BORN (from the ashes of S3RLinux-Atomic) 💀🌅",
       date: "2026-05-04",
@@ -339,6 +384,11 @@ Welcome to the future (it's GitLab apparently)`
             icon="🤝"
             title="Community Driven"
             description="Built by the community, for the community. Based on Arch, which has the best wiki. We build on that foundation."
+          />
+          <FeatureCard 
+            icon="⚙️"
+            title="Custom Kernel"
+            description="solara-kernel on AUR — optimized CachyOS kernel with EEVDF scheduler, LTO, and Solara branding. Auto-updates weekly. Install with: yay -S solara-kernel"
           />
         </div>
       </Section>
