@@ -1,9 +1,8 @@
 # Solara KDE - Core system
 base
 base-devel
-linux
-linux-firmware
-linux-firmware-marvell
+solara-kernel
+solara-kernel-headers
 sof-firmware
 
 # Boot and filesystem

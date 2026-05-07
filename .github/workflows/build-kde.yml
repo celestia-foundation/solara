@@ -32,6 +32,10 @@ jobs:
             pacman-kde-
             pacman-
 
+      - name: Copy custom packages to pacman cache
+        run: |
+          cp /solara/releng/packages/kernel/*.pkg.tar.zst /tmp/pkg-cache/ 2>/dev/null || true
+
       - name: Build ISO
         run: |
           mkdir -p /tmp/pkg-cache /tmp/iso-out
