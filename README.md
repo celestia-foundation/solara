@@ -50,7 +50,16 @@ Solara is the current project. It probably won't be the last. Also the creator d
 
 ## Building
 
-> ⚠️ Build passing but untested — ISO builds automatically via GitHub Actions but hasn't been booted yet. Yolo.
+ISO builds automatically via GitHub Actions. Each release includes changelog from commits.
+
+Current status:
+- KDE build works, autologin via Plasma Login Manager
+- Custom kernel build in progress (linux-tkg with LLVM + Thin LTO)
+- Releases hosted on GitLab Packages
+
+Known issues:
+- Custom kernel requires LLVM due to GCC crashes (kernel 7.x + TKG patches)
+- LTO link stage can be problematic - might need BTF fix
 
 ## License
 
