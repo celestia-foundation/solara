@@ -22,8 +22,8 @@ fi
 mkdir -p /home/solara
 chown -R solara:solara /home/solara
 
-# Enable SDDM for live session
-systemctl enable sddm
+# Set graphical target for autologin
+systemctl set-default graphical.target
 
 # Enable NetworkManager
 systemctl enable NetworkManager
