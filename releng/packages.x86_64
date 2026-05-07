@@ -32,7 +32,6 @@ base-devel
 plasma-meta
 kde-applications-meta
 plasma-login-manager
-kcm-plasmalogin
 
 # Display server
 xorg-server
