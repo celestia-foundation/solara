@@ -2,7 +2,9 @@
 *.iso
 *.img
 *.tar.gz
+*.tar.zst
 *.xz
+*.zst
 
 # Package caches
 node_modules/
