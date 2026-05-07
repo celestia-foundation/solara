@@ -65,6 +65,12 @@ jobs:
           ISO_SIZE=$(du -sh "$ISO_FILE" | cut -f1)
           BUILD_DATE=$(date "+%Y-%m-%d %H:%M UTC")
 
+          # Get changelog from last 15 commits
+          CHANGES=$(git log --format="- %s" -15 HEAD 2>/dev/null)
+          if [ -z "$CHANGES" ]; then
+            CHANGES="- Build updates"
+          fi
+
           echo "Uploading ${ISO_NAME} (${ISO_SIZE})..."
           curl --fail --request PUT \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
@@ -88,7 +94,7 @@ jobs:
             --data "{\"tag_name\": \"latest-lxqt\", \"ref\": \"main\"}" \
             "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/repository/tags"
 
-          DESCRIPTION="## Solara Linux — LXQT Edition\n\nLXQt — lightweight Qt desktop. Fast, minimal, efficient.\n\n---\n\n### Build Info\n\n| Field | Value |\n|-------|-------|\n| Build Date | ${BUILD_DATE} |\n| Variant | lxqt |\n| ISO Size | ${ISO_SIZE} |\n| Base | Arch Linux (rolling) |\n| Init | systemd |\n| Architecture | x86_64 |\n| Runner | GitHub Actions (AMD EPYC 9V74, 4 cores) |\n\n### Download\n\n**[⬇ Download ISO](${DOWNLOAD_URL})**\n\n### Write to USB\n\n\`\`\`bash\ndd if=${ISO_NAME} of=/dev/sdX bs=4M status=progress\n\`\`\`\n\n---\nBuilt automatically via GitHub Actions | [Source](https://github.com/ravecorelabs/solara)"
+          DESCRIPTION="## Solara Linux — LXQT Edition\n\nLXQt — lightweight Qt desktop. Fast, minimal, efficient.\n\n---\n\n### Changes\n\n${CHANGES}\n\n---\n\n### Build Info\n\n| Field | Value |\n|-------|-------|\n| Build Date | ${BUILD_DATE} |\n| Variant | lxqt |\n| ISO Size | ${ISO_SIZE} |\n| Base | Arch Linux (rolling) |\n| Init | systemd |\n| Architecture | x86_64 |\n| Runner | GitHub Actions |\n\n### Download\n\n**[⬇ Download ISO](${DOWNLOAD_URL})**\n\n### Write to USB\n\n\`\`\`bash\ndd if=${ISO_NAME} of=/dev/sdX bs=4M status=progress\n\`\`\`\n\n---\nBuilt automatically via GitHub Actions | [Source](https://github.com/ravecorelabs/solara)"
 
           curl -s --request POST \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
