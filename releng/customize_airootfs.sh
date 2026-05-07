@@ -22,7 +22,9 @@ fi
 mkdir -p /home/solara
 chown -R solara:solara /home/solara
 
-# Set graphical target for autologin
+# Enable autologin for all DMs
+systemctl enable lightdm 2>/dev/null || true
+systemctl enable sddm 2>/dev/null || true
 systemctl set-default graphical.target
 
 # Enable NetworkManager
