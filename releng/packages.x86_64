@@ -31,8 +31,8 @@ base-devel
 # KDE Plasma - main desktop
 plasma-meta
 kde-applications-meta
-sddm
-sddm-kcm
+plasma-login-manager
+kcm-plasmalogin
 
 # Display server
 xorg-server

@@ -22,9 +22,8 @@ fi
 mkdir -p /home/solara
 chown -R solara:solara /home/solara
 
-# Enable autologin for all DMs
-systemctl enable lightdm 2>/dev/null || true
-systemctl enable sddm 2>/dev/null || true
+# Enable Plasma Login Manager for autologin
+systemctl enable plasmalogin
 systemctl set-default graphical.target
 
 # Enable NetworkManager
