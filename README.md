@@ -60,6 +60,7 @@ Current status:
 Known issues:
 - Custom kernel requires LLVM due to GCC crashes (kernel 7.x + TKG patches)
 - LTO link stage can be problematic - might need BTF fix
+- (The creator would absolutely riot if we shipped stock Arch kernel, so custom build is mandatory)
 
 ## License
 
