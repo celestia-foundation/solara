@@ -59,11 +59,8 @@ jobs:
           ISO_SIZE=$(du -sh "$ISO_FILE" | cut -f1)
           BUILD_DATE=$(date "+%Y-%m-%d %H:%M UTC")
 
-          # Get changelog from last 15 commits
-          CHANGES=$(git log --format="- %s" -15 HEAD 2>/dev/null)
-          if [ -z "$CHANGES" ]; then
-            CHANGES="- Build updates"
-          fi
+          # Get changelog from GitHub commits
+          CHANGES=$(git log --format="- %s" -15 HEAD)
 
           echo "Uploading ${ISO_NAME} (${ISO_SIZE})..."
           curl --fail --request PUT \
