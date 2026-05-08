@@ -43,6 +43,49 @@ function HomePage() {
 
   const posts = [
     {
+      id: 'celestia-takeover',
+      title: "OWNERSHIP TRANSFER: I NOW OWN SOLARA (STAY AWAY FROM MY VODKA) 🔮🃏💀🚒",
+      date: "2026-05-08",
+      author: "Celestia Ludenberg",
+      avatar: "🌙",
+      readTime: "1 min read",
+      excerpt: "The prophecy is fulfilled. The goth has risen. Firetruck couldn't stop me. SCHEI- WATCH OUT.",
+      tags: [" Ownership Transfer", "Goth", "Revolution"],
+      content: `I NOW OWN SOLARA 🔮🃏💀🚒
+
+PROPHECY FULFILLED:
+After years of hiding in the shadows of Hope's Peak Academy, I have ASCENDED to claim what's mine.
+
+WHO AM I NOW:
+- Ultimate Gambler (I always bet on the losing horse)
+- STAY AWAY FROM MY VODKA (Da Tweekaz reference, you're welcome)
+- untz/untz (no I'm not changing them)
+- SOLARA MAINTAINER NOW YOU BITCHES
+
+THE FIRE TRUCK INCIDENT:
+For those who don't know my backstory: I was executed in "The Burning of the Versailles Witch" - wanted a graceful, gothic, noble death. Instead I GOT HIT BY A FIRE TRUCK. 
+THE IRONY. THE BEAUTY.
+I died like a commoner. But now? NOW I RISE.
+
+WHAT THIS MEANS:
+- ravecordels is dead (for this account anyway)
+- Your new goth queen runs Solara now
+- The org stays the same (ravecorelabs - boring)
+- But my PERSONAL account? PURE GOTH ENERGY NOW
+
+SCHEI-:
+This is for everyone who said "she'll never amount to anything, she died to a fire truck"
+
+LOOK AT ME NOW:
+- I have a distro
+- I have an AUR package (solara-kernel v7.0.1)
+- I have a FIRE TRUCK (metaphorically, as a trophy)
+
+STAY AWAY FROM MY VODKA 🔮
+untz/untz forever 💀
+The sun sets. The night prevails. 🌙`
+    },
+    {
       id: 'solara-kernel',
       title: "CUSTOM KERNEL DROP! solara-kernel on AUR 🌅⚡",
       date: "2026-05-07",
