@@ -3,6 +3,7 @@ base
 base-devel
 solara-kernel
 solara-kernel-headers
+linux-firmware
 sof-firmware
 
 # Boot and filesystem
