@@ -1,0 +1,75 @@
+---
+# Product name
+productName:        Solara Linux
+# Short product name (for window title etc)
+productShortName:   Solara
+# Version (e.g. "2024.01")
+version:            1.0
+# Short version
+versionShort:       1.0
+
+# Distribution name (used in some UI)
+distribution:       Solara Linux
+
+# Distribution logo (used in sidebar)
+# Can be SVG, PNG - should be square-ish
+logo:               "squid.png"
+
+# Banner image (shown on welcome page)
+# Used if welcomeStyle is "classic" or "side"
+banner:             "banner.png"
+
+# Wallpaper (shown on welcome page in "big" welcome style)
+wallpaper:          "wallpaper.png"
+
+# Welcome image (shown in welcome area)
+# For classic style: splash.png or productWelcome
+# For big style: banner or wallpaper
+productWelcome:     "welcome.png"
+
+# Slide show displayed during installation
+slideshow:          "show.qml"
+
+# Colors for Calamares branding
+# These affect header, sidebar, etc.
+# Format: #RRGGBB or #AARRGGBB
+# Using Solara's color scheme (orange/red theme)
+
+# Window title bar color
+windowTitleColor:   #1A1A2E
+
+# Sidebar background color
+sidebarBackground:  #FF6B35
+sidebarText:        #FFFFFF
+sidebarPixmap:      ""
+
+# Header gradient (from -> to)
+headerBackground:  #FF6B35
+headerText:         #FFFFFF
+
+# Boot loader theme (if applicable)
+bootLoaderTheme:    ""
+
+# Default window size
+# width x height
+windowSize:         "800,600"
+
+# Minimum window size
+windowMinSize:      "700,500"
+
+# Welcome message (shown in welcome page)
+welcome:            "Welcome to Solara Linux"
+
+# Welcome image for "classic" style
+welcomeImage:       ""
+
+# Finished message
+finishedMessage:    "Installation complete!"
+
+# Steps (navigation sidebar)
+# Format: list of step names
+# showNotes: true
+
+# Slideshow API version (1 or 2)
+# API 2 is recommended
+slideshowAPI: 2

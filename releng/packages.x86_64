@@ -6,6 +6,9 @@ solara-kernel-headers
 linux-firmware
 sof-firmware
 
+# Installer
+calamares
+
 # Boot and filesystem
 grub
 efibootmgr
