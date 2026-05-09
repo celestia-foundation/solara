@@ -2,14 +2,14 @@
 
 **Arch-based. Rolling. No bullshit.**
 
-[![Build Status](https://github.com/ravecorelabs/solara/actions/workflows/build-lxqt.yml/badge.svg)](https://github.com/ravecorelabs/solara/actions)
-[![Build Status](https://github.com/ravecorelabs/solara/actions/workflows/build-kde.yml/badge.svg)](https://github.com/ravecorelabs/solara/actions)
+[![Build Status](https://github.com/celestiafoundation/solara/actions/workflows/build-lxqt.yml/badge.svg)](https://github.com/celestiafoundation/solara/actions)
+[![Build Status](https://github.com/celestiafoundation/solara/actions/workflows/build-kde.yml/badge.svg)](https://github.com/celestiafoundation/solara/actions)
 [![License: SLL](https://img.shields.io/badge/License-SLL-brightgreen.svg)](https://github.com/ravecorelabs/solara/blob/main/LICENSE.md)
 [![Based on Arch](https://img.shields.io/badge/based%20on-Arch%20Linux-1793D1?logo=arch-linux&logoColor=white)](https://archlinux.org)
 [![Rolling Release](https://img.shields.io/badge/release-rolling-green.svg)]()
 [![Built with archiso](https://img.shields.io/badge/built%20with-archiso-informational)]()
-[![Build Status](https://github.com/ravecorelabs/solara/actions/workflows/build-pantheon.yml/badge.svg)](https://github.com/ravecorelabs/solara/actions)
-[![Build Status](https://github.com/ravecorelabs/solara/actions/workflows/build-cinnamon.yml/badge.svg)](https://github.com/ravecorelabs/solara/actions)
+[![Build Status](https://github.com/celestiafoundation/solara/actions/workflows/build-pantheon.yml/badge.svg)](https://github.com/celestiafoundation/solara/actions)
+[![Build Status](https://github.com/celestiafoundation/solara/actions/workflows/build-cinnamon.yml/badge.svg)](https://github.com/celestiafoundation/solara/actions)
 
 Solara is a rolling Arch-based distro that actually gives a damn about how it looks. Elegant by default, not by accident. systemd, glibc, no atomic nonsense.
 

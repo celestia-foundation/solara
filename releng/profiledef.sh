@@ -3,7 +3,7 @@
 
 iso_name="solara"
 iso_label="SOLARA_$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y%m)"
-iso_publisher="RaveCore Labs <https://github.com/ravecorelabs>"
+iso_publisher="Celestia Foundation <https://github.com/celestiafoundation>"
 iso_application="Solara Linux Live DVD"
 iso_version="rolling-$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y.%m.%d)"
 install_dir="solara"
