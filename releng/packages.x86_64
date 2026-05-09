@@ -7,7 +7,6 @@ linux-firmware
 sof-firmware
 
 # Installer
-calamares
 
 # Boot and filesystem
 grub
