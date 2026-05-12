@@ -273,7 +273,7 @@ function HomePage() {
       </motion.div>
     ))}
     <motion.a
-    href="https://github.com/celestiafoundation/solara"
+    href="https://github.com/celestia-foundation/solara"
     target="_blank"
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
@@ -431,7 +431,7 @@ function HomePage() {
     <FeatureCard
     icon="⚙️"
     title="Custom Kernel"
-    description="solara-kernel on AUR — BORE scheduler, CachyOS patches, maximum power. Replaces default linux, allows LTS as backup. Install with: sudo pacman -S solara-kernel. Headers for modules: solara-kernel-hdr. Optional ZFS, NVIDIA-open, r8125 modules. Built via GitHub Actions."
+    description="Solara ships with solara-kernel preinstalled. For non-Solara users: install via yay -S solara-kernel or paru -S solara-kernel. BORE scheduler, CachyOS patches, LTS allowed as backup. Headers: solara-kernel-hdr. Built via GitHub Actions."
     />
     </div>
     </Section>
@@ -714,7 +714,7 @@ function HomePage() {
     <p style={{ color: colors.textMuted, fontSize: '0.9rem', lineHeight: 1.6 }}>
     Arch-based rolling release distro.<br/>
     Elegant by default, not by accident.<br/><br/>
-    Built by <a href="https://github.com/celestiafoundation" style={{ color: colors.yellow }}>celestiafoundation</a>
+    Built by <a href="https://github.com/celestia-foundation" style={{ color: colors.yellow }}>celestia-foundation</a>
     </p>
     </div>
 
@@ -723,22 +723,22 @@ function HomePage() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
     <a href="#" onClick={(e) => { e.preventDefault(); scrollToSection('download') }} style={{ color: colors.textMuted, textDecoration: 'none', fontSize: '0.9rem' }}>Download</a>
     <a href="#" onClick={(e) => { e.preventDefault(); scrollToSection('install') }} style={{ color: colors.textMuted, textDecoration: 'none', fontSize: '0.9rem' }}>Installation</a>
-    <a href="https://github.com/celestiafoundation/solara" style={{ color: colors.textMuted, textDecoration: 'none', fontSize: '0.9rem' }}>GitHub</a>
+    <a href="https://github.com/celestia-foundation/solara" style={{ color: colors.textMuted, textDecoration: 'none', fontSize: '0.9rem' }}>GitHub</a>
     </div>
     </div>
 
     <div>
     <h4 style={{ fontWeight: 600, marginBottom: '1rem' }}>Project</h4>
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-    <a href="https://github.com/celestiafoundation/solara/blob/main/LICENSE" style={{ color: colors.textMuted, textDecoration: 'none', fontSize: '0.9rem' }}>License</a>
-    <a href="https://github.com/celestiafoundation/solara/issues" style={{ color: colors.textMuted, textDecoration: 'none', fontSize: '0.9rem' }}>Issues</a>
+    <a href="https://github.com/celestia-foundation/solara/blob/main/LICENSE" style={{ color: colors.textMuted, textDecoration: 'none', fontSize: '0.9rem' }}>License</a>
+    <a href="https://github.com/celestia-foundation/solara/issues" style={{ color: colors.textMuted, textDecoration: 'none', fontSize: '0.9rem' }}>Issues</a>
     </div>
     </div>
     </div>
 
     <div style={{ maxWidth: 1200, margin: '3rem auto 0', paddingTop: '2rem', borderTop: `1px solid ${colors.border}`, textAlign: 'center' }}>
     <p style={{ color: colors.textMuted, fontSize: '0.85rem' }}>
-    © 2026 Solara Linux. Built with 🌅 by celestiafoundation.
+    © 2026 Solara Linux. Built with 🌅 by celestia-foundation.
     </p>
     </div>
     </footer>
