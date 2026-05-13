@@ -1,74 +1,59 @@
-* { box-sizing: border-box; }
-
-body {
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050402;
+  color: #f5f0e8;
+  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0805;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a3025;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6b35;
 }
 
 .desktop-nav {
   display: flex;
 }
 
-@media (max-width: 768px) {
-  .desktop-nav {
-    display: none !important;
-  }
-
-  .hero-title {
-    font-size: clamp(2rem, 10vw, 4rem) !important;
-  }
-
-  .hero-subtitle {
-    font-size: clamp(0.9rem, 4vw, 1.2rem) !important;
-  }
-
-  .section-inner {
-    padding: 4rem 1rem !important;
-  }
-
-  .features-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .flavors-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .faq-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .nav-inner {
-    padding: 1rem !important;
-  }
+.mobile-menu-btn {
+  display: none !important;
 }
 
-@media (max-width: 480px) {
-  .hero-buttons {
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-}
-
-/* Mobile nav */
 @media (max-width: 768px) {
   .desktop-nav {
     display: none !important;
   }
 
   .mobile-menu-btn {
-    display: block !important;
+    display: flex !important;
   }
 
-  .hero-buttons {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    padding: 0 1rem;
+  .section-inner {
+    padding: 0 !important;
   }
 
-  .hero-buttons a {
-    text-align: center;
+  .features-grid,
+  .flavors-grid,
+  .blog-grid {
+    grid-template-columns: 1fr !important;
   }
 
   section {
@@ -76,18 +61,13 @@ body {
   }
 
   h1 {
-    font-size: clamp(2rem, 9vw, 3.5rem) !important;
+    font-size: clamp(2rem, 10vw, 3.5rem) !important;
   }
 
-  .features-grid,
-  .flavors-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  footer > div {
+  footer > div:first-of-type {
     flex-direction: column !important;
     text-align: center;
-    gap: 1rem !important;
+    gap: 2rem !important;
   }
 }
 
