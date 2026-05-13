@@ -124,9 +124,11 @@ function HomePage() {
       - Solara Linux branding baked in
       - Auto-updates when new versions drop
 
-      NEXT:
-      - ISO builds will use solara-kernel from solara-pkgs
-      - Users can install with: yay -S solara-kernel
+      STATUS:
+      - solara-kernel available on AUR for enthusiasts
+      - NOT included in ISO — stock Arch kernel ships by default
+      - Performance impact on some hardware made it optional
+      - Install with: yay -S solara-kernel
 
       The sun rises. The kernel compiles. Solara prevails. 🌅`
     },
@@ -430,8 +432,8 @@ function HomePage() {
     />
     <FeatureCard
     icon="⚙️"
-    title="Custom Kernel"
-    description="Solara ships with solara-kernel preinstalled. For non-Solara users: install via yay -S solara-kernel or paru -S solara-kernel. BORE scheduler, CachyOS patches, LTS allowed as backup. Headers: solara-kernel-hdr. Built via GitHub Actions."
+    title="Custom Kernel (optional)"
+    description="Solara ships with the stock Arch kernel for maximum stability and performance on all hardware. Want more? Grab solara-kernel from AUR: yay -S solara-kernel. BORE scheduler, CachyOS patches. Headers: solara-kernel-hdr. Built via GitHub Actions."
     />
     </div>
     </Section>
