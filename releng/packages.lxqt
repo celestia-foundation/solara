@@ -2,6 +2,7 @@
 base
 base-devel
 linux
+linux-headers
 linux-firmware
 sof-firmware
 
@@ -15,6 +16,8 @@ xfsprogs
 ntfs-3g
 cryptsetup
 lvm2
+parted
+arch-install-scripts
 
 # LXQt Desktop
 lxqt
@@ -59,6 +62,10 @@ zsh
 git
 wget
 curl
+
+# Installer UI
+kdialog
+zenity
 
 # Boot ISO
 mkinitcpio

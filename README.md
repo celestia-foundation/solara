@@ -62,33 +62,23 @@ Known issues:
 - LTO link stage can be problematic - might need BTF fix
 - (The creator would absolutely riot if we shipped stock Arch kernel, so custom build is mandatory)
 
+## Side Projects
+
+### Danganronpa V4 🎭
+
+A Ren'Py visual novel — the Ultimate Gambler's magnum opus. 6 class trials, custom executions in AVI (because Ren'Py hates H.264 on desktop), Nagito gets a gun, pizza theme music, and a UI that was definitely made by someone who learned what `text_align` does the hard way.
+
+Features:
+- All 6 trials fully scripted
+- 5 execution videos (MPEG-4 part 2 in AVI containers)
+- Custom main menu with the subtitle "My Mango is to Blow Up"
+- Nagito's execution reworked into a Hope's Peak suicide scene
+- Meticulous character positioning with 33+ `hide` statements
+- Built with Ren'Py 8.4.1 — because `gui.scale()` wasn't a thing yet
+- Distribution packages for all platforms
+
+> *"The only thing more painful than Monokuma's trials was debugging `TypeError: 'float' object is not subscriptable` at 3 AM."*
+
 ## License
 
 [SLL - Solara Linux License](LICENSE) — tl;dr: do whatever you want, don't blame us, keep your wallets
-
-## Side Projects
-
-### BEN Chat Remastered
-
-A cursed chat creepypasta game with TOUHOU-STYLE BOSS FIGHT!
-
-> This started as a "haha what if we made a game" idea. Watched ONE Python tutorial, immediately wanted to unalive myself with Gentoo, said "fuck this" and had my AI agent do it instead. Pure lazyman engineering.
->
-> We don't actually know Python. We just asked nicely and it happened. Sometimes the best way to learn is to delegate.
->
-> Currently a DEMO because full story takes effort. Maybe someday.
-
-**Tech:** PyQt6 + pygame (because we picked the most cursed combo possible)
-
-```bash
-git clone https://github.com/ravecorelabs/solara
-cd solara/ben-chat-remastered
-pip install -r requirements.txt
-python3 main.py
-```
-
-Controls: WASD move, Z shoot. Kill BEN. Feel things.
-
----
-
-*Made in our free time between existential crises and Solara development.*

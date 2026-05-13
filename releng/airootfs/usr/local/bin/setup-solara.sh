@@ -20,8 +20,14 @@ if ! id solara &>/dev/null; then
     chown -R solara:solara /home/solara
 fi
 
-# Enable SDDM
-systemctl enable sddm
+# Enable display manager
+for dm in plasma-login-manager lightdm sddm gdm; do
+    if [ -f "/usr/lib/systemd/system/$dm.service" ]; then
+        systemctl enable "$dm"
+        echo "Enabled display manager: $dm"
+        break
+    fi
+done
 
 # Enable NetworkManager
 systemctl enable NetworkManager

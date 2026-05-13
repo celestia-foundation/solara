@@ -22,8 +22,14 @@ fi
 mkdir -p /home/solara
 chown -R solara:solara /home/solara
 
-# Enable Plasma Login Manager for autologin
-systemctl enable plasmalogin
+# Enable display manager for autologin
+for dm in plasmalogin lightdm sddm gdm; do
+    if [ -f "/usr/lib/systemd/system/$dm.service" ]; then
+        systemctl enable "$dm"
+        echo "Enabled display manager: $dm"
+        break
+    fi
+done
 systemctl set-default graphical.target
 
 # Enable NetworkManager

@@ -1,8 +1,8 @@
 # Solara KDE - Core system
 base
 base-devel
-solara-kernel
-solara-kernel-headers
+linux
+linux-headers
 linux-firmware
 sof-firmware
 
@@ -26,6 +26,10 @@ dmraid
 # Arch install tools
 arch-install-scripts
 archinstall
+
+# Installer UI
+kdialog
+zenity
 
 git
 base-devel
