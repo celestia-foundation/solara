@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Route, Router } from 'wouter'
 import { useHashLocation } from 'wouter/use-hash-location'
 
@@ -72,20 +72,109 @@ function Section({ id, title, children, dark }) {
 function HomePage() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activePost, setActivePost] = useState(null)
-  const [cmd, setCmd] = useState('')
-  const cmdRef = useRef(null)
-  const { scrollY } = useScroll()
+  const [termLines, setTermLines] = useState([])
+  const termRef = useRef(null)
+
 
   useEffect(() => {
-    const cmds = ['sudo pacman -Syu', 'sudo solara-install', 'paru -S solara-kernel', 'neofetch | grep Solara']
-    let i = 0, j = 0, dir = 1
+    const sessions = [
+      [
+        { t: 'prompt', c: 'solara@linux', v: '~' },
+        { t: 'cmd', c: 'cat /etc/os-release', v: '' },
+        { t: 'out', c: 'NAME="Solara Linux"', v: '' },
+        { t: 'out', c: 'ID=solara', v: '' },
+        { t: 'out', c: 'PRETTY_NAME="Solara Linux (Rolling)"', v: '' },
+        { t: 'prompt', c: 'solara@linux', v: '~' },
+        { t: 'cmd', c: 'uname -r', v: '' },
+        { t: 'out', c: '7.3.1-arch1-1', v: '' },
+        { t: 'prompt', c: 'solara@linux', v: '~' },
+        { t: 'cmd', c: 'neofetch', v: '' },
+        { t: 'out', c: 'OS: Solara Linux x86_64', v: '' },
+        { t: 'out', c: 'Host: Custom Built', v: '' },
+        { t: 'out', c: 'Kernel: 7.3.1-arch1-1', v: '' },
+        { t: 'out', c: 'DE: KDE Plasma 6.6', v: '' },
+        { t: 'prompt', c: 'solara@linux', v: '~' },
+        { t: 'cmd', c: '▌', v: '' },
+      ],
+      [
+        { t: 'prompt', c: 'solara@linux', v: '~' },
+        { t: 'cmd', c: 'sudo solara-install', v: '' },
+        { t: 'out', c: '🔍 Detecting hardware...', v: '' },
+        { t: 'out', c: '✓ Boot mode: UEFI', v: '' },
+        { t: 'out', c: '✓ Disk: /dev/nvme0n1 (1TB)', v: '' },
+        { t: 'out', c: '🎯 Selected flavor: KDE', v: '' },
+        { t: 'out', c: '💾 Partitioning... done', v: '' },
+        { t: 'out', c: '📦 Installing base system...', v: '' },
+        { t: 'out', c: '✓ Installation complete!', v: '' },
+        { t: 'prompt', c: 'solara@linux', v: '~' },
+        { t: 'cmd', c: '▌', v: '' },
+      ],
+      [
+        { t: 'prompt', c: 'solara@linux', v: '~' },
+        { t: 'cmd', c: 'yay -S solara-kernel', v: '' },
+        { t: 'out', c: ':: Looking for AUR packages...', v: '' },
+        { t: 'out', c: ':: solara-kernel 7.3.1 — BORE + EEVDF', v: '' },
+        { t: 'out', c: ':: Proceed with installation? [Y/n]', v: '' },
+        { t: 'cmd', c: 'y', v: '' },
+        { t: 'out', c: '✓ Building from source...', v: '' },
+        { t: 'out', c: '✓ Installed solara-kernel', v: '' },
+        { t: 'prompt', c: 'solara@linux', v: '~' },
+        { t: 'cmd', c: '▌', v: '' },
+      ],
+    ]
+    let sessionIdx = 0, lineIdx = 0, charIdx = 0
+    let paused = false
+
+    const tick = () => {
+      const session = sessions[sessionIdx]
+      const line = session[lineIdx]
+
+      if (line.t === 'prompt' || line.t === 'out') {
+        setTermLines(prev => {
+          const next = [...prev, { ...line, v: '' }]
+          return next.slice(-30)
+        })
+        lineIdx++
+        if (lineIdx >= session.length) {
+          sessionIdx = (sessionIdx + 1) % sessions.length
+          lineIdx = 0
+          paused = true
+          setTimeout(() => { paused = false }, 2000)
+        }
+      } else if (line.t === 'cmd') {
+        if (charIdx <= line.c.length) {
+          const display = line.c === '▌' ? '▌' : line.c.slice(0, charIdx) + (charIdx < line.c.length ? '▌' : '')
+          setTermLines(prev => {
+            const next = [...prev]
+            if (next.length > 0 && next[next.length - 1].t === 'cmd') {
+              next[next.length - 1] = { ...line, v: display }
+            } else {
+              next.push({ ...line, v: display })
+            }
+            return next.slice(-30)
+          })
+          charIdx++
+        } else {
+          setTermLines(prev => {
+            const next = [...prev]
+            next[next.length - 1] = { ...line, v: line.c }
+            return next
+          })
+          charIdx = 0
+          lineIdx++
+          if (lineIdx >= session.length) {
+            sessionIdx = (sessionIdx + 1) % sessions.length
+            lineIdx = 0
+            paused = true
+            setTimeout(() => { paused = false }, 2000)
+          }
+        }
+      }
+    }
+
     const t = setInterval(() => {
-      const full = cmds[i]
-      j += dir
-      if (j >= full.length || j <= 0) dir *= -1
-      setCmd(full.slice(0, j))
-      if (j === 0) { i = (i + 1) % cmds.length; dir = 1 }
-    }, 80)
+      if (!paused) tick()
+    }, 40)
     return () => clearInterval(t)
   }, [])
 
@@ -198,21 +287,40 @@ function HomePage() {
 
           {/* Terminal preview */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-            style={{ marginTop: '3rem', maxWidth: 500, marginLeft: 'auto', marginRight: 'auto', textAlign: 'left' }}>
+            style={{ marginTop: '3rem', maxWidth: 560, marginLeft: 'auto', marginRight: 'auto', textAlign: 'left' }}>
             <div style={{
-              background: '#0d0a07', border: `1px solid ${colors.border}`, borderRadius: 12, overflow: 'hidden',
-              boxShadow: '0 8px 40px rgba(0,0,0,0.4)'
+              background: '#0d0a07', border: `1px solid ${colors.border}`, borderRadius: 14, overflow: 'hidden',
+              boxShadow: '0 12px 60px rgba(0,0,0,0.5)'
             }}>
               <div style={{ display: 'flex', gap: '0.4rem', padding: '0.7rem 1rem', background: '#15100a', borderBottom: `1px solid ${colors.border}` }}>
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} />
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ffbd2e' }} />
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840' }} />
-                <span style={{ marginLeft: 'auto', fontSize: '0.7rem', color: colors.textMuted }}>solara@linux:~</span>
+                <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#ff5f57' }} />
+                <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#ffbd2e' }} />
+                <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#28c840' }} />
+                <span style={{ marginLeft: 'auto', fontSize: '0.7rem', color: colors.textMuted, fontFamily: "'Fira Code', monospace" }}>solara@linux:~</span>
               </div>
-              <div style={{ padding: '1rem 1.2rem', fontFamily: "'Fira Code', monospace", fontSize: '0.85rem', minHeight: 48 }}>
-                <span style={{ color: colors.green }}>$</span>
-                <span style={{ color: colors.yellow, marginLeft: '0.5rem' }}>{cmd}</span>
-                <motion.span animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }} style={{ color: colors.text }}>▌</motion.span>
+              <div ref={termRef} style={{
+                padding: '1rem 1.2rem', fontFamily: "'Fira Code', monospace", fontSize: '0.82rem', lineHeight: 1.6,
+                minHeight: 220, maxHeight: 280, overflow: 'auto',
+              }}>
+                {termLines.map((line, i) => (
+                  <div key={i} style={{ minHeight: '1.4em', wordBreak: 'break-all' }}>
+                    {line.t === 'prompt' && (
+                      <><span style={{ color: colors.green }}>solara@linux</span>
+                        <span style={{ color: colors.textMuted }}>:</span>
+                        <span style={{ color: '#4a9eff' }}>~</span>
+                        <span style={{ color: colors.textMuted }}>$ </span>
+                      </>
+                    )}
+                    {line.t === 'cmd' && (
+                      <>{'>'} <span style={{ color: colors.yellow }}>{line.v}</span></>
+                    )}
+                    {line.t === 'out' && (
+                      <span style={{ color: line.v.startsWith('✓') ? colors.green : line.v.startsWith('🔍') || line.v.startsWith('🎯') || line.v.startsWith('💾') || line.v.startsWith('📦') ? colors.yellow : line.v.startsWith('::') ? '#4a9eff' : colors.textMuted }}>
+                        {line.v}
+                      </span>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
