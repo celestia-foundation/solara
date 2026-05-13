@@ -44,6 +44,8 @@ xorg-xinit
 # Network & Audio
 networkmanager
 network-manager-applet
+pipewire
+pipewire-pulse
 alsa-utils
 pavucontrol
 
