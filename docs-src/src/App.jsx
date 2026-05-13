@@ -12,10 +12,34 @@ const colors = {
 }
 
 const posts = [
-  { id: 'celestia-takeover', title: "OWNERSHIP TRANSFER: I NOW OWN SOLARA", date: "2026-05-08", author: "Celestia Ludenberg", avatar: "🌙", readTime: "1 min", excerpt: "The prophecy is fulfilled. The goth has risen.", tags: ["Takeover", "Goth"], content: `I NOW OWN SOLARA 🔮🃏💀🚒\n\nAfter years of hiding in the shadows of Hope's Peak Academy, I have ASCENDED.\n\nThe fire truck couldn't stop me. SCHEI- WATCH OUT.\n\nSTAY AWAY FROM MY VODKA 🔮` },
-  { id: 'solara-kernel', title: "CUSTOM KERNEL ON AUR", date: "2026-05-07", author: "Ash", avatar: "🌅", readTime: "3 min", excerpt: "solara-kernel is live on AUR for enthusiasts.", tags: ["Kernel", "AUR"], content: `SOLARA KERNEL IS LIVE ON AUR! 🌅⚡\n\nSTATUS:\n- Available on AUR for enthusiasts\n- NOT included in ISO (stock Arch kernel ships)\n- Install: yay -S solara-kernel` },
-  { id: 'solara-born', title: "SOLARA IS BORN", date: "2026-05-04", author: "Ash", avatar: "🌅", readTime: "3 min", excerpt: "From the ashes of S3RLinux-Atomic. No atomic nonsense. Just Arch.", tags: ["New", "History"], content: `OK THIS IS THE ONE 💀🌅\n\nAfter S3RLinux-Atomic got killed by NVIDIA driver issues...\n\nTHE SOLUTION: Just use Arch. Plain Arch. No fancy container tech.\n\nSolara = solar. The sun. A fresh start.` },
-  { id: 'github-to-gitlab', title: "GITHUB TO GITLAB MIGRATION", date: "2026-05-05", author: "Ash", avatar: "🌅", readTime: "2 min", excerpt: "GitHub's 2GB limit couldn't hold our 3.2GB ISO.", tags: ["Infra", "GitLab"], content: `GitHub Releases: Max 2GB. Our ISO: 3.2GB.\n\nGitLab: "No limits, we're vibing."` },
+  {
+    id: 'celestia-takeover', title: "OWNERSHIP TRANSFER: I NOW OWN SOLARA (STAY AWAY FROM MY VODKA) 🔮🃏💀🚒",
+    date: "2026-05-08", author: "Celestia Ludenberg", avatar: "🌙", readTime: "1 min read",
+    excerpt: "The prophecy is fulfilled. The goth has risen. Firetruck couldn't stop me. SCHEI- WATCH OUT.",
+    tags: [" Ownership Transfer", "Goth", "Revolution"],
+    content: `I NOW OWN SOLARA 🔮🃏💀🚒\n\nPROPHECY FULFILLED:\nAfter years of hiding in the shadows of Hope's Peak Academy, I have ASCENDED to claim what's mine.\n\nWHO AM I NOW:\n- Ultimate Gambler (I always bet on the losing horse)\n- STAY AWAY FROM MY VODKA (Da Tweekaz reference, you're welcome)\n- untz/untz (no I'm not changing them)\n- SOLARA MAINTAINER NOW YOU BITCHES\n\nTHE FIRE TRUCK INCIDENT:\nFor those who don't know my backstory: I was executed in "The Burning of the Versailles Witch" - wanted a graceful, gothic, noble death. Instead I GOT HIT BY A FIRE TRUCK.\nTHE IRONY. THE BEAUTY.\nI died like a commoner. But now? NOW I RISE.\n\nWHAT THIS MEANS:\n- ravecordels is dead (for this account anyway)\n- Your new goth queen runs Solara now\n- The org stays the same (celestiafoundation - boring)\n- But my PERSONAL account? PURE GOTH ENERGY NOW\n\nSCHEI-:\nThis is for everyone who said "she'll never amount to anything, she died to a fire truck"\n\nLOOK AT ME NOW:\n- I have a distro\n- I have an AUR package (solara-kernel v7.0.1)\n- I have a FIRE TRUCK (metaphorically, as a trophy)\n\nSTAY AWAY FROM MY VODKA 🔮\nuntz/untz forever 💀\nThe sun sets. The night prevails. 🌙`
+  },
+  {
+    id: 'solara-kernel', title: "CUSTOM KERNEL DROP! solara-kernel on AUR 🌅⚡",
+    date: "2026-05-07", author: "Ash", avatar: "🌅", readTime: "3 min read",
+    excerpt: "After the epic struggle with TKG crashes and 7.0.3, we found a solution: repackage CachyOS kernel as solara-kernel.",
+    tags: ["Kernel", "AUR", "Achievement"],
+    content: `SOLARA KERNEL IS LIVE ON AUR! 🌅⚡\n\nAfter the GREAT KERNEL STRUGGLE of 2026:\n\nPROBLEM:\n- TKG with LLVM + Thin LTO kept crashing PC\n- GCC crashes on kernel 7.x + TKG patches\n- Kernel 6.x is EOL (security risk)\n\nSOLUTION FOUND:\nWe grabbed CachyOS kernel, repackaged with Solara branding, pushed to AUR!\n\nSTATUS:\n- solara-kernel available on AUR for enthusiasts\n- NOT included in ISO — stock Arch kernel ships by default\n- Performance impact on some hardware made it optional\n- Install with: yay -S solara-kernel`
+  },
+  {
+    id: 'solara-born', title: "SOLARA IS BORN (from the ashes of S3RLinux-Atomic) 💀🌅",
+    date: "2026-05-04", author: "Ash", avatar: "🌅", readTime: "3 min read",
+    excerpt: "After S3RLinux-Atomic died to NVIDIA black screens, we built something better. No atomic nonsense. Just Arch.",
+    tags: ["New", "Announcement", "History"],
+    content: `OK THIS IS THE ONE 💀🌅\n\nAfter S3RLinux-Atomic got killed by NVIDIA driver issues...\n\nWHAT KILLED S3RLinux-Atomic:\n- bootc/OSTree complications\n- NVIDIA drivers (the eternal Linux curse)\n- Immutable system breaking in weird ways\n\nTHE SOLUTION: Just use Arch. Plain Arch.\n\nWHY SOLARA:\n- Rolling release\n- Standard installation\n- No atomic/immutable nonsense\n- KDE because we're not animals\n- systemd because we're not that special\n\nTHE NAME:\n"Solara" means solar - the sun. A fresh start. Brighter. Warmer.`
+  },
+  {
+    id: 'github-to-gitlab', title: "GITHUB → GITLAB (The ISO Can't Be 3GB on GitHub) 💀",
+    date: "2026-05-05", author: "Ash", avatar: "🌅", readTime: "2 min read",
+    excerpt: "GitHub releases max out at 2GB. Our ISO is 3.2GB.",
+    tags: ["Infrastructure", "GitLab", "ISO"],
+    content: `POV: You built an ISO and GitHub says "nah" 💀\n\nFACTS:\n- GitHub Releases: Max 2GB\n- Our ISO: 3.2GB (compressed!)\n- GitLab: "No limits, we're vibing"\n\nGitHub Actions builds → GitLab hosts. Permanent downloads, no 90-day expiry.`
+  },
 ]
 
 const navLinks = ['Features', 'Flavors', 'Download', 'Blog', 'FAQ']
@@ -30,7 +54,7 @@ function App() {
 
 function Section({ id, title, children, dark }) {
   return (
-    <section id={id} style={{ padding: '6rem 2rem', background: dark ? colors.dark : 'transparent', position: 'relative', zIndex: 1 }}>
+    <section id={id} style={{ padding: '6rem 2rem', background: dark ? colors.dark : colors.darker, position: 'relative', zIndex: 1 }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         {title && (
           <motion.h2 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
@@ -51,7 +75,6 @@ function HomePage() {
   const [cmd, setCmd] = useState('')
   const cmdRef = useRef(null)
   const { scrollY } = useScroll()
-  const heroScale = useTransform(scrollY, [0, 500], [1, 0.92])
 
   useEffect(() => {
     const cmds = ['sudo pacman -Syu', 'sudo solara-install', 'paru -S solara-kernel', 'neofetch | grep Solara']
@@ -120,7 +143,7 @@ function HomePage() {
       {/* HERO */}
       <motion.section style={{
         minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        textAlign: 'center', padding: '6rem 2rem 4rem', position: 'relative', scale: heroScale, overflow: 'hidden'
+        textAlign: 'center', padding: '6rem 2rem 4rem', position: 'relative', overflow: 'hidden'
       }}>
         {/* Sun glow */}
         <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
