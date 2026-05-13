@@ -9,6 +9,7 @@ sof-firmware
 # Installer
 
 # Boot and filesystem
+edk2-shell
 grub
 efibootmgr
 syslinux
