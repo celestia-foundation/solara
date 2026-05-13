@@ -47,7 +47,7 @@ jobs:
             -v /tmp/pkg-cache:/var/cache/pacman/pkg \
             ghcr.io/archlinux/archlinux:latest \
             bash -c "
-              pacman -Sy --noconfirm archiso &&
+              pacman -Sy --noconfirm archiso grub &&
               mkdir -p /tmp/archiso-work &&
               cp /solara/releng/packages.cinnamon /tmp/packages.x86_64.tmp && cp /tmp/packages.x86_64.tmp /solara/releng/packages.x86_64 &&
               mkarchiso -v -w /tmp/archiso-work -o /iso-out /solara/releng/
