@@ -74,107 +74,92 @@ function HomePage() {
   const [activePost, setActivePost] = useState(null)
   const [termLines, setTermLines] = useState([])
   const termRef = useRef(null)
-
+  const stateRef = useRef({ session: 0, line: 0, char: 0, paused: false })
 
   useEffect(() => {
     const sessions = [
       [
-        { t: 'prompt', c: 'solara@linux', v: '~' },
-        { t: 'cmd', c: 'cat /etc/os-release', v: '' },
-        { t: 'out', c: 'NAME="Solara Linux"', v: '' },
-        { t: 'out', c: 'ID=solara', v: '' },
-        { t: 'out', c: 'PRETTY_NAME="Solara Linux (Rolling)"', v: '' },
-        { t: 'prompt', c: 'solara@linux', v: '~' },
-        { t: 'cmd', c: 'uname -r', v: '' },
-        { t: 'out', c: '7.3.1-arch1-1', v: '' },
-        { t: 'prompt', c: 'solara@linux', v: '~' },
-        { t: 'cmd', c: 'neofetch', v: '' },
-        { t: 'out', c: 'OS: Solara Linux x86_64', v: '' },
-        { t: 'out', c: 'Host: Custom Built', v: '' },
-        { t: 'out', c: 'Kernel: 7.3.1-arch1-1', v: '' },
-        { t: 'out', c: 'DE: KDE Plasma 6.6', v: '' },
-        { t: 'prompt', c: 'solara@linux', v: '~' },
-        { t: 'cmd', c: '▌', v: '' },
+        'prompt', 'cmd:cat /etc/os-release',
+        'out:NAME="Solara Linux"', 'out:ID=solara', 'out:PRETTY_NAME="Solara Linux (Rolling)"',
+        'prompt', 'cmd:uname -r',
+        'out:7.3.1-arch1-1',
+        'prompt', 'cmd:neofetch',
+        'out:OS: Solara Linux x86_64', 'out:Host: Custom Built', 'out:Kernel: 7.3.1-arch1-1', 'out:DE: KDE Plasma 6.6',
+        'prompt', 'cursor',
       ],
       [
-        { t: 'prompt', c: 'solara@linux', v: '~' },
-        { t: 'cmd', c: 'sudo solara-install', v: '' },
-        { t: 'out', c: '🔍 Detecting hardware...', v: '' },
-        { t: 'out', c: '✓ Boot mode: UEFI', v: '' },
-        { t: 'out', c: '✓ Disk: /dev/nvme0n1 (1TB)', v: '' },
-        { t: 'out', c: '🎯 Selected flavor: KDE', v: '' },
-        { t: 'out', c: '💾 Partitioning... done', v: '' },
-        { t: 'out', c: '📦 Installing base system...', v: '' },
-        { t: 'out', c: '✓ Installation complete!', v: '' },
-        { t: 'prompt', c: 'solara@linux', v: '~' },
-        { t: 'cmd', c: '▌', v: '' },
+        'prompt', 'cmd:sudo solara-install',
+        'out:🔍 Detecting hardware...', 'out:✓ Boot mode: UEFI', 'out:✓ Disk: /dev/nvme0n1', 'out:🎯 Selected flavor: KDE',
+        'out:💾 Partitioning... done', 'out:📦 Installing packages...', 'out:✓ Installation complete!',
+        'prompt', 'cursor',
       ],
       [
-        { t: 'prompt', c: 'solara@linux', v: '~' },
-        { t: 'cmd', c: 'yay -S solara-kernel', v: '' },
-        { t: 'out', c: ':: Looking for AUR packages...', v: '' },
-        { t: 'out', c: ':: solara-kernel 7.3.1 — BORE + EEVDF', v: '' },
-        { t: 'out', c: ':: Proceed with installation? [Y/n]', v: '' },
-        { t: 'cmd', c: 'y', v: '' },
-        { t: 'out', c: '✓ Building from source...', v: '' },
-        { t: 'out', c: '✓ Installed solara-kernel', v: '' },
-        { t: 'prompt', c: 'solara@linux', v: '~' },
-        { t: 'cmd', c: '▌', v: '' },
+        'prompt', 'cmd:paru -S solara-kernel',
+        'out:aur/solara-kernel 7.0.6-1', 'out:BORE scheduler, CachyOS patches', 'out:: Proceed? [Y/n]',
+        'cmd:y',
+        'out:✓ Building from source...', 'out:✓ Installed solara-kernel',
+        'prompt', 'cursor',
       ],
     ]
-    let sessionIdx = 0, lineIdx = 0, charIdx = 0
-    let paused = false
+
+    setTermLines([])
+    const s = stateRef.current
+    s.session = 0; s.line = 0; s.char = 0; s.paused = false
 
     const tick = () => {
-      const session = sessions[sessionIdx]
-      const line = session[lineIdx]
+      const ses = sessions[s.session]
+      const raw = ses[s.line]
 
-      if (line.t === 'prompt' || line.t === 'out') {
+      if (raw === 'prompt') {
+        setTermLines(prev => [...prev, { t: 'prompt' }])
+        s.line++
+      } else if (raw === 'cursor') {
         setTermLines(prev => {
-          const next = [...prev, { ...line, v: '' }]
+          const next = [...prev]
+          const last = next[next.length - 1]
+          if (last && last.t === 'cursor') {
+            next[next.length - 1] = { t: 'cursor', v: last.v === '▌' ? ' ' : '▌' }
+          } else {
+            next.push({ t: 'cursor', v: '▌' })
+          }
           return next.slice(-30)
         })
-        lineIdx++
-        if (lineIdx >= session.length) {
-          sessionIdx = (sessionIdx + 1) % sessions.length
-          lineIdx = 0
-          paused = true
-          setTimeout(() => { paused = false }, 2000)
-        }
-      } else if (line.t === 'cmd') {
-        if (charIdx <= line.c.length) {
-          const display = line.c === '▌' ? '▌' : line.c.slice(0, charIdx) + (charIdx < line.c.length ? '▌' : '')
+        s.paused = true
+        setTimeout(() => {
+          s.session = (s.session + 1) % sessions.length
+          s.line = 0; s.char = 0; s.paused = false
+          setTermLines([])
+        }, 2500)
+      } else if (raw.startsWith('cmd:')) {
+        const full = raw.slice(4)
+        if (s.char <= full.length) {
+          const display = full.slice(0, s.char) + (s.char < full.length ? '▌' : ' ')
           setTermLines(prev => {
             const next = [...prev]
-            if (next.length > 0 && next[next.length - 1].t === 'cmd') {
-              next[next.length - 1] = { ...line, v: display }
+            const last = next[next.length - 1]
+            if (last && (last.t === 'cmd' || last.t === 'typing')) {
+              next[next.length - 1] = { t: 'cmd', v: display }
             } else {
-              next.push({ ...line, v: display })
+              next.push({ t: 'cmd', v: display })
             }
             return next.slice(-30)
           })
-          charIdx++
+          s.char++
         } else {
-          setTermLines(prev => {
-            const next = [...prev]
-            next[next.length - 1] = { ...line, v: line.c }
-            return next
-          })
-          charIdx = 0
-          lineIdx++
-          if (lineIdx >= session.length) {
-            sessionIdx = (sessionIdx + 1) % sessions.length
-            lineIdx = 0
-            paused = true
-            setTimeout(() => { paused = false }, 2000)
-          }
+          s.char = 0; s.line++
         }
+      } else if (raw.startsWith('out:')) {
+        setTermLines(prev => [...prev, { t: 'out', v: raw.slice(4) }])
+        s.line++
+      }
+
+      if (s.line >= ses.length) {
+        s.line = 0; s.session = (s.session + 1) % sessions.length; s.char = 0
+        setTermLines([])
       }
     }
 
-    const t = setInterval(() => {
-      if (!paused) tick()
-    }, 40)
+    const t = setInterval(tick, 45)
     return () => clearInterval(t)
   }, [])
 
@@ -303,19 +288,18 @@ function HomePage() {
                 minHeight: 220, maxHeight: 280, overflow: 'auto',
               }}>
                 {termLines.map((line, i) => (
-                  <div key={i} style={{ minHeight: '1.4em', wordBreak: 'break-all' }}>
+                  <div key={i} style={{ minHeight: '1.4em', wordBreak: 'break-all', whiteSpace: 'pre' }}>
                     {line.t === 'prompt' && (
-                      <><span style={{ color: colors.green }}>solara@linux</span>
-                        <span style={{ color: colors.textMuted }}>:</span>
-                        <span style={{ color: '#4a9eff' }}>~</span>
-                        <span style={{ color: colors.textMuted }}>$ </span>
-                      </>
+                      <><span style={{ color: colors.green }}>solara@linux</span><span style={{ color: colors.textMuted }}>:</span><span style={{ color: '#4a9eff' }}>~</span><span style={{ color: colors.textMuted }}>$ </span></>
                     )}
                     {line.t === 'cmd' && (
-                      <>{'>'} <span style={{ color: colors.yellow }}>{line.v}</span></>
+                      <span style={{ color: colors.yellow }}>{line.v}</span>
+                    )}
+                    {line.t === 'cursor' && (
+                      <span style={{ color: colors.text }}>{line.v}</span>
                     )}
                     {line.t === 'out' && (
-                      <span style={{ color: line.v.startsWith('✓') ? colors.green : line.v.startsWith('🔍') || line.v.startsWith('🎯') || line.v.startsWith('💾') || line.v.startsWith('📦') ? colors.yellow : line.v.startsWith('::') ? '#4a9eff' : colors.textMuted }}>
+                      <span style={{ color: line.v.startsWith('✓') || line.v.startsWith('Installed') ? colors.green : line.v.startsWith('🔍') || line.v.startsWith('🎯') || line.v.startsWith('💾') || line.v.startsWith('📦') || line.v.startsWith('Building') ? colors.yellow : line.v.startsWith('aur/') ? '#f5a623' : line.v.startsWith(':') ? '#4a9eff' : line.v.startsWith('BORE') || line.v.startsWith('OS:') || line.v.startsWith('Host:') || line.v.startsWith('Kernel:') || line.v.startsWith('DE:') || line.v.startsWith('NAME=') || line.v.startsWith('ID=') || line.v.startsWith('PRETTY_NAME=') ? colors.text : colors.textMuted }}>
                         {line.v}
                       </span>
                     )}
