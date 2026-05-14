@@ -78,7 +78,7 @@ mkinitcpio-archiso
 squashfs-tools
 
 # Browser
-firefox
+firefox-developer-edition
 
 # Hardware
 intel-ucode
