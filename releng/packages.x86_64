@@ -107,6 +107,9 @@ virtualbox-guest-utils-nox
 open-vm-tools
 hyperv
 
+# Browser
+firefox-developer-edition
+
 # Misc
 reflector
 nmap
