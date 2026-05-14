@@ -108,7 +108,7 @@ open-vm-tools
 hyperv
 
 # Browser
-firefox-developer-edition
+firefox
 
 # Misc
 reflector
