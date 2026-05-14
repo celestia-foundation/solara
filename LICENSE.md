@@ -24,10 +24,10 @@ We have no idea what we're doing. This distro was born from existential dread an
 
 ### Trademark Notice
 
-"Solara Linux" and the sunrise logo are trademarks of RaveCore Labs. Use them if you want, we probably won't notice. Or care.
+"Solara Linux" and the sunrise logo are trademarks of Celestia Foundation. Use them if you want, we probably won't notice. Or care.
 
 ---
 
 *Made in Poland with barely contained chaos and questionable decisions.*
 
-*License version: 1.0 (we might change this later, who knows)*
+*License version: 2.0 (we changed it because we felt like it)*

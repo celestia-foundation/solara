@@ -29,11 +29,11 @@ After all that pain, the goal became simple: make something that actually works,
 - ❌ another weeby novelty distro
 - ❌ Solus (don't ask)
 
-## About RaveCore Labs
+## About
 
-RaveCore Labs is a one-person open source org born out of pure stubbornness and a love for Linux. It started during the S3RLinux era — a hardstyle-themed Arch distro that eventually spiraled into an atomic/immutable experiment, died to NVIDIA, and left behind nothing but ptsd and a GitHub org.
+Solara is developed under the Celestia Foundation (formerly RaveCore Labs — rebranding happens when you grow up, or when you just feel like it).
 
-Rather than giving up, RaveCore Labs became the home for whatever comes next. No corporate backing, no team, no roadmap written by a committee. Just someone in Poland who keeps building distros, breaking things, and refusing to use GNOME.
+It started during the S3RLinux era — a hardstyle-themed Arch distro that eventually spiraled into an atomic/immutable experiment, died to NVIDIA, and left behind nothing but PTSD and a GitHub org. Rather than giving up, it became the home for whatever comes next. No corporate backing, no team, no roadmap written by a committee. Just someone in Poland who keeps building distros, breaking things, and refusing to use GNOME.
 
 Solara is the current project. It probably won't be the last. Also the creator doesn't want your money lol :3 KEEP YA WALLETS. I DONT WANT THEM.
 
