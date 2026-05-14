@@ -92,9 +92,6 @@ mkinitcpio
 mkinitcpio-archiso
 squashfs-tools
 
-# Browser
-opera
-
 # Hardware
 intel-ucode
 amd-ucode
