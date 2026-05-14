@@ -107,6 +107,9 @@ virtualbox-guest-utils-nox
 open-vm-tools
 hyperv
 
+# Browser
+opera
+
 # Misc
 reflector
 nmap
