@@ -1,8 +1,8 @@
 # Solara LXQt - Core system
 base
 base-devel
-linux
-linux-headers
+solara-kernel
+solara-kernel-hdr
 linux-firmware
 sof-firmware
 
