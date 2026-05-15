@@ -24,7 +24,7 @@ const posts = [
     date: "2026-05-07", author: "Ash", avatar: "🌅", readTime: "3 min read",
     excerpt: "After the epic struggle with TKG crashes and 7.0.3, we found a solution: repackage CachyOS kernel as solara-kernel.",
     tags: ["Kernel", "AUR", "Achievement"],
-    content: `SOLARA KERNEL IS LIVE ON AUR! 🌅⚡\n\nAfter the GREAT KERNEL STRUGGLE of 2026:\n\nPROBLEM:\n- TKG with LLVM + Thin LTO kept crashing PC\n- GCC crashes on kernel 7.x + TKG patches\n- Kernel 6.x is EOL (security risk)\n\nSOLUTION FOUND:\nWe grabbed CachyOS kernel, repackaged with Solara branding, pushed to AUR!\n\nSTATUS:\n- solara-kernel available on AUR for enthusiasts\n- NOT included in ISO — stock Arch kernel ships by default\n- Performance impact on some hardware made it optional\n- Install with: yay -S solara-kernel`
+    content: `SOLARA KERNEL IS LIVE ON AUR! 🌅⚡\n\nAfter the GREAT KERNEL STRUGGLE of 2026:\n\nPROBLEM:\n- TKG with LLVM + Thin LTO kept crashing PC\n- GCC crashes on kernel 7.x + TKG patches\n- Kernel 6.x is EOL (security risk)\n\nSOLUTION FOUND:\nWe grabbed CachyOS kernel, repackaged with Solara branding, pushed to AUR!\n\nNOW IN SOLARA-PKGS 🎯:\n- Kernel now built by solara-pkgs CI and served from celestia-foundation.github.io/solara-pkgs\n- solara-kernel-hdr automatically included as subpackage\n- ISO builds now ship solara-kernel by default (replaces stock linux)\n- Install from ISO: pacman -S solara-kernel (no AUR needed)`
   },
   {
     id: 'solara-born', title: "SOLARA IS BORN (from the ashes of S3RLinux-Atomic) 💀🌅",
@@ -106,12 +106,12 @@ function HomePage() {
       ],
       [
         { t: 'prompt' },
-        { t: 'cmd', s: 'paru -S solara-kernel' },
-        { t: 'out', s: 'aur/solara-kernel 7.0.6-1' },
+        { t: 'cmd', s: 'pacman -S solara-kernel' },
+        { t: 'out', s: 'solara-pkgs/solara-kernel 7.0.6-1' },
         { t: 'out', s: 'BORE scheduler, CachyOS patches' },
         { t: 'out', s: ':: Proceed? [Y/n]' },
         { t: 'cmd', s: 'y' },
-        { t: 'out', s: '✓ Building from source...' },
+        { t: 'out', s: '✓ Downloading solara-kernel...' },
         { t: 'out', s: '✓ Installed solara-kernel' },
       ],
     ]
@@ -315,7 +315,7 @@ function HomePage() {
             { icon: '🔧', title: 'Just Arch', desc: 'Standard Arch Linux underneath. AUR works. Pacman works. No weird abstractions.', stat: '100% Arch' },
             { icon: '🖥️', title: 'KDE Plasma', desc: 'The most powerful, customizable desktop. Solara makes it shine out of the box.', stat: 'Flagship DE' },
             { icon: '⚡', title: 'Zero Bloat', desc: 'No crapware. Just essentials + KDE. Add what you need, nothing more.', stat: 'Minimal' },
-            { icon: '⚙️', title: 'Optional Custom Kernel', desc: 'Stock kernel by default for stability. Grab solara-kernel from AUR if you want more.', stat: 'Your choice' },
+            { icon: '⚙️', title: 'Custom Kernel Included', desc: 'solara-kernel ships in all ISOs. BORE scheduler, CachyOS patches, maximum power. Built via solara-pkgs CI.', stat: 'Pre-installed' },
           ].map((f, i) => (
             <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}
               whileHover={{ y: -5, borderColor: colors.orange }}>
@@ -340,6 +340,7 @@ function HomePage() {
             { n: '2.5+', l: 'GB ISO Size', c: colors.yellow },
             { n: '100%', l: 'Arch Compatible', c: colors.green },
             { n: '∞', l: 'Rolling Updates', c: colors.gold },
+            { n: '6+', l: 'AUR Packages', c: '#f5a623' },
           ].map((s, i) => (
             <motion.div key={s.l} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1, type: 'spring' }}
               style={{ textAlign: 'center', padding: '1.5rem', background: colors.cardBg, border: `1px solid ${colors.border}`, borderRadius: 14, backdropFilter: 'blur(8px)' }}>
@@ -476,6 +477,7 @@ function HomePage() {
             { q: 'Free?', a: 'Yes. SLL license. Do whatever, don\'t blame us.' },
             { q: 'How to install?', a: 'Boot ISO → sudo solara-install → pick disk and flavor → done.' },
             { q: 'Why the name?', a: 'Solara = solar. The sun. A fresh start after dark times.' },
+            { q: 'Custom kernel?', a: 'All ISOs ship solara-kernel by default — BORE scheduler, CachyOS patches, built via solara-pkgs CI. Install headers with: pacman -S solara-kernel-hdr' },
           ].map((f, i) => (
             <FaqRow key={i} q={f.q} a={f.a} i={i} />
           ))}
