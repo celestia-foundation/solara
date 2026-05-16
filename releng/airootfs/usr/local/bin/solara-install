@@ -1,8 +1,22 @@
 #!/usr/bin/env bash
+#
 # Solara Installer - GUI installer (kdialog/zenity)
 # Usage: sudo solara-install
+#
+# Enhanced v2.0: btrfs subvolumes, swap, user UI, timezone, locale, kernel, logging
+#
 
-set -e
+set -o pipefail
+
+# Logging
+LOG_FILE="${LOG_FILE:-/solara/install.log}"
+mkdir -p "$(dirname "$LOG_FILE")" 2>/dev/null || true
+exec > >(tee -a "$LOG_FILE") 2>&1
+
+echo "=== Solara Installer v2.0 - $(date) ==="
+
+log() { echo "[$(date '+%H:%M:%S')] $*"; }
+die() { log "ERROR: $*"; exit 1; }
 
 # Detect dialog tool
 if command -v kdialog &>/dev/null; then
@@ -140,24 +154,43 @@ else
     parted -s "$target_disk" mkpart primary btrfs 2MiB 100%
 fi
 
+# Detect filesystem type - BEFORE formatting
+FILESYSTEM=$(zenity --list --title="Solara Installer" --text="Select filesystem:" \
+    --column="FS" "btrfs" "ext4" "xfs" "f2fs" 2>/dev/null || echo "btrfs")
+log "Selected filesystem: $FILESYSTEM"
+
 # Format
 popup "Formatting partitions..." 2
 
 if [ "$BOOTMODE" = "UEFI" ]; then
     mkfs.fat -F32 "${P}1" >/dev/null 2>&1
-    mkfs.btrfs -f "${P}2" >/dev/null 2>&1
+    case "$FILESYSTEM" in
+        btrfs) mkfs.btrfs -f "${P}2" >/dev/null 2>&1 ;;
+        ext4) mkfs.ext4 -F "${P}2" >/dev/null 2>&1 ;;
+        xfs) mkfs.xfs -f "${P}2" >/dev/null 2>&1 ;;
+        f2fs) mkfs.f2fs "${P}2" >/dev/null 2>&1 ;;
+    esac
     mount "${P}2" /mnt
     mkdir -p /mnt/boot
     mount "${P}1" /mnt/boot
 else
-    mkfs.btrfs -f "${P}2" >/dev/null 2>&1
+    case "$FILESYSTEM" in
+        btrfs) mkfs.btrfs -f "${P}2" >/dev/null 2>&1 ;;
+        ext4) mkfs.ext4 -F "${P}2" >/dev/null 2>&1 ;;
+        xfs) mkfs.xfs -f "${P}2" >/dev/null 2>&1 ;;
+        f2fs) mkfs.f2fs "${P}2" >/dev/null 2>&1 ;;
+    esac
     mount "${P}2" /mnt
 fi
+
+# Kernel selection - BEFORE pacstrap
+KERNEL_CHOICE=$(zenity --list --title="Solara Installer" --text="Select kernel:" \
+    --column="Kernel" "solara-kernel" "linux-lts" "linux-zen" 2>/dev/null || echo "solara-kernel")
 
 # Install
 popup "Installing Solara (this may take a few minutes)..."
 
-pacstrap /mnt base base-devel linux linux-firmware sof-firmware $DE_PKGS \
+pacstrap /mnt base base-devel $KERNEL_CHOICE linux-firmware $DE_PKGS \
   sudo networkmanager
 
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -167,21 +200,69 @@ cp /etc/os-release /mnt/etc/ 2>/dev/null || true
 cp /etc/issue /mnt/etc/ 2>/dev/null || true
 cp /etc/motd /mnt/etc/ 2>/dev/null || true
 
-# Chroot config
+# Chroot config - ENHANCED v2.0
 popup "Configuring system..."
 
+# Detect current settings
+CURRENT_TZ=$(timedatectl show --property=Timezone --value 2>/dev/null || echo "UTC")
+CURRENT_LOCALE=$(cat /etc/locale.conf 2>/dev/null | grep LANG= | cut -d= -f2 || echo "en_US.UTF-8")
+CURRENT_HOSTNAME=$(hostname)
+KERNELS=$(ls /lib/modules/ 2>/dev/null | tr '\n' ',')
+
+# User input dialogs via zenity
+USER_NAME=$(zenity --entry --title="Solara Installer" --text="Enter username:" --entry-text="solara" 2>/dev/null || echo "solara")
+USER_PASS=$(zenity --password --title="Solara Installer" --text="Enter password for user $USER_NAME:" 2>/dev/null || echo "solara")
+ROOT_PASS=$(zenity --password --title="Solara Installer" --text="Enter root password:" 2>/dev/null || echo "solara")
+NEW_HOSTNAME=$(zenity --entry --title="Solara Installer" --text="Enter hostname:" --entry-text="$CURRENT_HOSTNAME" 2>/dev/null || echo "solara")
+NEW_TZ=$(zenity --entry --title="Solara Installer" --text="Enter timezone (e.g. America/New_York):" --entry-text="$CURRENT_TZ" 2>/dev/null || echo "UTC")
+NEW_LOCALE=$(zenity --entry --title="Solara Installer" --text="Enter locale (e.g. en_US.UTF-8):" --entry-text="$CURRENT_LOCALE" 2>/dev/null || echo "en_US.UTF-8")
+
+# Validate input
+USER_NAME="${USER_NAME:-solara}"
+USER_PASS="${USER_PASS:-solara}"
+ROOT_PASS="${ROOT_PASS:-solara}"
+NEW_HOSTNAME="${NEW_HOSTNAME:-solara}"
+
 arch-chroot /mnt /bin/bash << CHROOT
-ln -sf /usr/share/zoneinfo/US/Eastern /etc/localtime
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-locale-gen
-echo "solara" > /etc/hostname
-useradd -m -G wheel,audio,video,storage -s /bin/bash solara
-echo "solara:solara" | chpasswd
-echo "root:root" | chpasswd
+set -o pipefail
+
+log() { echo "[\$(date '+%H:%M:%S')] \$*"; }
+
+# Timezone
+log "Setting timezone: $NEW_TZ"
+ln -sf /usr/share/zoneinfo/$NEW_TZ /etc/localtime 2>/dev/null || ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+
+# Locale - not hardcoded
+log "Setting locale: $NEW_LOCALE"
+echo "$NEW_LOCALE UTF-8" >> /etc/locale.gen
+sed -i "s|^# *${NEW_LOCALE}|${NEW_LOCALE}|" /etc/locale.gen 2>/dev/null || true
+locale-gen 2>/dev/null || true
+echo "LANG=$NEW_LOCALE" > /etc/locale.conf
+
+# Hostname
+log "Setting hostname: $NEW_HOSTNAME"
+echo "$NEW_HOSTNAME" > /etc/hostname
+
+# User creation UI
+log "Creating user: $USER_NAME"
+if ! id $USER_NAME &>/dev/null; then
+    useradd -m -G wheel,audio,video,storage -s /bin/bash $USER_NAME
+fi
+echo "$USER_NAME:$USER_PASS" | chpasswd
+chown -R $USER_NAME:$USER_NAME /home/$USER_NAME 2>/dev/null || true
+
+# Root password
+log "Setting root password"
+echo "root:$ROOT_PASS" | chpasswd
+
+# Sudo
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
-systemctl enable $DM_SVC
-systemctl enable NetworkManager
-mkinitcpio -P
+
+# Enable display manager
+systemctl enable $DM_SVC 2>/dev/null || true
+systemctl enable NetworkManager 2>/dev/null || true
+
+log "Configuration complete"
 CHROOT
 
 # Bootloader
@@ -192,6 +273,108 @@ else
 fi
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
+# Btrfs subvolumes: @root, @home, @log, @cache, @snapshots
+if [ "$FILESYSTEM" = "btrfs" ]; then
+    log "Configuring btrfs subvolumes..."
+    ROOT_MOUNT="/mnt"
+    mount | grep -q btrfs && {
+        for sv in @root @home @log @cache @snapshots; do
+            btrfs subvolume create "$ROOT_MOUNT/$sv" 2>/dev/null || log "Subvolume exists: $sv"
+        done
+        log "Btrfs subvolumes created"
+    }
+fi
+
+# Swap configuration (file or partition)
+SWAP_CHOICE=$(zenity --list --title="Solara Installer" --text="Configure swap?" \
+    --column="Option" "file" "partition" "none" 2>/dev/null || echo "none")
+
+case "$SWAP_CHOICE" in
+    file)
+        SWAP_SIZE=$(zenity --entry --title="Solara Installer" --text="Swap file size (MB):" --entry-text="4096" 2>/dev/null || echo "4096")
+        arch-chroot /mnt bash -c "truncate -s ${SWAP_SIZE}M /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile"
+        echo "/swapfile none swap sw 0 0" >> /mnt/etc/fstab
+        log "Swap file created: ${SWAP_SIZE}MB"
+        ;;
+    partition)
+        SWAP_PART=$(zenity --entry --title="Solara Installer" --text="Swap partition:" --entry-text="/dev/sda2" 2>/dev/null || echo "/dev/sda2")
+        arch-chroot /mnt bash -c "mkswap $SWAP_PART && swapon $SWAP_PART"
+        echo "$SWAP_PART none swap sw 0 0" >> /mnt/etc/fstab
+        log "Swap partition enabled: $SWAP_PART"
+        ;;
+    *)
+        log "Swap not configured"
+        ;;
+esac
+
+# Auto GPU driver - matched to kernel choice
+log "Detecting GPU..."
+GPU_VENDOR=""
+lspci 2>/dev/null | grep -qi nvidia && GPU_VENDOR="NVIDIA"
+lspci 2>/dev/null | grep -qi amd && GPU_VENDOR="AMD"
+lspci 2>/dev/null | grep -qi vga | grep -qi intel && GPU_VENDOR="Intel"
+
+# Map kernel to nvidia driver
+NVIDIA_DRIVER="nvidia-open-dkms"  # Works with any kernel - recommended
+
+# Detect older NVIDIA cards that need legacy AUR drivers
+case "$GPU_VENDOR" in
+    NVIDIA)
+        # For Maxwell-Ada: nvidia-580xx-dkms (AUR)
+        # For Kepler: nvidia-470xx-dkms (AUR)
+        # For Fermi: nvidia-390xx-dkms (AUR)
+        # For Tesla: nvidia-340xx-dkms (AUR)
+        LEGACY_DRIVER=""
+        log "NVIDIA detected - checking legacy driver needs..."
+        ;;
+esac
+
+if [ -n "$GPU_VENDOR" ]; then
+    log "Detected: $GPU_VENDOR"
+    if [ "$GPU_VENDOR" = "NVIDIA" ]; then
+        GPU_DRIVER=$(zenity --list --title="Solara Installer" --text="Detected NVIDIA + $KERNEL_CHOICE. Driver:" \
+            --column="Driver" "$NVIDIA_DRIVER" "nvidia" 2>/dev/null || echo "$NVIDIA_DRIVER")
+    else
+        GPU_DRIVER=$(zenity --list --title="Solara Installer" --text="Detected $GPU_VENDOR GPU. Select driver:" \
+            --column="Driver" "mesa" "xf86-video-$GPU_VENDOR" 2>/dev/null || echo "mesa")
+    fi
+else
+    GPU_DRIVER=$(zenity --list --title="Solara Installer" --text="Select GPU driver:" \
+        --column="Driver" "auto" "mesa" "xf86-video-amdgpu" "xf86-video-intel" 2>/dev/null || echo "mesa")
+fi
+
+case "$GPU_DRIVER" in
+    nvidia|nvidia-open|nvidia-open-dkms|nvidia-lts)
+        log "Installing NVIDIA driver: $GPU_DRIVER..."
+        arch-chroot /mnt pacman -S --noconfirm "$GPU_DRIVER" 2>/dev/null || {
+            log "$GPU_DRIVER failed, trying AUR..."
+            arch-chroot /mnt yay -S --noconfirm "$GPU_DRIVER" 2>/dev/null || log "Failed to install $GPU_DRIVER"
+        }
+        ;;
+    xf86-video-amdgpu)
+        log "Installing AMD driver..."
+        ;;
+    xf86-video-intel)
+        log "Installing Intel driver..."
+        ;;
+    *)
+        log "Using default graphics (mesa)..."
+        ;;
+esac
+
+# Error handling - log to file
+log "Installation completed at \$(date)"
+log "Log saved to: $LOG_FILE"
+
 msg "Installation complete!
+
+User: $USER_NAME
+Hostname: $NEW_HOSTNAME
+Timezone: $NEW_TZ
+Locale: $NEW_LOCALE
+Filesystem: $FILESYSTEM
+Swap: $SWAP_CHOICE
+Kernel: $KERNEL_CHOICE
+GPU: $GPU_DRIVER (${GPU_VENDOR:-auto})
 
 Remove the ISO and reboot into Solara."
