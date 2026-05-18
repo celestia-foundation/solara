@@ -11,7 +11,7 @@
 [![Build Status](https://github.com/celestia-foundation/solara/actions/workflows/build-pantheon.yml/badge.svg)](https://github.com/celestia-foundation/solara/actions)
 [![Build Status](https://github.com/celestia-foundation/solara/actions/workflows/build-cinnamon.yml/badge.svg)](https://github.com/celestia-foundation/solara/actions)
 
-[![Discord](https://img.shields.io/discord/1346516980419854468?logo=discord&logoColor=white&label=Discord&color=5865F2)](https://discord.gg/8NnnJuC8KP)
+[![Discord](https://img.shields.io/badge/Chat_on_Discord-5865F2?logo=discord&logoColor=white)](https://discord.gg/8NnnJuC8KP)
 
 Solara is a rolling Arch-based distro that actually gives a damn about how it looks. Elegant by default, not by accident. systemd, glibc, no atomic nonsense.
 
