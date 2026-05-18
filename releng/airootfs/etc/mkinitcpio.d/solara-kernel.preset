@@ -1,0 +1,7 @@
+# this is an try to fix the kernel since its not the vm drivers fault.
+
+PRESETS=('archiso')
+
+ALL_kver='/boot/vmlinuz-solara-kernel'
+archiso_config='/etc/mkinitcpio.conf.d/archiso.conf'
+archiso_image='/boot/initramfs-solara-kernel.img'
