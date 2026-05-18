@@ -64,6 +64,21 @@ done
 systemctl enable NetworkManager 2>/dev/null || true
 systemctl enable NetworkManager-wait-online 2>/dev/null || true
 
-# Solara branding already in /usr/share/backgrounds via airootfs
+# Set default KDE wallpaper for live user
+mkdir -p /home/solara/.config
+cat > /home/solara/.config/plasma-org.kde.plasma.desktop-appletsrc << 'EOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/backgrounds/solara-branding.png
+FillMode=2
+EOF
+chown -R solara:solara /home/solara/.config
+
+# System-wide KDE wallpaper default for new users
+mkdir -p /etc/xdg
+cat > /etc/xdg/plasma-org.kde.plasma.desktop-appletsrc << 'EOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/backgrounds/solara-branding.png
+FillMode=2
+EOF
 
 echo "=== Solara customization complete ==="

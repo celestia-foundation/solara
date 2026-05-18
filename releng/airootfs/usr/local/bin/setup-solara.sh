@@ -62,6 +62,23 @@ done
 systemctl enable NetworkManager 2>/dev/null || true
 systemctl enable NetworkManager-wait-online 2>/dev/null || true
 
+# Set default KDE wallpaper for solara user
+mkdir -p /home/solara/.config
+cat > /home/solara/.config/plasma-org.kde.plasma.desktop-appletsrc << 'EOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/backgrounds/solara-branding.png
+FillMode=2
+EOF
+chown -R solara:solara /home/solara/.config 2>/dev/null || true
+
+# System-wide KDE wallpaper default
+mkdir -p /etc/xdg
+cat > /etc/xdg/plasma-org.kde.plasma.desktop-appletsrc << 'EOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/backgrounds/solara-branding.png
+FillMode=2
+EOF
+
 # Set root password to "solara" for live session
 echo "root:solara" | chpasswd
 

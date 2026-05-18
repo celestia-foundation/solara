@@ -302,12 +302,29 @@ fi
 if [ -f /boot/grub/splash.png ]; then
     echo 'GRUB_BACKGROUND=/boot/grub/splash.png' >> /etc/default/grub
 fi
+# System-wide KDE wallpaper default
+mkdir -p /etc/xdg
+cat > /etc/xdg/plasma-org.kde.plasma.desktop-appletsrc << 'KDECFG'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/backgrounds/solara-branding.png
+FillMode=2
+KDECFG
+
 # SDDM branding
 mkdir -p /etc/sddm.conf.d
-cat > /etc/sddm.conf.d/solara-branding.conf << 'SDDMCFG'
+    cat > /etc/sddm.conf.d/solara-branding.conf << 'SDDMCFG'
 [Theme]
 Current=breeze
 SDDMCFG
+
+# Set default KDE wallpaper for user
+mkdir -p /home/$USER_NAME/.config
+cat > /home/$USER_NAME/.config/plasma-org.kde.plasma.desktop-appletsrc << KDECFG
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/backgrounds/solara-branding.png
+FillMode=2
+KDECFG
+chown -R $USER_NAME:$USER_NAME /home/$USER_NAME/.config 2>/dev/null || true
 
 log "Configuration complete"
 CHROOT
