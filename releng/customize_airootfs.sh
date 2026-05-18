@@ -56,8 +56,13 @@ fi
 systemctl set-default graphical.target 2>/dev/null ||
     ln -sf /usr/lib/systemd/system/graphical.target /etc/systemd/system/default.target
 
-# Enable NetworkManager
+# NetworkManager - disable conflicting services first
+for svc in systemd-networkd systemd-networkd-wait-online systemd-resolved; do
+    systemctl disable "$svc" 2>/dev/null || true
+    systemctl mask "$svc" 2>/dev/null || true
+done
 systemctl enable NetworkManager 2>/dev/null || true
+systemctl enable NetworkManager-wait-online 2>/dev/null || true
 
 # Copy Solara branding
 if [ -f /ctx/solara-branding.png ]; then

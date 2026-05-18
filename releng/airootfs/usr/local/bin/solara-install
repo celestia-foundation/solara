@@ -82,6 +82,13 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
+# Check internet connectivity
+if ! ping -c 1 -W 3 archlinux.org &>/dev/null && \
+   ! ping -c 1 -W 3 github.com &>/dev/null; then
+    sorry "No internet connection detected.\n\nThe installer needs internet to download packages.\n\nTry:\n  - Plug in an Ethernet cable\n  - Run 'nmtui' to connect to Wi-Fi\n  - Check 'ip link' for interface status"
+    exit 1
+fi
+
 # Detect boot mode
 if [ -d /sys/firmware/efi ]; then
     BOOTMODE="UEFI"
@@ -200,10 +207,21 @@ pacstrap /mnt base base-devel $KERNEL_CHOICE linux-firmware $DE_PKGS \
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Copy branding
+# Inject Solara branding
 cp /etc/os-release /mnt/etc/ 2>/dev/null || true
 cp /etc/issue /mnt/etc/ 2>/dev/null || true
 cp /etc/motd /mnt/etc/ 2>/dev/null || true
+
+# Copy Solara background/wallpaper to installed system
+mkdir -p /mnt/usr/share/backgrounds 2>/dev/null || true
+for img in solara-branding solara solara-wallpaper default; do
+    for ext in png jpg jpeg; do
+        if [ -f "/usr/share/backgrounds/$img.$ext" ]; then
+            cp "/usr/share/backgrounds/$img.$ext" /mnt/usr/share/backgrounds/
+            break 2
+        fi
+    done
+done
 
 # Chroot config - ENHANCED v2.0
 popup "Configuring system..."
@@ -266,6 +284,24 @@ echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 # Enable display manager
 systemctl enable $DM_SVC 2>/dev/null || true
 systemctl enable NetworkManager 2>/dev/null || true
+
+# Inject Solara branding
+if [ -f /usr/share/backgrounds/solara-branding.png ]; then
+    mkdir -p /usr/share/backgrounds
+    cp /usr/share/backgrounds/solara-branding.png /usr/share/backgrounds/
+    # Use as GRUB background
+    cp /usr/share/backgrounds/solara-branding.png /boot/grub/splash.png 2>/dev/null || true
+fi
+# GRUB background config
+if [ -f /boot/grub/splash.png ]; then
+    echo 'GRUB_BACKGROUND=/boot/grub/splash.png' >> /etc/default/grub
+fi
+# SDDM branding
+mkdir -p /etc/sddm.conf.d
+cat > /etc/sddm.conf.d/solara-branding.conf << 'SDDMCFG'
+[Theme]
+Current=breeze
+SDDMCFG
 
 log "Configuration complete"
 CHROOT
