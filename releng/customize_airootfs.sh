@@ -28,17 +28,36 @@ mkdir -p /home/solara
 chown -R solara:solara /home/solara
 
 # Enable display manager for autologin
-for dm in plasma-login-manager sddm lightdm gdm; do
+DM_ENABLED=""
+for dm in sddm plasma-login-manager lightdm gdm; do
     if [ -f "/usr/lib/systemd/system/$dm.service" ]; then
-        systemctl enable "$dm"
+        systemctl enable "$dm" 2>/dev/null || true
+        DM_ENABLED="$dm"
         echo "Enabled display manager: $dm"
         break
     fi
 done
-systemctl set-default graphical.target
+
+# Ensure display-manager.service alias exists (graphical.target wants it)
+if [ -n "$DM_ENABLED" ]; then
+    if [ ! -L /etc/systemd/system/display-manager.service ]; then
+        ln -sf "/usr/lib/systemd/system/$DM_ENABLED.service" /etc/systemd/system/display-manager.service
+        echo "Created display-manager.service -> $DM_ENABLED.service"
+    fi
+    # Also drop into graphical.target.wants as belt-and-suspenders
+    mkdir -p /etc/systemd/system/graphical.target.wants
+    if [ ! -L "/etc/systemd/system/graphical.target.wants/$DM_ENABLED.service" ]; then
+        ln -sf "/usr/lib/systemd/system/$DM_ENABLED.service" \
+               "/etc/systemd/system/graphical.target.wants/$DM_ENABLED.service"
+    fi
+fi
+
+# Switch to graphical target (fall back to manual symlink if systemctl chroot-fails)
+systemctl set-default graphical.target 2>/dev/null ||
+    ln -sf /usr/lib/systemd/system/graphical.target /etc/systemd/system/default.target
 
 # Enable NetworkManager
-systemctl enable NetworkManager
+systemctl enable NetworkManager 2>/dev/null || true
 
 # Copy Solara branding
 if [ -f /ctx/solara-branding.png ]; then
