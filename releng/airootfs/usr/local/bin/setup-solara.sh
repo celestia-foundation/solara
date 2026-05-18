@@ -20,6 +20,11 @@ if ! id solara &>/dev/null; then
     chown -R solara:solara /home/solara
 fi
 
+# Sudoers - wheel group
+mkdir -p /etc/sudoers.d
+echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/10-solara
+chmod 440 /etc/sudoers.d/10-solara
+
 # Enable display manager
 for dm in plasma-login-manager lightdm sddm gdm; do
     if [ -f "/usr/lib/systemd/system/$dm.service" ]; then

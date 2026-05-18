@@ -72,6 +72,11 @@ pick_flavor() {
     esac
 }
 
+if [[ -z "$DISPLAY" && -z "$WAYLAND_DISPLAY" ]]; then
+    echo "ERROR: No display detected. Please run 'startplasma' from the login prompt first."
+    exit 1
+fi
+
 if [[ $EUID -ne 0 ]]; then
     sorry "This script must be run as root.\n\nsudo solara-install"
     exit 1

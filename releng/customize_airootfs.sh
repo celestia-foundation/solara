@@ -18,12 +18,17 @@ if ! id solara &>/dev/null; then
     echo "solara:solara" | chpasswd
 fi
 
+# Sudoers - wheel group
+mkdir -p /etc/sudoers.d
+echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/10-solara
+chmod 440 /etc/sudoers.d/10-solara
+
 # Make solara home directory
 mkdir -p /home/solara
 chown -R solara:solara /home/solara
 
 # Enable display manager for autologin
-for dm in plasmalogin lightdm sddm gdm; do
+for dm in plasma-login-manager sddm lightdm gdm; do
     if [ -f "/usr/lib/systemd/system/$dm.service" ]; then
         systemctl enable "$dm"
         echo "Enabled display manager: $dm"
