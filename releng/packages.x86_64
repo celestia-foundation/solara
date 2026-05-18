@@ -103,6 +103,7 @@ ddrescue
 
 # Virtualization support
 qemu-guest-agent
+spice-vdagent
 virtualbox-guest-utils-nox
 open-vm-tools
 hyperv

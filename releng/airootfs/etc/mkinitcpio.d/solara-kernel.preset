@@ -1,4 +1,4 @@
-# this is an try to fix the kernel since its not the vm drivers fault.
+# solara-kernel preset — virtio-gpu forced in MODULES for VM /dev/dri support
 
 PRESETS=('archiso')
 
