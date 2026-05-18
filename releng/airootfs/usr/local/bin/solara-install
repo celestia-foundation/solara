@@ -228,16 +228,9 @@ cp /etc/os-release /mnt/etc/ 2>/dev/null || true
 cp /etc/issue /mnt/etc/ 2>/dev/null || true
 cp /etc/motd /mnt/etc/ 2>/dev/null || true
 
-# Copy Solara background/wallpaper to installed system
+# Copy Solara wallpapers to installed system
 mkdir -p /mnt/usr/share/backgrounds 2>/dev/null || true
-for img in solara-branding solara solara-wallpaper default; do
-    for ext in png jpg jpeg; do
-        if [ -f "/usr/share/backgrounds/$img.$ext" ]; then
-            cp "/usr/share/backgrounds/$img.$ext" /mnt/usr/share/backgrounds/
-            break 2
-        fi
-    done
-done
+cp /usr/share/backgrounds/solara-*.png /mnt/usr/share/backgrounds/ 2>/dev/null || true
 
 # Chroot config - ENHANCED v2.0
 popup "Configuring system..."
