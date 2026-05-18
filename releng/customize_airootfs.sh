@@ -64,9 +64,6 @@ done
 systemctl enable NetworkManager 2>/dev/null || true
 systemctl enable NetworkManager-wait-online 2>/dev/null || true
 
-# Copy Solara branding
-if [ -f /ctx/solara-branding.png ]; then
-    cp /ctx/solara-branding.png /usr/share/backgrounds/
-fi
+# Solara branding already in /usr/share/backgrounds via airootfs
 
 echo "=== Solara customization complete ==="
