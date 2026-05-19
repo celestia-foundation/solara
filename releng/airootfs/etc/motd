@@ -6,6 +6,13 @@
   systemd | glibc | KDE-first
 ═══════════════════════════════════════════════
 
+   Born from the ashes of:
+     + moonlightOS v4-v7 (rip)
+     + S3RLinux (archived, let it die)
+     + S3RLinux-Atomic (killed by NVIDIA)
+
+   We don't talk about S3RLinux-Atomic.
+
    To install : sudo solara-install
    Wi-Fi      : nmtui
    Desktop    : SDDM (auto-login as 'solara')
