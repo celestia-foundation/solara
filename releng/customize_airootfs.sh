@@ -64,21 +64,46 @@ done
 systemctl enable NetworkManager 2>/dev/null || true
 systemctl enable NetworkManager-wait-online 2>/dev/null || true
 
-# Set default KDE wallpaper for live user
-mkdir -p /home/solara/.config
-cat > /home/solara/.config/plasma-org.kde.plasma.desktop-appletsrc << 'EOF'
-[Containments][1][Wallpaper][org.kde.image][General]
-Image=file:///usr/share/backgrounds/solara-branding.png
-FillMode=2
-EOF
-chown -R solara:solara /home/solara/.config
-
-# System-wide KDE wallpaper default for new users
+# System-wide wallpaper defaults for all DEs
+# KDE
 mkdir -p /etc/xdg
 cat > /etc/xdg/plasma-org.kde.plasma.desktop-appletsrc << 'EOF'
 [Containments][1][Wallpaper][org.kde.image][General]
 Image=file:///usr/share/backgrounds/solara-branding.png
 FillMode=2
 EOF
+# LXQt (via skel for new users)
+mkdir -p /etc/skel/.config/pcmanfm-qt/lxqt
+cat > /etc/skel/.config/pcmanfm-qt/lxqt/settings.conf << 'EOF'
+[Desktop]
+Wallpaper=/usr/share/backgrounds/solara-branding.png
+WallpaperMode=stretch
+EOF
+# Cinnamon/Pantheon (gsettings override)
+mkdir -p /usr/share/glib-2.0/schemas
+cat > /usr/share/glib-2.0/schemas/90_solara-wallpaper.gschema.override << 'EOF'
+[org.cinnamon.desktop.background]
+picture-uri='file:///usr/share/backgrounds/solara-branding.png'
+[org.gnome.desktop.background]
+picture-uri='file:///usr/share/backgrounds/solara-branding.png'
+EOF
+glib-compile-schemas /usr/share/glib-2.0/schemas/ 2>/dev/null || true
+
+# Set default wallpaper for live user (all DE configs)
+mkdir -p /home/solara/.config
+# KDE
+cat > /home/solara/.config/plasma-org.kde.plasma.desktop-appletsrc << 'EOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/backgrounds/solara-branding.png
+FillMode=2
+EOF
+# LXQt
+mkdir -p /home/solara/.config/pcmanfm-qt/lxqt
+cat > /home/solara/.config/pcmanfm-qt/lxqt/settings.conf << 'EOF'
+[Desktop]
+Wallpaper=/usr/share/backgrounds/solara-branding.png
+WallpaperMode=stretch
+EOF
+chown -R solara:solara /home/solara/.config
 
 echo "=== Solara customization complete ==="

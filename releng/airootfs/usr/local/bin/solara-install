@@ -302,28 +302,61 @@ fi
 if [ -f /boot/grub/splash.png ]; then
     echo 'GRUB_BACKGROUND=/boot/grub/splash.png' >> /etc/default/grub
 fi
-# System-wide KDE wallpaper default
+# System-wide wallpaper defaults
+# KDE
 mkdir -p /etc/xdg
 cat > /etc/xdg/plasma-org.kde.plasma.desktop-appletsrc << 'KDECFG'
 [Containments][1][Wallpaper][org.kde.image][General]
 Image=file:///usr/share/backgrounds/solara-branding.png
 FillMode=2
 KDECFG
+# LXQt (via skel for new users)
+mkdir -p /etc/skel/.config/pcmanfm-qt/lxqt
+cat > /etc/skel/.config/pcmanfm-qt/lxqt/settings.conf << 'LXQTCFG'
+[Desktop]
+Wallpaper=/usr/share/backgrounds/solara-branding.png
+WallpaperMode=stretch
+LXQTCFG
+# Cinnamon/Pantheon (gsettings override)
+mkdir -p /usr/share/glib-2.0/schemas
+cat > /usr/share/glib-2.0/schemas/90_solara-wallpaper.gschema.override << 'GLIBCFG'
+[org.cinnamon.desktop.background]
+picture-uri='file:///usr/share/backgrounds/solara-branding.png'
+[org.gnome.desktop.background]
+picture-uri='file:///usr/share/backgrounds/solara-branding.png'
+GLIBCFG
+glib-compile-schemas /usr/share/glib-2.0/schemas/ 2>/dev/null || true
 
 # SDDM branding
 mkdir -p /etc/sddm.conf.d
-    cat > /etc/sddm.conf.d/solara-branding.conf << 'SDDMCFG'
+cat > /etc/sddm.conf.d/solara-branding.conf << 'SDDMCFG'
 [Theme]
 Current=breeze
 SDDMCFG
 
-# Set default KDE wallpaper for user
+# Set default wallpaper per flavor
 mkdir -p /home/$USER_NAME/.config
-cat > /home/$USER_NAME/.config/plasma-org.kde.plasma.desktop-appletsrc << KDECFG
+case "$flavor" in
+    KDE)
+        cat > /home/$USER_NAME/.config/plasma-org.kde.plasma.desktop-appletsrc << KDECFG
 [Containments][1][Wallpaper][org.kde.image][General]
 Image=file:///usr/share/backgrounds/solara-branding.png
 FillMode=2
 KDECFG
+        ;;
+    LXQt)
+        mkdir -p /home/$USER_NAME/.config/pcmanfm-qt/lxqt
+        cat > /home/$USER_NAME/.config/pcmanfm-qt/lxqt/settings.conf << LXQTCFG
+[Desktop]
+Wallpaper=/usr/share/backgrounds/solara-branding.png
+WallpaperMode=stretch
+LXQTCFG
+        ;;
+    Cinnamon|Pantheon)
+        # System-wide gschema override applies on first login
+        ;;
+esac
+esac
 chown -R $USER_NAME:$USER_NAME /home/$USER_NAME/.config 2>/dev/null || true
 
 log "Configuration complete"
