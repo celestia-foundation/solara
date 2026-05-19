@@ -101,13 +101,7 @@ fi
 systemctl set-default graphical.target 2>/dev/null ||
     ln -sf /usr/lib/systemd/system/graphical.target /etc/systemd/system/default.target
 
-# NetworkManager - disable conflicting services first
-for svc in systemd-networkd systemd-networkd-wait-online systemd-resolved; do
-    systemctl disable "$svc" 2>/dev/null || true
-    systemctl mask "$svc" 2>/dev/null || true
-done
-systemctl enable NetworkManager 2>/dev/null || true
-systemctl enable NetworkManager-wait-online 2>/dev/null || true
+# NetworkManager is enabled statically in multi-user.target.wants
 
 # System-wide wallpaper defaults for all DEs
 # KDE
