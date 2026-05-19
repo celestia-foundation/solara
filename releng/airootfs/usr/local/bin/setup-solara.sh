@@ -27,6 +27,7 @@ chmod 440 /etc/sudoers.d/10-solara
 
 # Enable display manager
 DM_ENABLED=""
+DM_SESSION=""
 for dm in sddm plasma-login-manager lightdm gdm; do
     if [ -f "/usr/lib/systemd/system/$dm.service" ]; then
         systemctl enable "$dm" 2>/dev/null || true
@@ -35,6 +36,19 @@ for dm in sddm plasma-login-manager lightdm gdm; do
         break
     fi
 done
+
+# Detect desktop session from installed session files
+if [ -f /usr/share/wayland-sessions/plasma.desktop ]; then
+    DM_SESSION=plasma.desktop
+elif [ -f /usr/share/xsessions/plasma.desktop ]; then
+    DM_SESSION=plasma.desktop
+elif [ -f /usr/share/xsessions/cinnamon.desktop ]; then
+    DM_SESSION=cinnamon
+elif [ -f /usr/share/xsessions/lxqt.desktop ]; then
+    DM_SESSION=lxqt
+elif [ -f /usr/share/xsessions/pantheon.desktop ]; then
+    DM_SESSION=pantheon
+fi
 
 # Ensure display-manager.service alias exists (graphical.target wants it)
 if [ -n "$DM_ENABLED" ]; then
@@ -48,6 +62,43 @@ if [ -n "$DM_ENABLED" ]; then
         ln -sf "/usr/lib/systemd/system/$DM_ENABLED.service" \
                "/etc/systemd/system/graphical.target.wants/$DM_ENABLED.service"
     fi
+fi
+
+# DM autologin config based on detected DM and session
+if [ -n "$DM_ENABLED" ] && [ -n "$DM_SESSION" ]; then
+    case "$DM_ENABLED" in
+        sddm)
+            mkdir -p /etc/sddm.conf.d
+            cat > /etc/sddm.conf.d/autologin.conf << SDDMEOF
+[Autologin]
+User=solara
+Session=$DM_SESSION
+Relogin=true
+SDDMEOF
+            echo "Created SDDM autologin config"
+            ;;
+        lightdm)
+            GREETER="lightdm-gtk-greeter"
+            [ -f /usr/share/xgreeters/lightdm-pantheon-greeter.desktop ] && GREETER="lightdm-pantheon-greeter"
+            mkdir -p /etc/lightdm
+            cat > /etc/lightdm/lightdm.conf << LDMEOF
+[Seat:*]
+autologin-user=solara
+autologin-session=$DM_SESSION
+greeter-session=$GREETER
+LDMEOF
+            echo "Created LightDM autologin config"
+            ;;
+        plasma-login-manager)
+            mkdir -p /etc/plasmalogin.conf.d
+            cat > /etc/plasmalogin.conf.d/autologin.conf << PLMEOF
+[Autologin]
+User=solara
+Session=$DM_SESSION
+PLMEOF
+            echo "Created Plasma Login Manager autologin config"
+            ;;
+    esac
 fi
 
 # Switch to graphical target (fall back to manual symlink if systemctl chroot-fails)

@@ -25,6 +25,7 @@ arch-install-scripts
 # LXQt Desktop
 lxqt
 lxqt-session
+sddm
 lxqt-config
 lxqt-admin
 lxqt-globalkeys

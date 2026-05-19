@@ -39,6 +39,8 @@ xed
 celluloid
 xreader
 xapp
+lightdm
+lightdm-gtk-greeter
 
 # Display server
 xorg-server
