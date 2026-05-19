@@ -371,6 +371,13 @@ SDDMCFG
 mkdir -p /home/$USER_NAME/.config
 case "$flavor" in
     KDE)
+        # Plasma-login-manager autologin
+        mkdir -p /etc/plasmalogin.conf.d
+        cat > /etc/plasmalogin.conf.d/autologin.conf << PLMDCFG
+[Autologin]
+User=$USER_NAME
+Session=plasma.desktop
+PLMDCFG
         cat > /home/$USER_NAME/.config/plasma-org.kde.plasma.desktop-appletsrc << KDECFG
 [Containments][1][Wallpaper][org.kde.image][General]
 Image=file:///usr/share/backgrounds/solara-branding.png

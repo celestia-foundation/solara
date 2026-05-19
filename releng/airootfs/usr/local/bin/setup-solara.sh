@@ -87,6 +87,14 @@ picture-uri='file:///usr/share/backgrounds/solara-branding.png'
 EOF
 glib-compile-schemas /usr/share/glib-2.0/schemas/ 2>/dev/null || true
 
+# Plasma-login-manager autologin
+mkdir -p /etc/plasmalogin.conf.d
+cat > /etc/plasmalogin.conf.d/autologin.conf << 'EOF'
+[Autologin]
+User=solara
+Session=plasma.desktop
+EOF
+
 # Set default wallpaper for live user (all DE configs)
 mkdir -p /home/solara/.config
 # KDE
