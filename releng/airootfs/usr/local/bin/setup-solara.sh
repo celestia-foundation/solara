@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # Solara Live ISO setup script
-set -e
-
 echo "Setting up Solara..."
 
 # Set timezone
@@ -9,7 +7,7 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Generate locale
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-locale-gen
+locale-gen 2>/dev/null || true
 
 # Set hostname
 echo "solara" > /etc/hostname
@@ -30,9 +28,8 @@ DM_ENABLED=""
 DM_SESSION=""
 for dm in sddm plasma-login-manager lightdm gdm; do
     if [ -f "/usr/lib/systemd/system/$dm.service" ]; then
-        systemctl enable "$dm" 2>/dev/null || true
         DM_ENABLED="$dm"
-        echo "Enabled display manager: $dm"
+        echo "Found display manager: $dm"
         break
     fi
 done
@@ -52,16 +49,12 @@ fi
 
 # Ensure display-manager.service alias exists (graphical.target wants it)
 if [ -n "$DM_ENABLED" ]; then
-    if [ ! -L /etc/systemd/system/display-manager.service ]; then
-        ln -sf "/usr/lib/systemd/system/$DM_ENABLED.service" /etc/systemd/system/display-manager.service
-        echo "Created display-manager.service -> $DM_ENABLED.service"
-    fi
-    # Also drop into graphical.target.wants as belt-and-suspenders
+    ln -sf "/usr/lib/systemd/system/$DM_ENABLED.service" /etc/systemd/system/display-manager.service
+    echo "Created display-manager.service -> $DM_ENABLED.service"
     mkdir -p /etc/systemd/system/graphical.target.wants
-    if [ ! -L "/etc/systemd/system/graphical.target.wants/$DM_ENABLED.service" ]; then
-        ln -sf "/usr/lib/systemd/system/$DM_ENABLED.service" \
-               "/etc/systemd/system/graphical.target.wants/$DM_ENABLED.service"
-    fi
+    ln -sf "/usr/lib/systemd/system/$DM_ENABLED.service" \
+           "/etc/systemd/system/graphical.target.wants/$DM_ENABLED.service"
+    systemctl enable "$DM_ENABLED" 2>/dev/null || true
 fi
 
 # DM autologin config based on detected DM and session
