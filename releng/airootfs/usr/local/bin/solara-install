@@ -385,6 +385,14 @@ FillMode=2
 KDECFG
         ;;
     LXQt)
+        # SDDM autologin
+        mkdir -p /etc/sddm.conf.d
+        cat > /etc/sddm.conf.d/autologin.conf << SDDMCFG
+[Autologin]
+User=$USER_NAME
+Session=lxqt.desktop
+Relogin=true
+SDDMCFG
         mkdir -p /home/$USER_NAME/.config/pcmanfm-qt/lxqt
         cat > /home/$USER_NAME/.config/pcmanfm-qt/lxqt/settings.conf << LXQTCFG
 [Desktop]
