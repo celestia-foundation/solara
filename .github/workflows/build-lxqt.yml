@@ -99,7 +99,7 @@ jobs:
           curl -s --request POST \
             --header "PRIVATE-TOKEN: ${{ secrets.GL_TOKEN }}" \
             --header "Content-Type: application/json" \
-            --data "{\"name\": \"Solara Linux ${VERSION} — LXQT\", \"tag_name\": \"latest-lxqt\", \"description\": \"${DESCRIPTION}\"}" \
+            --data "{\"name\": \"Solara Linux ${VERSION} — LXQT\", \"tag_name\": \"latest-lxqt\", \"description\": \"${DESCRIPTION}\", \"assets\": {\"links\": [{\"name\": \"ISO Download\", \"url\": \"${DOWNLOAD_URL}\", \"link_type\": \"package\"}]}}" \
             "https://gitlab.com/api/v4/projects/${{ secrets.GL_PROJECT_ID }}/releases"
 
           echo "Done! ISO at: $DOWNLOAD_URL"
