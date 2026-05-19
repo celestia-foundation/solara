@@ -3,8 +3,15 @@
 # Full-screen text menu for the live ISO
 
 trap '' INT
+trap 'printf "\e[0m"; clear; exit' EXIT
+
+# ANSI colors
+BG="\e[48;2;25;15;35m"   # dark purple
+FG="\e[38;2;230;180;50m" # golden
+RESET="\e[0m"
 
 clear
+printf "${BG}${FG}"
 cat << 'EOF'
  #####  ####### #          #    ######     #
 #     # #     # #         # #   #     #   # #
@@ -26,11 +33,13 @@ cat << 'EOF'
 
 EOF
 
+printf "${RESET}${BG}"
 echo ""
-echo "            Rolling. Arch-based. 4 flavors."
+echo -e "            \e[38;2;200;160;80mRolling. Arch-based. 4 flavors.\e[0m${BG}"
 echo ""
 
 if ! command -v dialog &>/dev/null; then
+    printf "${RESET}"
     echo "ERROR: dialog not found. Install it: sudo pacman -S dialog"
     echo "Press Enter to continue to shell..."
     read -r
@@ -38,8 +47,9 @@ if ! command -v dialog &>/dev/null; then
 fi
 
 while true; do
+    printf "${BG}"
     choice=$(dialog --clear --colors --title " \Z1Solara\Zn \Z4Linux\Zn " \
-        --menu "\n\ZbWhat would you like to do?\Zn\n" 18 60 5 \
+        --menu "\n\Zb\Z4What would you like to do?\Zn\n" 18 60 5 \
         "1" "Install Solara (GUI installer)" \
         "2" "Connect to Wi-Fi" \
         "3" "Open terminal" \
@@ -49,29 +59,38 @@ while true; do
 
     case "$choice" in
         1)
+            printf "${RESET}"
             clear
             solara-install
+            printf "${BG}"
             echo ""
-            echo "Press Enter to return to menu..."
+            echo -e "\e[38;2;200;160;80mPress Enter to return to menu...\e[0m${BG}"
             read -r
             ;;
         2)
+            printf "${RESET}"
             clear
             echo "Launching nmtui... Type 'exit' to return."
             nmtui 2>/dev/null || echo "nmtui not found. Try: nmcli"
+            printf "${BG}"
             ;;
         3)
+            printf "${RESET}"
             clear
             echo "Type 'exit' to return to the welcome menu."
             bash
+            printf "${BG}"
             ;;
         4)
-            dialog --clear --title "Confirm" --yesno "Reboot now?" 6 30 2>&1 >/dev/tty && reboot
+            dialog --clear --colors --title " \Z1Confirm\Zn " \
+                --yesno "\n\Z4Reboot now?\Zn\n" 6 30 2>&1 >/dev/tty && reboot
             ;;
         5)
-            dialog --clear --title "Confirm" --yesno "Shutdown now?" 6 30 2>&1 >/dev/tty && poweroff
+            dialog --clear --colors --title " \Z1Confirm\Zn " \
+                --yesno "\n\Z4Shutdown now?\Zn\n" 6 30 2>&1 >/dev/tty && poweroff
             ;;
         "")
+            printf "${RESET}"
             clear
             exit 0
             ;;
