@@ -33,6 +33,7 @@ archinstall
 # Installer UI
 kdialog
 zenity
+dialog
 
 git
 base-devel

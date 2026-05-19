@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Solara Welcome
+Comment=Solara Linux launcher menu
+Exec=solara-welcome
+Icon=system-run
+Categories=System;
+Terminal=true

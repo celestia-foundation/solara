@@ -69,6 +69,7 @@ curl
 # Installer UI
 kdialog
 zenity
+dialog
 
 # Boot ISO
 mkinitcpio

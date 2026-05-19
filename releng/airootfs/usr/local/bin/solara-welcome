@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# Solara Welcome - TUI launcher
+# Full-screen text menu for the live ISO
+
+trap '' INT
+
+clear
+cat << 'EOF'
+             ____        _
+            / ___|  ___ | | __ _ _ __ __ _
+            \___ \ / _ \| |/ _` | '__/ _` |
+             ___) | (_) | | (_| | | | (_| |
+            |____/ \___/|_|\__,_|_|  \__,_|
+
+
+               _    _
+              | |  (_)_ _ _  ___ __
+              | |__| | ' \ || \ \ /
+              |____|_|_||_\_,_/_\_\
+
+
+EOF
+
+echo ""
+echo "               Rolling. Arch-based. 4 flavors."
+echo ""
+
+if ! command -v dialog &>/dev/null; then
+    echo "ERROR: dialog not found. Install it: sudo pacman -S dialog"
+    echo "Press Enter to continue to shell..."
+    read -r
+    exec bash
+fi
+
+while true; do
+    choice=$(dialog --clear --colors --title " \Z1Solara\Zn \Z4Linux\Zn " \
+        --menu "\n\ZbWhat would you like to do?\Zn\n" 18 56 5 \
+        "1" "Install Solara (GUI installer)" \
+        "2" "Connect to Wi-Fi" \
+        "3" "Open terminal" \
+        "4" "Reboot" \
+        "5" "Shutdown" \
+        2>&1 >/dev/tty)
+
+    case "$choice" in
+        1)
+            clear
+            solara-install
+            echo ""
+            echo "Press Enter to return to menu..."
+            read -r
+            ;;
+        2)
+            clear
+            echo "Launching nmtui... Type 'exit' to return."
+            nmtui 2>/dev/null || echo "nmtui not found. Try: nmcli"
+            ;;
+        3)
+            clear
+            echo "Type 'exit' to return to the welcome menu."
+            bash
+            ;;
+        4)
+            dialog --clear --title "Confirm" --yesno "Reboot now?" 6 30 2>&1 >/dev/tty && reboot
+            ;;
+        5)
+            dialog --clear --title "Confirm" --yesno "Shutdown now?" 6 30 2>&1 >/dev/tty && poweroff
+            ;;
+        "")
+            clear
+            exit 0
+            ;;
+    esac
+done
