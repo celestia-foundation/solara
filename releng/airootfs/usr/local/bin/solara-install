@@ -290,8 +290,41 @@ echo "root:$ROOT_PASS" | chpasswd
 # Sudo
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/10-solara
 
-# Enable display manager
-systemctl enable $DM_SVC 2>/dev/null || true
+# Enable display manager — forced
+systemctl enable "$DM_SVC" 2>/dev/null || ln -sf "/usr/lib/systemd/system/$DM_SVC.service" /etc/systemd/system/multi-user.target.wants/
+if [ ! -L /etc/systemd/system/display-manager.service ]; then
+    ln -sf "/usr/lib/systemd/system/$DM_SVC.service" /etc/systemd/system/display-manager.service
+fi
+mkdir -p /etc/systemd/system/graphical.target.wants
+if [ ! -L "/etc/systemd/system/graphical.target.wants/$DM_SVC.service" ]; then
+    ln -sf "/usr/lib/systemd/system/$DM_SVC.service" \
+           "/etc/systemd/system/graphical.target.wants/$DM_SVC.service"
+fi
+systemctl set-default graphical.target 2>/dev/null ||
+    ln -sf /usr/lib/systemd/system/graphical.target /etc/systemd/system/default.target
+
+# DM-specific config
+case "$flavor" in
+    Cinnamon)
+        mkdir -p /etc/lightdm
+        cat > /etc/lightdm/lightdm.conf << LDMDCFG
+[Seat:*]
+autologin-user=$USER_NAME
+autologin-session=cinnamon
+greeter-session=lightdm-gtk-greeter
+LDMDCFG
+        ;;
+    Pantheon)
+        mkdir -p /etc/lightdm
+        cat > /etc/lightdm/lightdm.conf << LDMDCFG
+[Seat:*]
+autologin-user=$USER_NAME
+autologin-session=pantheon
+greeter-session=lightdm-pantheon-greeter
+LDMDCFG
+        ;;
+esac
+
 systemctl enable NetworkManager 2>/dev/null || true
 
 # Inject Solara branding as GRUB background
