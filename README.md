@@ -56,15 +56,12 @@ ISO builds automatically via GitHub Actions. Each release includes changelog fro
 
 Current status:
 - KDE build works, autologin via Plasma Login Manager
-- Custom kernel build in progress (linux-tkg with LLVM + Thin LTO)
+- Custom kernel here lol
 - Releases hosted on GitLab Packages
 
-Known issues:
-- Custom kernel requires LLVM due to GCC crashes (kernel 7.x + TKG patches)
-- LTO link stage can be problematic - might need BTF fix
-- (The creator would absolutely riot if we shipped stock Arch kernel, so custom build is mandatory)
-
 ## Side Projects
+
+**WAIT YOU DONT NEED TO SEE THAT-**
 
 ### Danganronpa V4 🎭
 
