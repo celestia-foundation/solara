@@ -84,12 +84,14 @@ run_makepkg() {
         sudo -u builder env \
             PKGDEST="$PKG_CACHE" \
             BUILDDIR="$WORK_DIR/makepkg-$name" \
+            SRCDEST="$WORK_DIR/srcdest-$name" \
             CARGO_HOME="${CARGO_HOME:-/home/builder/.cargo}" \
             bash -c "cd '$pkg_dir' && makepkg --syncdeps --noconfirm --needed --skipchecksums --skippgpcheck --force"
     else
         ( cd "$pkg_dir" && \
           PKGDEST="$PKG_CACHE" \
           BUILDDIR="$WORK_DIR/makepkg-$name" \
+          SRCDEST="$WORK_DIR/srcdest-$name" \
           makepkg --syncdeps --noconfirm --needed --skipchecksums --skippgpcheck --force )
     fi
 }
