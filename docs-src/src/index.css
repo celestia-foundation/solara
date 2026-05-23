@@ -9,24 +9,31 @@ html {
 }
 
 body {
-  background: #050402;
-  color: #f5f0e8;
+  background: #0c0a09;
+  color: #faf8f5;
   font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(245, 158, 11, 0.25);
+  color: #faf8f5;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0805;
+  background: #0c0a09;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3a3025;
+  background: #2a2720;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff6b35;
+  background: #f59e0b;
 }
 
 .desktop-nav {
@@ -46,22 +53,12 @@ body {
     display: flex !important;
   }
 
-  .section-inner {
-    padding: 0 !important;
-  }
-
-  .features-grid,
-  .flavors-grid,
-  .blog-grid {
-    grid-template-columns: 1fr !important;
-  }
-
   section {
     padding: 4rem 1rem !important;
   }
 
   h1 {
-    font-size: clamp(2rem, 10vw, 3.5rem) !important;
+    font-size: clamp(2.2rem, 12vw, 3.5rem) !important;
   }
 
   footer > div:first-of-type {

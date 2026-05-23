@@ -12,7 +12,7 @@ use crate::flavor::Flavor;
 use crate::fs::{Filesystem, create_btrfs_subvolumes, mkfs_esp, mount};
 use crate::grub;
 use crate::pacstrap::{chroot_sh, genfstab, pacstrap};
-use crate::plan::{BootMode, InstallPlan, Swap};
+use crate::plan::{InstallPlan, Swap};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub enum StepKind {
