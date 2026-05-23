@@ -1,0 +1,16 @@
+[package]
+name = "installer-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Solara installer: pure-Rust install logic (no Qt)"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tracing-subscriber.workspace = true

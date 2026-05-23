@@ -26,6 +26,9 @@ Thumbs.db
 releng/work/
 releng/out/
 releng/*.squashfs
+out/
+installer/target/
+**/Cargo.lock.bak
 
 # Log files
 *.log

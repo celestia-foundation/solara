@@ -25,5 +25,4 @@ file_permissions=(
   ["/usr/local/bin/livecd-sound"]="0:0:755"
   ["/usr/local/bin/setup-solara.sh"]="0:0:755"
   ["/usr/local/bin/solara-welcome"]="0:0:755"
-  ["/usr/local/bin/solara-install"]="0:0:755"
 )

@@ -61,7 +61,14 @@ while true; do
         1)
             printf "${RESET}"
             clear
-            solara-install
+            if command -v solara-installer &>/dev/null; then
+                # We run from the autologin solara session, which has passwordless
+                # sudo via wheel. The packaged .desktop entry uses pkexec instead.
+                sudo -E solara-installer
+            else
+                echo "ERROR: solara-installer not found. The solara-installer package may not be installed."
+                read -r
+            fi
             printf "${BG}"
             echo ""
             echo -e "\e[38;2;200;160;80mPress Enter to return to menu...\e[0m${BG}"

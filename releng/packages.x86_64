@@ -7,6 +7,7 @@ linux-firmware
 sof-firmware
 
 # Installer
+solara-installer
 
 # Boot and filesystem
 edk2-shell

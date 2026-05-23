@@ -1,0 +1,30 @@
+# Local Solara ISO build harness.
+# Usage:
+#   docker compose build
+#   FLAVOR=kde docker compose run --rm build           # → out/solara-<date>-kde.iso
+#   FLAVOR=cinnamon docker compose run --rm build
+#
+# Privileged is required: mkarchiso uses loop devices and chroot.
+
+services:
+  build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: solara-build:latest
+    privileged: true
+    environment:
+      FLAVOR: "${FLAVOR:-kde}"
+    volumes:
+      - ./:/solara
+      - ./out:/iso-out
+      - pacman-cache:/var/cache/pacman/pkg
+      - cargo-registry:/root/.cargo/registry
+      - cargo-git:/root/.cargo/git
+    working_dir: /solara
+    command: ["/solara/scripts/build-iso.sh"]
+
+volumes:
+  pacman-cache:
+  cargo-registry:
+  cargo-git:

@@ -33,28 +33,21 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/pkg-cache
-          key: pacman-lxqt-${{ hashFiles('releng/packages.lxqt') }}
+          key: pacman-lxqt-${{ hashFiles('Dockerfile', 'releng/packages.lxqt', 'installer/Cargo.lock') }}
           restore-keys: |
             pacman-lxqt-
             pacman-
 
-      - name: Build ISO
+      - name: Build ISO via docker compose
         run: |
-          mkdir -p /tmp/pkg-cache /tmp/iso-out
+          mkdir -p /tmp/pkg-cache /tmp/iso-out out
+          docker compose build
           docker run --privileged --rm \
             -v ${{ github.workspace }}:/solara \
             -v /tmp/iso-out:/iso-out \
             -v /tmp/pkg-cache:/var/cache/pacman/pkg \
-            ghcr.io/archlinux/archlinux:latest \
-            bash -c "
-              pacman -Sy --noconfirm archiso grub &&
-              mkdir -p /tmp/archiso-work &&
-              cp /solara/releng/packages.lxqt /solara/releng/packages.x86_64.active && cp /solara/releng/packages.x86_64.active /solara/releng/packages.x86_64 &&
-              mkarchiso -v -w /tmp/archiso-work -o /iso-out /solara/releng/
-            "
-          ISO_FILE=$(ls /tmp/iso-out/*.iso | head -1)
-          ISO_BASE=$(basename "$ISO_FILE" .iso)
-          mv "$ISO_FILE" "/tmp/iso-out/${ISO_BASE}-lxqt.iso"
+            -e FLAVOR=lxqt \
+            solara-build:latest
           echo "Built: $(ls /tmp/iso-out/*.iso)"
 
       - name: Upload ISO to GitLab

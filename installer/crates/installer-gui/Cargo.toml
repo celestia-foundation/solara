@@ -1,0 +1,24 @@
+[package]
+name = "installer-gui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Solara installer: Qt 6 + QML frontend (cxx-qt)"
+
+[[bin]]
+name = "solara-installer"
+path = "src/main.rs"
+
+[dependencies]
+installer-core = { workspace = true }
+cxx.workspace = true
+cxx-qt.workspace = true
+cxx-qt-lib = { workspace = true, features = ["full", "qt_full", "link_qt_object_files"] }
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[build-dependencies]
+cxx-qt-build.workspace = true

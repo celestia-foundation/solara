@@ -1,0 +1,17 @@
+.git/
+.github/
+docs-src/node_modules/
+docs-src/dist/
+out/
+work/
+releng/work/
+releng/out/
+releng/*.squashfs
+installer/target/
+**/*.pkg.tar.zst
+**/*.iso
+**/*.img
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

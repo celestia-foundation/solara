@@ -27,32 +27,25 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/pkg-cache
-          key: pacman-kde-${{ hashFiles('releng/packages.x86_64') }}
+          key: pacman-kde-${{ hashFiles('Dockerfile', 'releng/packages.x86_64', 'installer/Cargo.lock') }}
           restore-keys: |
             pacman-kde-
             pacman-
 
-      - name: Copy custom packages to pacman cache
-        run: |
-          cp /solara/releng/packages/kernel/*.pkg.tar.zst /tmp/pkg-cache/ 2>/dev/null || true
-
-      - name: Build ISO
+      - name: Build ISO via docker compose
         run: |
           mkdir -p /tmp/pkg-cache /tmp/iso-out
+          mkdir -p out
+          # Bind compose's named volumes to the cache dirs the workflow already uses.
+          docker compose build
           docker run --privileged --rm \
             -v ${{ github.workspace }}:/solara \
             -v /tmp/iso-out:/iso-out \
             -v /tmp/pkg-cache:/var/cache/pacman/pkg \
-            ghcr.io/archlinux/archlinux:latest \
-            bash -c "
-              pacman -Sy --noconfirm archiso grub &&
-              mkdir -p /tmp/archiso-work &&
-              
-              mkarchiso -v -w /tmp/archiso-work -o /iso-out /solara/releng/
-            "
-          ISO_FILE=$(ls /tmp/iso-out/*.iso | head -1)
-          ISO_BASE=$(basename "$ISO_FILE" .iso)
-          mv "$ISO_FILE" "/tmp/iso-out/${ISO_BASE}-kde.iso"
+            -e FLAVOR=kde \
+            solara-build:latest
+          # The entrypoint already renames to *-kde.iso.
+          mv /tmp/iso-out/*-kde.iso /tmp/iso-out/ 2>/dev/null || true
           echo "Built: $(ls /tmp/iso-out/*.iso)"
 
       - name: Upload ISO to GitLab
