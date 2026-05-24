@@ -112,53 +112,55 @@ if [[ -d "$REPO_ROOT/installer" ]]; then
 fi
 
 shopt -s nullglob
-BUILT_PKGS=()
+BUILT_PKG_FILES=()
 for pkg_dir in "$REPO_ROOT"/releng/packages/*/; do
     [[ -f "$pkg_dir/PKGBUILD" ]] || continue
     name="$(basename "$pkg_dir")"
     log "building custom package: $name"
     run_makepkg "$pkg_dir" "$name"
-    BUILT_PKGS+=("$name")
+    # Match the produced .pkg.tar.zst for this package.
+    pkgname="$(sed -n 's/^pkgname=//p' "$pkg_dir/PKGBUILD" | head -1)"
+    for f in "$PKG_CACHE/$pkgname"-*.pkg.tar.zst; do
+        BUILT_PKG_FILES+=("$f")
+        break
+    done
 done
 shopt -u nullglob
 
 # Register our locally-built packages in a pacman repo DB so mkarchiso's pacstrap
 # can find them. Prepend a [solara-local] section to pacman.conf for the duration
 # of the build (restored on exit via cleanup() above).
-if [[ ${#BUILT_PKGS[@]} -gt 0 ]]; then
+if [[ ${#BUILT_PKG_FILES[@]} -gt 0 ]]; then
     log "registering local pacman repo in $PKG_CACHE"
-    shopt -s nullglob
-    LOCAL_PKGS=( "$PKG_CACHE"/*.pkg.tar.zst )
-    shopt -u nullglob
-    if [[ ${#LOCAL_PKGS[@]} -gt 0 ]]; then
-        repo-add --remove --quiet "$PKG_CACHE/solara-local.db.tar.gz" "${LOCAL_PKGS[@]}" >/dev/null
+    rm -f "$PKG_CACHE/solara-local.db" "$PKG_CACHE/solara-local.files" \
+          "$PKG_CACHE/solara-local.db.tar.gz" "$PKG_CACHE/solara-local.files.tar.gz"
+    repo-add --quiet "$PKG_CACHE/solara-local.db.tar.gz" "${BUILT_PKG_FILES[@]}" >/dev/null
 
-        PACMAN_CONF="$REPO_ROOT/releng/pacman.conf"
-        PACMAN_CONF_BACKUP="$(mktemp)"
-        cp "$PACMAN_CONF" "$PACMAN_CONF_BACKUP"
+    PACMAN_CONF="$REPO_ROOT/releng/pacman.conf"
+    PACMAN_CONF_BACKUP="$(mktemp)"
+    cp "$PACMAN_CONF" "$PACMAN_CONF_BACKUP"
 
-        # Wrap the existing cleanup so we restore pacman.conf too.
-        eval "$(declare -f cleanup | sed '1s/cleanup/_cleanup_orig/')"
-        cleanup() {
-            _cleanup_orig
-            if [[ -f "$PACMAN_CONF_BACKUP" ]]; then
-                cp "$PACMAN_CONF_BACKUP" "$PACMAN_CONF"
-                rm -f "$PACMAN_CONF_BACKUP"
-            fi
+    # Wrap the existing cleanup so we restore pacman.conf too.
+    eval "$(declare -f cleanup | sed '1s/cleanup/_cleanup_orig/')"
+    cleanup() {
+        _cleanup_orig
+        if [[ -f "$PACMAN_CONF_BACKUP" ]]; then
+            cp "$PACMAN_CONF_BACKUP" "$PACMAN_CONF"
+            rm -f "$PACMAN_CONF_BACKUP"
+        fi
+    }
+
+    # Inject our repo before [core] so it takes precedence.
+    awk -v cache="$PKG_CACHE" '
+        /^\[core\]/ && !ins {
+            print "[solara-local]"
+            print "SigLevel = Optional TrustAll"
+            print "Server = file://" cache
+            print ""
+            ins=1
         }
-
-        # Inject our repo before [core] so it takes precedence.
-        awk -v cache="$PKG_CACHE" '
-            /^\[core\]/ && !ins {
-                print "[solara-local]"
-                print "SigLevel = Optional TrustAll"
-                print "Server = file://" cache
-                print ""
-                ins=1
-            }
-            { print }
-        ' "$PACMAN_CONF_BACKUP" > "$PACMAN_CONF"
-    fi
+        { print }
+    ' "$PACMAN_CONF_BACKUP" > "$PACMAN_CONF"
 fi
 
 log "running mkarchiso (flavor=$FLAVOR, work=$WORK_DIR, out=$OUT_DIR)"
