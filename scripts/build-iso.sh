@@ -98,17 +98,7 @@ run_makepkg() {
 
 ensure_builder_user
 
-# Pre-build the Rust+Qt installer in the workspace's target/ dir. Doing this
-# OUTSIDE makepkg keeps cxx-qt-lib's link-arg emissions intact — they get
-# dropped under makepkg's sandboxed LDFLAGS, which causes the cxxqtlib static
-# archive to not be linked into the final binary.
-if [[ -d "$REPO_ROOT/installer" ]]; then
-    log "compiling solara-installer (cargo, outside makepkg)"
-    (
-        cd "$REPO_ROOT/installer"
-        cargo build --release -p installer-gui
-    )
-fi
+# solara-installer is now built by solara-pkgs CI from AUR, pulled via pacman.
 
 shopt -s nullglob
 BUILT_PKGS=()
