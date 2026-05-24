@@ -131,7 +131,7 @@ if [[ ${#BUILT_PKGS[@]} -gt 0 ]]; then
     LOCAL_PKGS=( "$PKG_CACHE"/*.pkg.tar.zst )
     shopt -u nullglob
     if [[ ${#LOCAL_PKGS[@]} -gt 0 ]]; then
-        repo-add --new --quiet "$PKG_CACHE/solara-local.db.tar.gz" "${LOCAL_PKGS[@]}" >/dev/null
+        repo-add --remove --quiet "$PKG_CACHE/solara-local.db.tar.gz" "${LOCAL_PKGS[@]}" >/dev/null
 
         PACMAN_CONF="$REPO_ROOT/releng/pacman.conf"
         PACMAN_CONF_BACKUP="$(mktemp)"
