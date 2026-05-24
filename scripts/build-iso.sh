@@ -106,6 +106,7 @@ if [[ -d "$REPO_ROOT/installer" ]]; then
     log "compiling solara-installer (cargo, outside makepkg)"
     (
         cd "$REPO_ROOT/installer"
+        cargo clean -p installer-gui 2>/dev/null || true
         cargo build --release -p installer-gui
     )
 fi
