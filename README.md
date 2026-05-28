@@ -1,5 +1,13 @@
 # Solara 🌅
 
+**OIN Member — Standing With Titans and EndeavourOS, Built by a Gremlin**
+
+<img width="600" height="421" alt="49550" src="https://github.com/user-attachments/assets/0abfc976-3f12-4e1a-9130-abd57ce7842e" />
+
+
+---
+
+
 **Arch-based. Rolling. No bullshit.**
 
 [![Build Status](https://github.com/celestia-foundation/solara/actions/workflows/build-lxqt.yml/badge.svg)](https://github.com/celestia-foundation/solara/actions)
