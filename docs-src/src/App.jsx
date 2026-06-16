@@ -35,6 +35,13 @@ const posts = [
     content: `OK THIS IS THE ONE 💀🌅\n\nAfter S3RLinux-Atomic got killed by NVIDIA driver issues...\n\nWHAT KILLED S3RLinux-Atomic:\n- bootc/OSTree complications\n- NVIDIA drivers (the eternal Linux curse)\n- Immutable system breaking in weird ways\n\nTHE SOLUTION: Just use Arch. Plain Arch.\n\nWHY SOLARA:\n- Rolling release\n- Standard installation\n- No atomic/immutable nonsense\n- KDE because we're not animals\n- systemd because we're not that special\n\nTHE NAME:\n"Solara" means solar - the sun. A fresh start. Brighter. warmer.`
   },
   {
+    id: 'solara-2026-june', title: "SOLARA JUNE UPDATE: Antergos NeXT, less updates, and I got firetrucked again 🔮🃏",
+    date: "2026-06-16", author: "Celestia Ludenberg", avatar: "🌙", readTime: "2 min read",
+    excerpt: "Big news: I'm now also maintaining Antergos NeXT (yes, GNOME. I know. Don't @ me.), Solara updates will slow down, and the co-owner dipped for 15 days.",
+    tags: ["Announcement", "Antergos NeXT", "Status"],
+    content: `SOLARA JUNE 2026 UPDATE 🔮🃏\n\nOK so a lot happened in 3 weeks.\n\nANTERGOS NEXT 🎭:\nI took over the Antergos revival project. Full GNOME live ISO with the Cnchi installer (GTK4 rewrite). It's actually really cool. Ironic considering Solara's "no gnome" stance, but people change. The fire truck changed me.\n\nSOLARA UPDATE CADENCE:\nSolara is stable. ISOs build in CI. The website works. The Plymouth boot splash is there. I'm not gonna churn out updates every week just to look busy. If it's not broken, I'm not fixing it. Next update when there's something worth updating.\n\nCO-OWNER SITUATION:\nMy co-owner decided to go AWOL for ~15 days. Typical. So I'm running both Solara AND Antergos NeXT solo for now. If things break, I'll get to it when I get to it. No SLA. This is a hobby, not a job.\n\nWHAT'S ACTUALLY NEW:\n • Website now has animated sun, shooting stars, parallax (it's pretty, go look)\n • Plymouth boot splash on installed systems\n • Installer bumped to v0.2.0 (Rust 1.85, dep updates)\n • Status table in README so you know which builds work\n\nTL;DR:\n • Solara still alive, just on chill mode\n • I maintain Antergos NeXT now too (yes, GNOME)\n • Co-owner ghosted for 2 weeks\n • Sun goes spinny on the website\n\nStay away from my vodka 🔮\nuntz/untz 💀`
+  },
+  {
     id: 'github-to-gitlab', title: "GITHUB → GITLAB (The ISO Can't Be 3GB on GitHub) 💀",
     date: "2026-05-05", author: "Ash", avatar: "🌅", readTime: "2 min read",
     excerpt: "GitHub releases max out at 2GB. Our ISO is 3.2GB.",
