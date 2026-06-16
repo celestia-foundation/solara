@@ -97,6 +97,21 @@ PLMEOF
     esac
 fi
 
+# Plymouth boot splash for installed system
+if [ -f /usr/bin/plymouthd ]; then
+    mkdir -p /etc/plymouth
+    cat > /etc/plymouth/plymouthd.conf << 'PLYEOF'
+[Daemon]
+Theme=spinner
+ShowDelay=0
+DeviceTimeout=5
+PLYEOF
+    systemctl enable plymouth-start 2>/dev/null || true
+    systemctl enable plymouth-quit 2>/dev/null || true
+    systemctl enable plymouth-quit-wait 2>/dev/null || true
+    echo "Plymouth boot splash enabled"
+fi
+
 # Switch to graphical target (fall back to manual symlink if systemctl chroot-fails)
 systemctl set-default graphical.target 2>/dev/null ||
     ln -sf /usr/lib/systemd/system/graphical.target /etc/systemd/system/default.target

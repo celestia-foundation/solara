@@ -1,0 +1,102 @@
+/*
+ * Solara Linux Plymouth Theme
+ * Animated sun boot splash with progress bar
+ */
+
+Window.SetBackgroundTopColor(0.047, 0.039, 0.035);   // #0c0a09
+Window.SetBackgroundBottomColor(0.047, 0.039, 0.035);
+
+/* ──── Progress bar ──── */
+progress_bar = ProgressBar();
+progress_bar.SetPosition(Window.GetWidth() * 0.15,
+                         Window.GetHeight() * 0.75,
+                         Window.GetWidth() * 0.70,
+                         6);
+progress_bar.SetBarColor(0.961, 0.620, 0.043);  // #f59e0b
+progress_bar.SetBackgroundColor(0.078, 0.075, 0.063);
+
+/* ──── Sun glow (outer ring) ──── */
+sun_glow = Image();
+sun_glow.SetPosition(Window.GetWidth() / 2 - 60,
+                      Window.GetHeight() / 2 - 80,
+                      120, 120);
+
+/* ──── Sun core ──── */
+sun_core = Image();
+sun_core.SetPosition(Window.GetWidth() / 2 - 25,
+                      Window.GetHeight() / 2 - 45,
+                      50, 50);
+
+/* ──── Text: "Solara Linux" ──── */
+title = Text("Solara Linux");
+title.SetFontName("Inter, sans-serif");
+title.SetFontSize(32);
+title.SetColor(0.961, 0.620, 0.043);
+title.SetPosition(Window.GetWidth() / 2 - title.GetWidth() / 2,
+                  Window.GetHeight() / 2 + 30);
+
+/* ──── Subtitle ──── */
+subtitle = Text("Arch Linux, refined.");
+subtitle.SetFontName("Inter, sans-serif");
+subtitle.SetFontSize(16);
+subtitle.SetColor(0.659, 0.635, 0.620);  // #a8a29e
+subtitle.SetPosition(Window.GetWidth() / 2 - subtitle.GetWidth() / 2,
+                     Window.GetHeight() / 2 + 70);
+
+/* ──── Message text (boot messages) ──── */
+boot_msg = Text("");
+boot_msg.SetFontName("Inter, sans-serif");
+boot_msg.SetFontSize(13);
+boot_msg.SetColor(0.420, 0.396, 0.375);  // #6b6560
+boot_msg.SetPosition(Window.GetWidth() / 2 - 200,
+                     Window.GetHeight() * 0.68,
+                     400, 20);
+
+/* ──── Animation ──── */
+spinner_speed = 0.02;
+angle = 0.0;
+pulse = 0.0;
+
+fun refresh_callback ()
+{
+    /* Update message */
+    msg = Plymouth.GetBootMessage();
+    boot_msg.SetText(msg);
+    boot_msg.SetPosition(Window.GetWidth() / 2 - boot_msg.GetWidth() / 2,
+                         Window.GetHeight() * 0.68);
+
+    /* Update progress */
+    progress = Plymouth.GetProgress();
+    if (progress > 0.0) {
+        progress_bar.SetProgress(progress);
+    }
+
+    /* Rotate and pulse the sun glow */
+    angle = angle + spinner_speed;
+    if (angle > 360.0) {
+        angle = 0.0;
+    }
+    pulse = Math.Abs(Math.Sin(angle * 2.0));
+    glow_size = 80.0 + pulse * 25.0;
+
+    sun_glow.SetPosition(Window.GetWidth() / 2 - glow_size / 2,
+                          Window.GetHeight() / 2 - glow_size / 2 - 40,
+                          glow_size, glow_size);
+
+    /* Pulse the sun core */
+    core_pulse = 0.85 + pulse * 0.15;
+    core_size = 50.0 * core_pulse;
+
+    sun_core.SetPosition(Window.GetWidth() / 2 - core_size / 2,
+                          Window.GetHeight() / 2 - core_size / 2 - 40,
+                          core_size, core_size);
+
+    /* Update title position to account for pulsing */
+    title.SetPosition(Window.GetWidth() / 2 - title.GetWidth() / 2,
+                      Window.GetHeight() / 2 + 30);
+
+    subtitle.SetPosition(Window.GetWidth() / 2 - subtitle.GetWidth() / 2,
+                         Window.GetHeight() / 2 + 70);
+}
+
+Plymouth.SetRefreshFunction(refresh_callback);

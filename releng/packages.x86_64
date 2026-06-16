@@ -110,6 +110,9 @@ virtualbox-guest-utils-nox
 open-vm-tools
 hyperv
 
+# Plymouth boot splash
+plymouth
+
 # Browser
 firefox-developer-edition
 

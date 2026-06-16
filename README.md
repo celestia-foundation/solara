@@ -31,6 +31,19 @@ After all that pain, the goal became simple: make something that actually works,
 
 > *"I used to use atomic distros... then I took an NVIDIA driver to the knee."*
 
+## Status
+
+> **Active development** — ISOs build automatically via CI on main branch commits.
+> Updates come when they come. No fixed schedule. No pressure.
+> Maintained alongside [Antergos NeXT](https://github.com/Antergos-NeXT).
+
+| Flavor | Build Status | Last Build |
+|--------|-------------|------------|
+| KDE | [![KDE](https://github.com/celestia-foundation/solara/actions/workflows/build-kde.yml/badge.svg)](https://github.com/celestia-foundation/solara/actions/workflows/build-kde.yml) | 2026-05-27 |
+| Cinnamon | [![Cinnamon](https://github.com/celestia-foundation/solara/actions/workflows/build-cinnamon.yml/badge.svg)](https://github.com/celestia-foundation/solara/actions/workflows/build-cinnamon.yml) | 2026-05-27 |
+| LXQt | [![LXQt](https://github.com/celestia-foundation/solara/actions/workflows/build-lxqt.yml/badge.svg)](https://github.com/celestia-foundation/solara/actions/workflows/build-lxqt.yml) | 2026-05-27 |
+| Pantheon | [![Pantheon](https://github.com/celestia-foundation/solara/actions/workflows/build-pantheon.yml/badge.svg)](https://github.com/celestia-foundation/solara/actions/workflows/build-pantheon.yml) | 2026-05-27 |
+
 ## What Solara is NOT
 
 - ❌ atomic/immutable
@@ -58,14 +71,27 @@ Solara is the current project. It probably won't be the last. Also the creator d
 - **LXQt** — light as hell
 - **Pantheon** — pretty but different
 
+## What's New
+
+- **Plymouth boot splash** — animated spinner with Solara branding during boot
+- **Animated website** — rotating sun, shooting stars, parallax scroll, animated gradient text
+- **Installer v0.2.0** — updated dependencies, bumped to Rust 1.85
+- **ISO version rolling-2026.06.16** — latest Arch packages, fresh ISOs
+
 ## Building
 
 ISO builds automatically via GitHub Actions. Each release includes changelog from commits.
 
 Current status:
 - KDE build works, autologin via Plasma Login Manager
-- Custom kernel here lol
+- Custom kernel built via solara-pkgs CI
 - Releases hosted on GitLab Packages
+- Plymouth boot splash enabled on installed system
+
+```bash
+# Build locally (requires archiso)
+sudo mkarchiso -v -w /tmp/work -o /tmp/out releng/
+```
 
 ## Side Projects
 

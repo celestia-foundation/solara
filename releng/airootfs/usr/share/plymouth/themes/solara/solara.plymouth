@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Solara Linux
+Description=Animated Solara sun boot splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/solara
+ScriptFile=/usr/share/plymouth/themes/solara/solara.script

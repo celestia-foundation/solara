@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Spinner
+Description=Spinner with Solara branding
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/spinner
+ScriptFile=/usr/share/plymouth/themes/spinner/spinner.script
