@@ -402,7 +402,7 @@ function HomePage() {
                         background: 'rgba(245,158,11,0.1)', color: c.amberLight, border: `1px solid rgba(245,158,11,0.2)`,
                         letterSpacing: '0.03em', cursor: 'default',
                       }}
-                    >{label}</span>
+                    >{label}</motion.span>
                   ))}
                 </div>
               </motion.div>
