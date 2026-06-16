@@ -47,7 +47,7 @@ After all that pain, the goal became simple: make something that actually works,
 ## What Solara is NOT
 
 - ❌ atomic/immutable
-- ❌ GNOME
+- ❌ ~~GNOME~~ (ok fine i use gnome now don't judge me)
 - ❌ openSUSE-style XML hellscapes
 - ❌ another weeby novelty distro
 - ❌ Solus (don't ask)
@@ -59,6 +59,8 @@ Solara is developed under the Celestia Foundation (formerly RaveCore Labs — re
 It started during the S3RLinux era — a hardstyle-themed Arch distro that eventually spiraled into an atomic/immutable experiment, died to NVIDIA, and left behind nothing but PTSD and a GitHub org. Rather than giving up, it became the home for whatever comes next. No corporate backing, no team, no roadmap written by a committee. Just someone in Poland who keeps building distros, breaking things, and refusing to use GNOME.
 
 Solara is the current project. It probably won't be the last. Also the creator doesn't want your money lol :3 KEEP YA WALLETS. I DONT WANT THEM.
+
+> *Update: The creator now also maintains [Antergos NeXT](https://github.com/Antergos-NeXT) (a GNOME-based distro). Yes, irony noted. Let a girl have multiple hobbies.*
 
 ## DJ S3RL seal of approval
 
